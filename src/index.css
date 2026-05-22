@@ -180,6 +180,14 @@ code {
    height: auto;
   overflow-y: auto; /* will change to scroll after overflow */
   background-color: aquamarine;
+  display: flex;
+  justify-content: space-between;
 }
 
+.gallery-img-container {
 
+   height: 50px;
+  width: 25%;
+  border-radius:6px ;
+
+}

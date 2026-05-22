@@ -15,12 +15,14 @@ function ImagePostingComp(){
 
     
     const file = event.dataTransfer.files[0];
+    
+    const imageUrl = URL.createObjectURL(file);
 
     const formData = new FormData();
 
     formData.append("file", file);
     
-    setImages(prev => [...prev, file])
+    setImages(prev => [...prev, imageUrl])
     
     
     
@@ -50,7 +52,17 @@ function ImagePostingComp(){
     return (
 
      <div className = "image-posting-container" onDrop = {dropHandler} onDragOver={dragOverHandler}>
-
+         
+         {images.map((img, index) => (
+          <div className ="gallery-img-container" key ={index}>
+          <img
+            key={index}
+            src={img}
+            alt="uploaded"
+            className="gallery-image"
+          />
+          </div>
+        ))}
         
      </div>
     )
