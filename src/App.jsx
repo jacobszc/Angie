@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import ImagePostingComp from './ImagePostingComp';
 
 import './App.css'
 
@@ -15,7 +16,7 @@ function App() {
     
     <img className = "header-img-1 "src = "images/pink-flower-bird-hd.png"></img>
      <div className ="title-container">
-    <h1 style ={{justifySelf: "center"}}>Angies Bird Thing</h1>
+    <h1 style ={{justifySelf: "center", font: "lucida-h andwriting"}}>Angies Bird Thing</h1>
     <h2>Mabey Licenced????</h2>
 
     </div>
@@ -43,6 +44,9 @@ function App() {
     </div>
 
     </div>
+
+
+    <ImagePostingComp/>
    
    
    

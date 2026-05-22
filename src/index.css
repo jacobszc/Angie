@@ -171,4 +171,15 @@ code {
   justify-content: center;
 }
 
+/* ///// image posting div styles ////////*/
+
+
+.image-posting-container {
+   width: 100%;
+   min-height: 300px;
+   height: auto;
+  overflow-y: auto; /* will change to scroll after overflow */
+  background-color: aquamarine;
+}
+
 
