@@ -143,4 +143,32 @@ code {
   background: linear-gradient(to right, rgb(134, 235, 76), yellow);
 }
 
+.input-container {
+  position: relative;
+   justify-content: center;
+  width: 50%;
+   border-width: 2px ;
+  border:#9ca3af;
+}
+
+.search-input {
+ width: 100%;
+  padding: 12px 12px 12px 40px;
+  border-radius: 12px;
+ 
+
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.center-search-bar-div {
+  display:flex;
+  justify-content: center;
+}
+
 

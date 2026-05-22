@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 import './App.css'
 
@@ -30,6 +31,18 @@ function App() {
    <div className = "description-container-top" style ={{width: "100%", height: "100px", backgroundColor: "greenyellow"}}>
 
    </div>
+
+    <div className = "center-search-bar-div">
+    <div className ="input-container" >
+      <i className="fa-solid fa-magnifying-glass search-icon"></i>
+
+    <input className ="search-input "type = "text" placeholder='Search...' />
+    
+    
+
+    </div>
+
+    </div>
    
    
    
