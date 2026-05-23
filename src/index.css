@@ -176,18 +176,20 @@ code {
 
 .image-posting-container {
    width: 100%;
-   min-height: 300px;
+   display: flex;
+   flex-wrap: wrap;
+   min-height: 200px;
    height: auto;
-  overflow-y: auto; /* will change to scroll after overflow */
-  background-color: aquamarine;
-  display: flex;
+  overflow-y: visible; /* will change to scroll after overflow */
+  background-color: greenyellow;
+  
   justify-content: space-between;
 }
 
-.gallery-img-container {
+.image-posting-container img {
 
-   height: 50px;
-  width: 25%;
-  border-radius:6px ;
+    width: 350px;
+  height: 250px;
+  object-fit: cover;
 
 }
