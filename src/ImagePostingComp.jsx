@@ -1,4 +1,7 @@
 import {useState, useEffect} from "react";
+import { supabaseClient } from "./supabaseClientConfig";
+import { SupabaseClient } from "@supabase/supabase-js";
+
 
 function ImagePostingComp(){
 
@@ -11,18 +14,22 @@ function ImagePostingComp(){
     }
 
 
-    function dropHandler(event){
+    async function dropHandler(){
 
-    
-    const file = event.dataTransfer.files[0];
-    
-    const imageUrl = URL.createObjectURL(file);
+     const { error } = await supabaseClient
+     .from('Animals')
+     .insert({  img_url: 'pink-flower-bird-hd.png', caption: "this is an image of a bird for sale", price:200})
 
-    const formData = new FormData();
-
-    formData.append("file", file);
+   
+    // const file = event.dataTransfer.files[0];
     
-    setImages(prev => [...prev, imageUrl])
+    // const imageUrl = URL.createObjectURL(file);
+
+    // const formData = new FormData();
+
+    // formData.append("file", file);
+    
+    // setImages(prev => [...prev, imageUrl])
     
     
     

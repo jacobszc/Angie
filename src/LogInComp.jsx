@@ -1,0 +1,85 @@
+function LogInComp() {
+
+
+
+
+    return (
+
+        <div className="container d-flex justify-content-center align-items-center vh-100"> {/* container for sign in box */}
+                <div
+                className="bg-white p-4 rounded shadow"
+                style={{ width: "70%", maxWidth: "400px" }}> 
+                    <h2 className="text-center mb-4">Sign In</h2>
+                    <form  >
+                        <div className="mb-3">
+                        <label className="form-label">
+                            Username
+                        </label>
+
+                        <input
+                            name = "username"
+                            type="text"
+                            className="form-control"
+                            placeholder="Enter username"
+                        />
+                        </div>
+
+                        <div className="mb-4">
+                        <label className="form-label">
+                            Password
+                        </label>
+
+                        <input
+                            name = "password"
+                            type="password"
+                            className="form-control"
+                            placeholder="Enter password"
+                        />
+                         </div>
+
+                   
+                        <div className="d-grid mb-3">
+                        <button
+                            type="submit"
+                            className="btn btn-primary"
+                        >
+                            Sign In
+                        </button>
+                        </div>
+
+                    </form>
+
+               
+                    <div className="text-center">
+
+                    <div className="mb-2">
+                        <a href="#">
+                            Forgot Password?
+                        </a>
+                    </div>
+
+                    <div>
+                        Don't have an account?{" "}
+                        <a href="#">
+                            Sign Up
+                        </a>
+                    </div>
+
+                    
+
+                </div> {/*end of bottom most container div */}
+
+                
+                
+
+            </div>
+            
+           
+        
+       
+   </div>
+   
+    )
+}
+
+export default LogInComp
