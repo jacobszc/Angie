@@ -16,18 +16,37 @@ function ImagePostingComp(){
 
     async function dropHandler(){
 
-     const { error } = await supabaseClient
-     .from('Animals')
-     .insert({  img_url: 'pink-flower-bird-hd.png', caption: "this is an image of a bird for sale", price:200})
-
+     
    
-    // const file = event.dataTransfer.files[0];
+     const file = event.dataTransfer.files[0];
     
-    // const imageUrl = URL.createObjectURL(file);
+     const imageUrl = URL.createObjectURL(file);
 
-    // const formData = new FormData();
+     const formData = new FormData();
 
-    // formData.append("file", file);
+     const testString = "this is a test";
+
+     formData.append("file", file);
+
+    fetch('http://127.0.0.1:8000/querydb', {
+        method: "POST",
+        headers: {
+            "Content-Type": "text/plain"
+        },
+        body: testString
+        
+     }).then( resp => {
+        const text = resp.text();
+        if(!resp.ok) {
+            throw new Error(text)
+        }
+        return text;
+     }).then(data => {
+
+        console.log(data)
+     }).catch(err => {
+        console.log(err)
+     })
     
     // setImages(prev => [...prev, imageUrl])
     
