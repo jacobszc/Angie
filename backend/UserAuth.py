@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
@@ -19,6 +19,13 @@ def read_root():
     return {"you called the base api endppoint which does nothing"}
 
 
-@app.post("/querydb")
-def query_db():
+@app.post("/upload")
+async def upload(file: UploadFile = File(...)): # param name file of type UploadFile
+    image_bytes = await file.read()
+
+    print(type(image_bytes))   # <class 'bytes'>
+    print(len(image_bytes))    # size in bytes
+
+
+    
     return "u called query db!"
