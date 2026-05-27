@@ -20,20 +20,20 @@ function ImagePostingComp(){
    
      const file = event.dataTransfer.files[0];
     
-     const imageUrl = URL.createObjectURL(file);
+     
 
      const formData = new FormData();
 
-     const testString = "this is a test";
+    formData.append("file", file);
 
-     formData.append("file", file);
+    
 
-    fetch('http://127.0.0.1:8000/querydb', {
+
+    fetch('http://127.0.0.1:8000/uploadimage', {
         method: "POST",
-        headers: {
-            "Content-Type": "text/plain"
-        },
-        body: testString
+        
+        
+        body: formData
         
      }).then( resp => {
         const text = resp.text();
