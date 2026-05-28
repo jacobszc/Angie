@@ -52,7 +52,7 @@ async def upload(file : UploadFile = File(...)): # param name file of type Uploa
 
     # weve made the file and path to it so now we need to store that path in out db as a url to an image
     
-   return "done!"
+   return url
 
 
 
@@ -63,7 +63,7 @@ async def make_path(file: UploadFile = File(...)):
 
     file_name = Path(file.filename).name
 
-    path = (Path("../react-app/public/images")/f"{unique_id}_{file_name}")
+    path = (Path("public/images")/f"{unique_id}_{file_name}")
    
     path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -75,6 +75,13 @@ async def make_path(file: UploadFile = File(...)):
 
     return str(path)
     
+@app.get("/load_images")
+def load_images():
 
-
+    result = supabase.table("Animals").select("img_url").execute()
+    
+    urls = []
+    for row in result.data:
+        urls.append(row["img_url"])
+    return urls
 

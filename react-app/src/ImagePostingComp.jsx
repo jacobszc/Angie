@@ -43,12 +43,14 @@ function ImagePostingComp(){
         return text;
      }).then(data => {
 
-        console.log(data)
+        console.log(data) // data shhould be the url to the newly created image
+       // setImages(prev => [...prev, data]) // this will append any new images added after app is loaded
+
      }).catch(err => {
         console.log(err)
      })
     
-    // setImages(prev => [...prev, imageUrl])
+     
     
     
     
@@ -63,15 +65,37 @@ function ImagePostingComp(){
 
 
 
-    useEffect(()=> {
+    // useEffect(()=> {
 
-        images.map((image,index) => {
+    //     fetch("http://127.0.0.1:8000/load_images", {
 
-            console.log(image)
-        })
+    //         method: "GET"
+
+    //     }).then(resp => {
+
+    //         const text = resp.text()
+            
+    //         if(!resp.ok) {
+    //             throw new Error(text)
+    //         }
+            
+    //         return text
+    //     }).then(data => {
+    //         console.log(data)
+             
+    //         setImages(data)
+            
+
+             
+             
+           
+    //     }).catch(err => {
+
+    //         console.log(err)
+    //     })
 
 
-    },[images])
+    // },[])
 
    
 
