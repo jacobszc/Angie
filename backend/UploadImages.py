@@ -63,7 +63,7 @@ async def make_path(file: UploadFile = File(...)):
 
     file_name = Path(file.filename).name
 
-    path = (Path("public/images")/f"{unique_id}_{file_name}")
+    path = (Path("../public/images")/f"{unique_id}_{file_name}")
    
     path.parent.mkdir(parents=True, exist_ok=True)
 
