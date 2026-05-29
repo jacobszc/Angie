@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from supabase import create_client, Client
 
@@ -40,10 +40,10 @@ async def upload(file : UploadFile = File(...)): # param name file of type Uploa
     
    
 
-   url = await make_path(file) 
+   public_url = await make_path(file) 
 
    result = supabase.table("Animals").insert({
-        "img_url": url,
+        "img_url": public_url,
          "user_id": SUPABASE_ADMIN_UUID
     }).execute()
    
@@ -52,7 +52,7 @@ async def upload(file : UploadFile = File(...)): # param name file of type Uploa
 
     # weve made the file and path to it so now we need to store that path in out db as a url to an image
     
-   return url
+   return public_url
 
 
 
@@ -61,19 +61,23 @@ async def make_path(file: UploadFile = File(...)):
 
     unique_id = str(uuid.uuid4())
 
-    file_name = Path(file.filename).name
+    file_name = f"{unique_id}_{file.filename}"
 
-    path = (Path("../public/images")/f"{unique_id}_{file_name}")
+    path_to_react_imgs = Path(("../react-app/public/images")) 
+    
+    save_path = path_to_react_imgs / file_name
+
+    public_url = f"/images/{file_name}"
    
-    path.parent.mkdir(parents=True, exist_ok=True)
+    ## path.parent.mkdir(parents=True, exist_ok=True)
 
     img_bytes = await file.read()
 
     # create/write file
-    with open(path, "wb") as f:  # jsut a try catch that cleans up when done and throws errors if broken
+    with open(save_path, "wb") as f:  # jsut a try catch that cleans up when done and throws errors if broken
         f.write(img_bytes)
 
-    return str(path)
+    return public_url
     
 @app.get("/load_images")
 def load_images():
@@ -83,5 +87,17 @@ def load_images():
     urls = []
     for row in result.data:
         urls.append(row["img_url"])
+    
+
+    if len(urls) == 0 :
+        
+        raise HTTPException(
+            status_code = 400,
+            detail = "no images returned!"
+        )
+    
+    print(urls)
     return urls
+    
+    
 

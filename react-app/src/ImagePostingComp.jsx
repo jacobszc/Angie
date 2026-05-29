@@ -7,6 +7,44 @@ function ImagePostingComp(){
 
     const [images, setImages] = useState([]);
 
+    async function fetchImages() {
+
+         const response = fetch("http://127.0.0.1:8000/load_images", {
+
+            method: "GET"
+
+        }).then(resp => {
+
+            const text = resp.text()
+            
+            if(!resp.ok) {
+                throw new Error(text)
+            }
+            
+            return text
+        }).then(data => {
+            console.log("your fetch made it to second tehn and this is what data looks like: " , data)
+             
+            setImages(data)
+            console.log("setImages was called on data anbd now images looks like this: " , images)
+             
+           // console.log(images, " length: " , images.length)
+            
+
+             
+             
+           
+        }).catch(err => {
+
+            console.log(err)
+        })
+
+       console.log("this is the response var u defined: " ,response)
+
+    }
+    
+    
+    
     function dragOverHandler () {
 
 
@@ -16,20 +54,13 @@ function ImagePostingComp(){
 
     async function dropHandler(){
 
-     
-   
      const file = event.dataTransfer.files[0];
     
-     
-
      const formData = new FormData();
 
-    formData.append("file", file);
+     formData.append("file", file);
 
-    
-
-
-    fetch('http://127.0.0.1:8000/uploadimage', {
+     fetch('http://127.0.0.1:8000/uploadimage', {
         method: "POST",
         
         
@@ -43,9 +74,10 @@ function ImagePostingComp(){
         return text;
      }).then(data => {
 
-        console.log(data) // data shhould be the url to the newly created image
-       // setImages(prev => [...prev, data]) // this will append any new images added after app is loaded
-
+        console.log("this is the url retuned by backend: " , data) // data shhould be the url to the newly created image
+        
+        setImages(prev => [...prev, data.replaceAll('"', "")]) // this will append any new images added after app is loaded
+        console.log("this is the string in array sub 0" , images[0]);
      }).catch(err => {
         console.log(err)
      })
@@ -65,37 +97,13 @@ function ImagePostingComp(){
 
 
 
-    // useEffect(()=> {
+    //  useEffect(()=> {
 
-    //     fetch("http://127.0.0.1:8000/load_images", {
+    //      fetchImages()
+       
+       
 
-    //         method: "GET"
-
-    //     }).then(resp => {
-
-    //         const text = resp.text()
-            
-    //         if(!resp.ok) {
-    //             throw new Error(text)
-    //         }
-            
-    //         return text
-    //     }).then(data => {
-    //         console.log(data)
-             
-    //         setImages(data)
-            
-
-             
-             
-           
-    //     }).catch(err => {
-
-    //         console.log(err)
-    //     })
-
-
-    // },[])
+    //  },[])
 
    
 
@@ -103,7 +111,9 @@ function ImagePostingComp(){
 
      <div className = "image-posting-container" onDrop = {dropHandler} onDragOver={dragOverHandler}>
          
-         {images.map((img, index) => (
+
+         
+         { images.length > 0 ? images.map((img, index) => (
           
           <img
             key={index}
@@ -113,7 +123,7 @@ function ImagePostingComp(){
           />
          
           
-        ))}
+        )) : <p>{images.length}</p>} 
         
      </div>
     )
