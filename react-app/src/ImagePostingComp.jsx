@@ -7,41 +7,7 @@ function ImagePostingComp(){
 
     const [images, setImages] = useState([]);
 
-    async function fetchImages() {
-
-         const response = fetch("http://127.0.0.1:8000/load_images", {
-
-            method: "GET"
-
-        }).then(resp => {
-
-            const text = resp.text()
-            
-            if(!resp.ok) {
-                throw new Error(text)
-            }
-            
-            return text
-        }).then(data => {
-            console.log("your fetch made it to second tehn and this is what data looks like: " , data)
-             
-            setImages(data)
-            console.log("setImages was called on data anbd now images looks like this: " , images)
-             
-           // console.log(images, " length: " , images.length)
-            
-
-             
-             
-           
-        }).catch(err => {
-
-            console.log(err)
-        })
-
-       console.log("this is the response var u defined: " ,response)
-
-    }
+    
     
     
     
@@ -97,13 +63,44 @@ function ImagePostingComp(){
 
 
 
-    //  useEffect(()=> {
+      useEffect(()=> {
 
-    //      fetchImages()
+        const fetchImages = async () => {
+           
+           try {
+
+            const response = await fetch("http://127.0.0.1:8000/load_images", { method: "GET"});
+
+            const data = await response.json();
+
+            setImages(data)
+
+            console.log("images: ", images)
+
+            
+           }
+
+           catch (error) {
+            console.log(error)
+
+           }
+
+          
+
+
+        }
+
+        
+
+         
+
+      fetchImages()
+
+     
        
        
 
-    //  },[])
+      },[])
 
    
 
