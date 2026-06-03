@@ -4,6 +4,7 @@ import LogInComp from './LogInComp';
 import HeaderDescriptionComp from './HeaderDescriptionComp';
 import ImagePostingComp from './ImagePostingComp';
 import SearchComp from './SearchComp';
+import EnterCaptionComp from './EnterCaptionComp';
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -26,6 +27,7 @@ function App() {
     <SearchComp/>
     <ImagePostingComp/>
     <LogInComp/>
+    {/* <EnterCaptionComp/> */}
    
    
    </div> // end of placeholder container
