@@ -51,9 +51,16 @@ async def upload(file : UploadFile = File(...), caption: str = Form(...)): # par
    print("the reult of ure query is: " , result)
     
 
-    # weve made the file and path to it so now we need to store that path in out db as a url to an image
-    
-   return public_url
+   row = result.data[0]
+
+   listing = {
+    "img_url": row["img_url"],
+    "caption": row["caption"]
+   }
+       
+   
+   print(listing)
+   return listing
 
 
 
@@ -83,22 +90,9 @@ async def make_path(file: UploadFile = File(...)):
 @app.get("/load_images")
 def load_images():
 
-    result = supabase.table("Animals").select("img_url").execute()
-    
-    urls = []
-    for row in result.data:
-        urls.append(row["img_url"])
-    
-
-    if len(urls) == 0 :
-        
-        raise HTTPException(
-            status_code = 400,
-            detail = "no images returned!"
-        )
-    
-    print(urls)
-    return urls
+    result = supabase.table("Animals").select("img_url, caption").execute()
+    print(result.data)
+    return result.data
     
     
 
