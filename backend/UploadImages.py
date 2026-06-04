@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi import FastAPI, UploadFile, File, HTTPException, Form
 from fastapi.middleware.cors import CORSMiddleware
 from supabase import create_client, Client
 
@@ -35,8 +35,8 @@ def read_root():
     return {"you called the base api endppoint which does nothing"}
 
 
-@app.post("/uploadimage")
-async def upload(file : UploadFile = File(...)): # param name file of type UploadFile
+@app.post("/uploadlisting")
+async def upload(file : UploadFile = File(...), caption: str = Form(...)): # param name file of type UploadFile
     
    
 
@@ -44,6 +44,7 @@ async def upload(file : UploadFile = File(...)): # param name file of type Uploa
 
    result = supabase.table("Animals").insert({
         "img_url": public_url,
+          "caption" : caption,
          "user_id": SUPABASE_ADMIN_UUID
     }).execute()
    

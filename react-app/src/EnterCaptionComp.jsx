@@ -1,13 +1,14 @@
 import "./EnterCaptionComp.css";
 
-function EnterCaptionComp({setHasDroppedImg, setCaption}) {
+function EnterCaptionComp({setHasDroppedImg, setNewCaption}) {
 
-function handleSubmit(event) {
+async function handleSubmit(event) {
     event.preventDefault()
     const form = event.target;
     const formData = new FormData(form);
     const caption = formData.get("caption")
-    setCaption(caption)
+    setNewCaption(caption)
+    
     setHasDroppedImg(false) // this is to make comp de render each tome caption is entered
 
 }
