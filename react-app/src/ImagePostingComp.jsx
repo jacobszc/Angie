@@ -4,12 +4,12 @@ import EnterCaptionComp from "./EnterCaptionComp";
 function ImagePostingComp(){
     
     const [listings, setListings] = useState([])
-    const [newImg, setNewImg] = useState("");
+    const [newImgFile, setNewImgFile] = useState("");
     const [newCaption, setNewCaption] = useState("")
     const hasRun = useRef(false)
     const firstRender = useRef(true);
     const [hasDroppedImg, setHasDroppedImg] = useState(false)
-    const [transferData, setTransferData] = useState({imgfile: null, caption: ""});
+    
 
    
     
@@ -27,11 +27,12 @@ function ImagePostingComp(){
     function dropHandler(){
     const imgfile = event.dataTransfer.files[0];
     
-    setTransferData(prev => ({
-      ...prev, imgfile : imgfile
-    }))
+    setNewImgFile(imgfile)
    
     setHasDroppedImg(true);
+
+
+    
    } 
 
     /////////////////////////////////////////////////////
@@ -40,7 +41,7 @@ function ImagePostingComp(){
       
          if(hasRun.current) return;
         
-         hasRun.current = false
+         hasRun.current = true
          
          const fetchImages = async () => {
             try {
@@ -64,18 +65,18 @@ function ImagePostingComp(){
 
 
         useEffect(() => {
+         
+          
           if(firstRender.current) {
-            firstRender.current = false;
+            firstRender.current = false
             return
           }
 
-          setTransferData(prev =>( {
-            ...prev , caption: newCaption
-          }))
+           
            
           const formData = new FormData();
           
-          formData.append("file", transferData.imgfile)
+          formData.append("file", newImgFile)
           formData.append("caption", newCaption)
           
 
@@ -102,7 +103,7 @@ function ImagePostingComp(){
         }, [newCaption])
       
       
-       console.log(listings)
+       //console.log(listings)
 
    
 
@@ -117,7 +118,11 @@ function ImagePostingComp(){
                alt="uploaded"
                className="gallery-image"
             />
-            <textarea className = "caption-area" value ={listing.caption} disabled></textarea>
+            <textarea className = "caption-area" value ={listing.caption} disabled>
+             
+            </textarea>
+            
+            
              </div>
            )) : <p>no images loaded!</p>}  
 

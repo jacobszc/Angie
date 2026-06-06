@@ -58,7 +58,7 @@ async def upload(file : UploadFile = File(...), caption: str = Form(...)): # par
     "caption": row["caption"]
    }
        
-   
+   print("you called upload listing from ure useEffect that only runs when new img is dropped")
    print(listing)
    return listing
 
@@ -91,7 +91,7 @@ async def make_path(file: UploadFile = File(...)):
 def load_images():
 
     result = supabase.table("Animals").select("img_url, caption").execute()
-    print(result.data)
+    print("Result: ",result.data)
     return result.data
     
     
