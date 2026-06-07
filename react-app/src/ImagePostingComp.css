@@ -1,0 +1,73 @@
+.listing-container {
+   width: 100%;
+   display: flex;
+   flex-wrap: wrap;
+   min-height: 200px;
+   height: auto;
+  overflow-y: visible; /* will change to scroll after overflow */
+  
+  
+  justify-content: space-between;
+}
+
+
+
+.listing {
+  
+  width: 350px;
+  height: 500px;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  margin-bottom: 20px;
+
+}
+
+
+.listing-img {
+  
+  
+   border-radius: 12px;
+  height: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0,0,0,0.08);
+
+  width: 100%;
+}
+
+.caption-wrapper {
+    position: relative;
+    width: 100%;
+  height: 50%;
+   border-radius: 12px;
+   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    
+}
+
+.listing-caption {
+    font-family: Andale Mono, monospace;
+    width: 100%;
+  height: 100%;
+   border-radius: 12px;
+   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+   border: 1px solid rgba(0,0,0,0.08);
+  
+  
+}
+
+.listing-remove-button {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 2;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(177, 28, 28, 0.12);
+ border-radius: 10px;
+}
+
+.listing-remove-button:hover {
+    transform: translateY(1px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+
+
+}

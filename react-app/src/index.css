@@ -174,40 +174,6 @@ code {
 /* ///// image posting div styles ////////*/
 
 
-.image-posting-container {
-   width: 100%;
-   display: flex;
-   flex-wrap: wrap;
-   min-height: 200px;
-   height: auto;
-  overflow-y: visible; /* will change to scroll after overflow */
-  background-color: greenyellow;
-  
-  justify-content: space-between;
-}
-
-.image-posting-container div {
-
-  width: 350px;
-  height: 500px;
-  object-fit: cover;
-  background-color: white;
-  margin-bottom: 20px;
-
-}
-
-.gallery-image {
-
-  height: 50%;
-
-  width: 100%;
-}
-
-.caption-area {
-
-  width: 100%;
-  height: 50%;
-}
 
 
 

@@ -1,5 +1,6 @@
 import {useState, useEffect, useRef} from "react";
 import EnterCaptionComp from "./EnterCaptionComp";
+import "./ImagePostingComp.css"
 
 function ImagePostingComp(){
     
@@ -60,7 +61,8 @@ function ImagePostingComp(){
         fetchImages()
 
         },[]) // end use effect
-   
+           
+        console.log(listings)
         ////////////////////////////////////////////////
 
 
@@ -92,7 +94,7 @@ function ImagePostingComp(){
              }).then(data => {
             console.log("this is the url retuned by backend: " , data) // data shhould be the url to the newly created image
              setListings(prev => ([...prev , data])) // this will append any new images added after app is loaded
-     
+             
            }).catch(err => {
            console.log(err)
          })
@@ -109,18 +111,23 @@ function ImagePostingComp(){
 
     return (
 
-     <div className = "image-posting-container" onDrop = {dropHandler} onDragOver={dragOverHandler}>
+     <div className = "listing-container" onDrop = {dropHandler} onDragOver={dragOverHandler}>
          {listings.length > 0 ? listings.map((listing, index) => (
-            <div className = "image-caption-conatiner" key = {index}>
+            <div className = "listing" key = {index} >
                <img
                src = {listing.img_url} // <-- need to now gran imurl from obj that contains imgurl and caption string
                key = {index}
                alt="uploaded"
-               className="gallery-image"
+               className="listing-img"
+               
             />
-            <textarea className = "caption-area" value ={listing.caption} disabled>
-             
-            </textarea>
+            
+            
+            <div className = "caption-wrapper">
+            <textarea  name = "caption" className = "listing-caption" value ={listing.caption} disabled > </textarea>
+          <button className ="listing-remove-button">remove</button>
+         </div>
+           
             
             
              </div>

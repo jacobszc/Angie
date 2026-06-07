@@ -55,7 +55,8 @@ async def upload(file : UploadFile = File(...), caption: str = Form(...)): # par
 
    listing = {
     "img_url": row["img_url"],
-    "caption": row["caption"]
+    "caption": row["caption"],
+    "id": row["id"]
    }
        
    print("you called upload listing from ure useEffect that only runs when new img is dropped")
@@ -90,7 +91,7 @@ async def make_path(file: UploadFile = File(...)):
 @app.get("/load_images")
 def load_images():
 
-    result = supabase.table("Animals").select("img_url, caption").execute()
+    result = supabase.table("Animals").select("img_url, caption, id").execute()
     print("Result: ",result.data)
     return result.data
     
