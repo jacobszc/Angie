@@ -24,7 +24,7 @@ function App() {
 
     <TitleComp/>
     <HeaderDescriptionComp/>
-    <SearchComp/>
+    {/*<SearchComp/>*/}
     <ImagePostingComp/>
     <LogInComp/>
     {/* <EnterCaptionComp/> */}

@@ -1,0 +1,44 @@
+.menu-container {
+
+    width: 100%;
+    min-height: 75px;
+    height: 75px;
+   
+    display:flex;
+    flex-wrap: block;
+    margin-bottom: 10px;
+}
+
+.menu-option {
+    justify-content: center;
+    width:25%;
+    height: 100%;
+    border-style: solid;
+    border-width: 0px 1px 0px 0px;
+    background-color: white;
+    
+    border-radius: 0px 0px 5px 0px;
+    display:grid;
+    grid-template-rows: auto auto auto;
+
+    
+}
+
+.menu-option:hover {
+    
+  box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+  cursor: pointer;
+
+
+}
+
+
+.menu-option h6 {
+
+    grid-row: 2;
+
+    
+}
+
+
+

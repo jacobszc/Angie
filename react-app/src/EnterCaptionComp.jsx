@@ -1,4 +1,4 @@
-import "./EnterCaptionComp.css";
+import "./styles/EnterCaptionComp.css";
 
 function EnterCaptionComp({setHasDroppedImg, setNewCaption}) {
 
