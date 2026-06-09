@@ -36,6 +36,54 @@ function ImagePostingComp(){
     
    } 
 
+   function removeListing(listing) {
+
+      console.log("this is the lsiting" , listing)
+      
+      const obj = {
+        id: listing.id,
+        img_url: listing.img_url
+      }
+      
+      
+      
+       
+    fetch('http://127.0.0.1:8000/remove_img' , {
+      method: "POST",
+      headers: {
+
+       "Content-Type": "application/json" 
+
+      },
+      body: JSON.stringify(obj)
+    }).then(resp => {
+      if(!resp.ok) {
+        throw new Error(resp.status)
+      }
+
+      return resp.text()
+    }).then(data => {
+
+      console.log(data)
+    }).catch(err => {
+
+        console.log(err)
+    })
+
+    
+    //remove image based on id from state array
+     setListings(prev =>
+    prev.filter((item) => item.id !== listing.id)
+  );
+  
+
+    // remove image from image folder by name
+
+
+
+
+   }
+
     /////////////////////////////////////////////////////
 
    useEffect(()=> {
@@ -88,7 +136,7 @@ function ImagePostingComp(){
             }).then(resp => {
               const obj = resp.json();
               if(!resp.ok) {
-              throw new Error(obj)
+              throw new Error(obj.status)
              }
             return obj;
              }).then(data => {
@@ -111,21 +159,25 @@ function ImagePostingComp(){
 
     return (
 
+      
+
      <div className = "listing-container" onDrop = {dropHandler} onDragOver={dragOverHandler}>
-         {listings.length > 0 ? listings.map((listing, index) => (
-            <div className = "listing" key = {index} >
+         {listings.length > 0 ? listings.map((listing) => (
+             
+            <div className = "listing" key = {listing.id} >
                <img
                src = {listing.img_url} // <-- need to now gran imurl from obj that contains imgurl and caption string
-               key = {index}
-               alt="uploaded"
+               key = {listing.id}
+               alt="image not found"
                className="listing-img"
                
             />
             
             
+            
             <div className = "caption-wrapper">
             <textarea  name = "caption" className = "listing-caption" value ={listing.caption} disabled > </textarea>
-          <button className ="listing-remove-button">remove</button>
+          <button className ="listing-remove-button" onClick= {() => removeListing(listing)}>remove</button>
          </div>
            
             
@@ -137,7 +189,7 @@ function ImagePostingComp(){
        </div>
 
        ///// above returns each image that exists in state Array, which on load will be all
-
+      
         
     )
 }

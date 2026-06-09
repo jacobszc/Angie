@@ -1,7 +1,7 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException, Form
 from fastapi.middleware.cors import CORSMiddleware
 from supabase import create_client, Client
-
+from pydantic import BaseModel
 from dotenv import load_dotenv
 from pathlib import Path
 import uuid
@@ -10,13 +10,6 @@ import os
 
 load_dotenv()
 app = FastAPI()
-
-SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY")
-SUPABASE_ADMIN_UUID = os.getenv("SUPABASE_ADMIN_UUID")
-
-supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
-
 
 origins = [
     "http://localhost:5173",
@@ -29,6 +22,15 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+SUPABASE_ADMIN_UUID = os.getenv("SUPABASE_ADMIN_UUID")
+
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+
+
 
 @app.get("/")
 def read_root():
@@ -94,6 +96,25 @@ def load_images():
     result = supabase.table("Animals").select("img_url, caption, id").execute()
     print("Result: ",result.data)
     return result.data
-    
-    
 
+class RemoveImgDto(BaseModel):
+    id: int 
+    img_url : str
+
+    
+@app.post("/remove_img")   
+def remove_img(obj : RemoveImgDto): 
+
+    id = obj.id
+    img_url = obj.img_url
+
+    result = supabase.table("Animals").delete().eq("id", id).execute()
+
+    path_to_delete = Path("../react-app/public" / img_url.lstrip("/"))
+
+    if(path_to_delete.exists()):
+        path_to_delete.unlink()
+    else:
+        print("file not fdsaound!")
+
+    return
