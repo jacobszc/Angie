@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import TitleComp from './TitleComp';
 import LogInComp from './LogInComp';
-import HeaderDescriptionComp from './HeaderDescriptionComp';
+import MenuComp from './MenuComp';
 import ImagePostingComp from './ImagePostingComp';
 import SearchComp from './SearchComp';
 import EnterCaptionComp from './EnterCaptionComp';
@@ -13,7 +13,8 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 
 
 function App() {
- 
+
+  
 
   return (
    
@@ -23,10 +24,11 @@ function App() {
    <div className = "place-holder-container">
 
     <TitleComp/>
-    <HeaderDescriptionComp/>
+    <MenuComp/>
+    
     {/*<SearchComp/>*/}
-    <ImagePostingComp/>
-    <LogInComp/>
+    <ImagePostingComp />
+    {/*<LogInComp/>*/}
     {/* <EnterCaptionComp/> */}
    
    

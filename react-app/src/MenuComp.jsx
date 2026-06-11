@@ -1,6 +1,6 @@
-import "./styles/HeaderDescriptionComp.css"
+import "./styles/MenuComp.css"
 
-function HeaderDescriptionComp() {
+function MenuComp() {
 
 
 
@@ -18,4 +18,4 @@ function HeaderDescriptionComp() {
     )
 }
 
-export default HeaderDescriptionComp;
+export default MenuComp;

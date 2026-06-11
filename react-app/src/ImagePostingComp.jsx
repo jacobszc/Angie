@@ -1,10 +1,12 @@
 import {useState, useEffect, useRef} from "react";
 import EnterCaptionComp from "./EnterCaptionComp";
+
 import "./styles/ImagePostingComp.css"
 
 function ImagePostingComp(){
     
     const [listings, setListings] = useState([])
+ 
     const [newImgFile, setNewImgFile] = useState("");
     const [newCaption, setNewCaption] = useState("")
     const hasRun = useRef(false)
@@ -160,8 +162,46 @@ function ImagePostingComp(){
     return (
 
       
-
+      
      <div className = "listing-container" onDrop = {dropHandler} onDragOver={dragOverHandler}>
+           <div className="scroll-container">
+            
+
+
+            <div className = "group">
+
+            {listings.length > 0 && listings.map((listing, index) => (
+             <div className = "img-container" key = {index}>
+              <img
+              src = {listing.img_url}
+              key = {index}
+              alt ="no image"
+              className = "scrolling-img"
+              ></img>
+
+             </div>
+
+            ))}
+
+            </div>
+             <div aria-hidden = "true" className = "group">
+            {listings.map((listing, index) => (
+              <div  className = "img-container" key = {index}>
+              <img
+              src = {listing.img_url}
+              key = {index}
+              alt ="no image"
+              className = "scrolling-img"
+              ></img>
+
+             </div>
+            ))}
+
+            </div>
+          
+            
+          </div> {/* end scroll container */}
+        
          {listings.length > 0 ? listings.map((listing) => (
              
             <div className = "listing" key = {listing.id} >
@@ -183,9 +223,9 @@ function ImagePostingComp(){
             
             
              </div>
-           )) : <p>no images loaded!</p>}  
+           )) : <p>drag and drop new posting here...</p>}  
 
-           {hasDroppedImg ? <EnterCaptionComp setHasDroppedImg = {setHasDroppedImg} setNewCaption = {setNewCaption}/> : <p>no caption</p>}
+           {hasDroppedImg && <EnterCaptionComp setHasDroppedImg = {setHasDroppedImg} setNewCaption = {setNewCaption}/>}
        </div>
 
        ///// above returns each image that exists in state Array, which on load will be all

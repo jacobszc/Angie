@@ -103,18 +103,18 @@ class RemoveImgDto(BaseModel):
 
     
 @app.post("/remove_img")   
-def remove_img(obj : RemoveImgDto): 
+async def  remove_img(obj : RemoveImgDto): 
 
     id = obj.id
     img_url = obj.img_url
 
-    result = supabase.table("Animals").delete().eq("id", id).execute()
+    result = await supabase.table("Animals").delete().eq("id", id).execute()
 
     path_to_delete = Path("../react-app/public" / img_url.lstrip("/"))
 
     if(path_to_delete.exists()):
         path_to_delete.unlink()
     else:
-        print("file not fdsaound!")
+        print("file not found!")
 
-    return
+    return("row with id: " , id , " succesfully deleted!")

@@ -17,7 +17,7 @@ async function handleSubmit(event) {
 
       <div className = "enter-caption-container" >
          <form onSubmit={handleSubmit}>
-            <textarea name ="caption" className= "decription-text-area" rows = "5" columns = "50" placeholder="describe posting..."></textarea>
+            <textarea name ="caption" className= "decription-text-area" rows = "17" columns = "50" placeholder="describe posting..."></textarea>
               <button type ="submit">submit</button>
         </form>
         
