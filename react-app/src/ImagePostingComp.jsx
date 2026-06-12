@@ -169,7 +169,7 @@ function ImagePostingComp(){
 
 
             <div className = "group">
-
+             
             {listings.length > 0 && listings.map((listing, index) => (
              <div className = "img-container" key = {index}>
               <img
@@ -186,7 +186,7 @@ function ImagePostingComp(){
             </div>
              <div aria-hidden = "true" className = "group">
             {listings.map((listing, index) => (
-              <div  className = "img-container" key = {index}>
+              <div className = "img-container" key = {index}>
               <img
               src = {listing.img_url}
               key = {index}

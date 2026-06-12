@@ -82,7 +82,7 @@
     border: 2px solid red;
     margin: 50px 0 50px 0;
     
-    overflow-x: auto;
+    overflow-x:scroll;
 
      
 }
@@ -93,12 +93,13 @@
 
 .group {
   display: flex;
-  flex-grow: 1;
+  flex: 1 0 0;
   align-items: center;
   justify-content: center;
   gap: 1em;
-   animation: spin 5s infinite linear;
+   animation: spin 15s infinite linear;
 }
+
 
 .img-container {
   
@@ -125,10 +126,11 @@
 
 @keyframes spin {
   from {
-   translate: 0;
+   translate: 0%;
   }
 
   to {
      translate: -100%;
   }
 }
+
