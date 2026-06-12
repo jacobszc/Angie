@@ -1,0 +1,2 @@
+1. when saving in text editor, if an image exists in state variable,
+as in it was recently uploaded, it will cause it to be added again

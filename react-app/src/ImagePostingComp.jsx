@@ -27,7 +27,8 @@ function ImagePostingComp(){
     
 ///////////////////////////////////////////////////////////
 
-    function dropHandler(){
+    function dropHandler(event){
+      event.preventDefault();
     const imgfile = event.dataTransfer.files[0];
     
     setNewImgFile(imgfile)
@@ -163,7 +164,7 @@ function ImagePostingComp(){
 
       
       
-     <div className = "listing-container" onDrop = {dropHandler} onDragOver={dragOverHandler}>
+     <div className = "comp-container" onDrop = {dropHandler} onDragOver={dragOverHandler}>
            <div className="scroll-container">
             
 
@@ -201,7 +202,17 @@ function ImagePostingComp(){
           
             
           </div> {/* end scroll container */}
-        
+          
+          
+          <div className = "listings-banner">
+            
+         
+          </div>
+
+          <div></div>
+
+
+          <div className = "listing-container">
          {listings.length > 0 ? listings.map((listing) => (
              
             <div className = "listing" key = {listing.id} >
@@ -226,6 +237,8 @@ function ImagePostingComp(){
            )) : <p>drag and drop new posting here...</p>}  
 
            {hasDroppedImg && <EnterCaptionComp setHasDroppedImg = {setHasDroppedImg} setNewCaption = {setNewCaption}/>}
+       </div>
+
        </div>
 
        ///// above returns each image that exists in state Array, which on load will be all

@@ -101,6 +101,17 @@ class RemoveImgDto(BaseModel):
     id: int 
     img_url : str
 
+
+def remove_local_img(img_url : str):
+ 
+    path_to_delete = Path("../react-app/public" ) / img_url.lstrip("/")
+    print("path to delete is: ", path_to_delete)
+    if(path_to_delete.exists()):
+        path_to_delete.unlink()
+    else:
+        print("file not found!")
+    return
+
     
 @app.post("/remove_img")   
 def  remove_img(obj : RemoveImgDto): 
@@ -112,12 +123,8 @@ def  remove_img(obj : RemoveImgDto):
 
     result =  supabase.table("Animals").delete().eq("id", id).execute()
 
-    path_to_delete = Path("../react-app/public" ) / img_url.lstrip("/")
+    remove_local_img(img_url)
      
-    print("path to delete is: ", path_to_delete)
-    if(path_to_delete.exists()):
-        path_to_delete.unlink()
-    else:
-        print("file not found!")
+    
 
     return("row with id: " , id , " succesfully deleted!")
