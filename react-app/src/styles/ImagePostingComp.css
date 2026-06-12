@@ -17,6 +17,7 @@
     overflow-x:scroll;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
     border-radius: 8px;
+    background-color: hsl(103, 62%, 94%);
 
      
 }

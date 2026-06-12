@@ -21,7 +21,7 @@ function App() {
    
  
    
-   <div className = "place-holder-container">
+   <div className = "place-holder-container" style = {{backgroundColor: "hsl(11, 37%, 95%)"}}>
 
     <TitleComp/>
     <MenuComp/>

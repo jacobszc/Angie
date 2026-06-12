@@ -20,7 +20,7 @@
 .title-words {
      
     flex:1;
-    
+    background-image: url(../assets/wheat.png);
     background-color: hsl(151, 30%, 94%);
     align-content: center;
 }
