@@ -75,9 +75,17 @@
 
 
 .listings-banner {
-  width:100%;
+  width:95%;
   height: 250px;
-  background-color: aquamarine;
+  background-color: hsl(129, 52%, 88%);
+  margin-bottom: 100px;
+  border-radius: 8px 12px 10px 8px;
+  box-shadow: 0 12px 28px rgba(152, 197, 193, 0.5);
+}
+
+.banner-text {
+  font-family: Alfa Slab One;
+  font-weight: 400;
 }
 
 

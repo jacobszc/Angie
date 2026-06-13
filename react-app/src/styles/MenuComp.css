@@ -35,7 +35,9 @@
 
 
 .menu-option h6 {
-
+    font-family: Fira Sans;
+    font-size: 24px ;
+    font-weight: Light 300;
     grid-row: 2;
 
     

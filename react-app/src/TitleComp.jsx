@@ -1,5 +1,6 @@
 import "./styles/TitleComp.css"
 
+
 function TitleComp() {
 
 
@@ -8,6 +9,8 @@ function TitleComp() {
     return (
 
         <div className = "title-container" >
+        <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Sofia"></link>
 
     
     <img className = "title-img" src = "src/assets/birds.png" alt = "landscape"></img>

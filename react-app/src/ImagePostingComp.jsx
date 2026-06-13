@@ -205,6 +205,11 @@ function ImagePostingComp(){
           
           
           <div className = "listings-banner">
+            < link rel = "style-sheet" href ="https://googleapis.com/css2?family=Alfa+Slab+One"></link>
+            <p className ="banner-text"> Below are all of our current animals looking for new homes. Make ure to email us, check avalibilty and click the "intrested button" to let us know your intrested and be first in line if more people are interested!
+
+
+            </p>
             
          
           </div>

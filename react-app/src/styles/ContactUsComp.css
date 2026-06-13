@@ -1,0 +1,31 @@
+
+
+.contact-us-container {
+
+    height: 500px;
+    width: 100%;
+    background-color:hsl(151, 30%, 94%); 
+    border-radius: 8px;
+    box-shadow: 8px 8px 12px 12px rgb(0,0,0, 0.25);
+    display: flex;
+    
+}
+
+.input-container {
+ display: flex;
+ flex-direction: column;
+ gap: 2em;
+ flex:1;
+ }
+
+ .input-container input {
+    width: 400px;
+    margin-left: 1em;
+ }
+
+.image-container {
+    flex:1;
+    
+
+
+}
