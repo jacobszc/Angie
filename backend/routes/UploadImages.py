@@ -1,53 +1,39 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException, Form
-from fastapi.middleware.cors import CORSMiddleware
-from supabase import create_client, Client
+from fastapi import APIRouter, UploadFile, File, HTTPException, Form
+
 from pydantic import BaseModel
-from dotenv import load_dotenv
+
 from pathlib import Path
 import uuid
 import os
+from clients.SupaBaseClient import SupaBaseClient
 
 
-load_dotenv()
-app = FastAPI()
+router = APIRouter()
 
-origins = [
-    "http://localhost:5173",
-]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY")
-SUPABASE_ADMIN_UUID = os.getenv("SUPABASE_ADMIN_UUID")
-
-supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+supabase_client = SupaBaseClient()
 
 
 
 
-@app.get("/")
+
+
+
+@router.get("/")
 def read_root():
     return {"you called the base api endppoint which does nothing"}
 
 
-@app.post("/uploadlisting")
+@router.post("/uploadlisting")
 async def upload(file : UploadFile = File(...), caption: str = Form(...)): # param name file of type UploadFile
     
    
 
    public_url = await make_path(file) 
 
-   result = supabase.table("Animals").insert({
+   result = supabase_client.supabase.table("Animals").insert({
         "img_url": public_url,
           "caption" : caption,
-         "user_id": SUPABASE_ADMIN_UUID
+         "user_id": supabase_client.supabase.SUPABASE_ADMIN_UUID
     }).execute()
    
    print("the reult of ure query is: " , result)
@@ -90,10 +76,10 @@ async def make_path(file: UploadFile = File(...)):
 
     return public_url
     
-@app.get("/load_images")
+@router.get("/load_images")
 def load_images():
 
-    result = supabase.table("Animals").select("img_url, caption, id").execute()
+    result = supabase_client.supabase.table("Animals").select("img_url, caption, id").execute()
     print("Result: ",result.data)
     return result.data
 
@@ -113,7 +99,7 @@ def remove_local_img(img_url : str):
     return
 
     
-@app.post("/remove_img")   
+@router.post("/remove_img")   
 def  remove_img(obj : RemoveImgDto): 
 
     id = obj.id
@@ -121,7 +107,7 @@ def  remove_img(obj : RemoveImgDto):
 
     print("img ure is: " , img_url)
 
-    result =  supabase.table("Animals").delete().eq("id", id).execute()
+    result =  supabase_client.supabase.table("Animals").delete().eq("id", id).execute()
 
     remove_local_img(img_url)
      

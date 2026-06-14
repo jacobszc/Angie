@@ -16,6 +16,7 @@
  flex-direction: column;
  gap: 2em;
  flex:1;
+ position: relative
  }
 
  .input-container input {
@@ -25,7 +26,38 @@
 
 .image-container {
     flex:1;
+    display: flex;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    grid-template-rows: auto auto auto auto auto;
+
+   
+
+
+}
+
+.image-frame {
+    
+    grid-column: 2/5;
+    grid-row: 2/5;
+    
     
 
 
+}
+
+.image {
+    
+}
+
+.message-area {
+    margin-left: 1em;
+
+
+}
+
+.contact-us-button {
+    height: 2em;
+    width: 6em;
+    margin-left:1em;
 }
