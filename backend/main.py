@@ -5,6 +5,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from routes import UploadImages, Contact
 
 
+
+
+
 app = FastAPI()
 
 origins = [
