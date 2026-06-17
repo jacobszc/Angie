@@ -1,0 +1,166 @@
+.overlay {
+    position: fixed;;
+    background-color: rgba(0 ,0 ,0 ,0.6);
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    z-index: 1000;
+    top: 0;
+    left:0;
+    width: 100vw;
+    height: 100vh;
+}
+
+.sign-up-container {
+    width:40%;
+    height:50%;
+    background-color: rgb(250, 250, 249);
+    display: grid;
+    grid-template-rows: auto auto auto auto auto auto auto;
+    border-radius: 8px;
+     box-shadow: 4px 4px 2px 2px rgba(0 ,0 ,0 ,0.2);
+     
+    
+}
+
+.title {
+    align-self: center;
+    justify-self: center;
+    text-decoration: underline;
+    
+}
+
+
+
+
+.row1 {
+    grid-row: 3;
+    width:100%;
+    height:100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.sign-up-container input {
+    height: 40%;
+    width: 60%;
+    
+
+}
+
+.sign-up-container input:focus {
+    height: 40%;
+    width: 60%;
+    box-shadow: 4px 4px 2px 2px rgba(115, 155, 228, 0.8);
+    transform: translate(1px, -1px);
+
+}
+
+.username-label {
+    
+    height: 20%;
+   
+    
+    
+    
+}
+    
+
+.username-input{
+    
+    
+    border: solid;
+    border-radius: 8px;
+    border-width: 1px;
+  
+    background-color: rgb(245, 241, 241);
+    justify-self: center;
+    box-shadow: 2px 2px 1px 1px rgba(0 ,0 ,0 ,0.1);
+    
+
+}
+
+
+
+.row2 {
+
+    grid-row: 4 ;
+    width:100%;
+    height:100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.password-input{
+    
+  
+    border: solid;
+    border-radius: 8px;
+    border-width: 1px;
+  
+    background-color: rgb(245, 241, 241);
+    
+    box-shadow: 2px 2px 1px 1px rgba(0 ,0 ,0 ,0.1);
+
+}
+.password-label {
+   
+    height: 20%;
+    
+    
+}
+
+
+.row3 {
+
+    grid-row:5;
+    width:100%;
+    height:100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.confirm-password-input{
+    
+   
+    border: solid;
+    border-radius: 8px;
+    border-width: 1px;
+   
+    background-color: rgb(245, 241, 241);
+  
+    box-shadow: 2px 2px 1px 1px rgba(0 ,0 ,0 ,0.1);
+
+}
+
+.confirm-password-label {
+  
+    height: 20%;
+   
+    
+    
+}
+.sign-up-button {
+    grid-row:7;
+    width:40%;
+    height: 50%;
+    justify-self:center;
+    border-radius:  7px;
+    transition: transform 0.1s ease;
+    background-color: rgba(0, 90, 255, 0.8);
+
+    
+}
+
+.sign-up-button:hover{
+    
+    transform:translate(0.5px, -0.5px);
+    background-color: rgba(0, 0, 255, 0.2);
+    
+}

@@ -24,3 +24,25 @@
     background-color: hsl(151, 30%, 94%);
     align-content: center;
 }
+
+.sign-in {
+   position: absolute;
+    right:0;
+    font-size:0.5rem;
+    width: 6em;
+    height:3em;
+    text-align: center;
+    justify-content: center;
+   
+   
+    
+
+}
+
+.signin-text {
+
+    font-size: 1em;
+
+     
+
+}

@@ -1,14 +1,28 @@
 import "./styles/TitleComp.css"
+import { useState } from "react";
 
 
 function TitleComp() {
 
 
+     
+     const [signInClicked, setSignInClicked] = useState(false)
+
+     function handleClick() {
+         
+        setSignInClicked(true)
+
+
+     }
+  
 
 
     return (
 
         <div className = "title-container" >
+            <button className ="sign-in" name = "sign-in" onClick={handleClick}>
+                <p className = "signin-text">Sign-in</p>
+            </button>
         <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Sofia"></link>
 

@@ -1,11 +1,15 @@
+import "./styles/LogInComp.css"
+
 function LogInComp() {
 
 
 
 
     return (
+         
+         
 
-        <div className="container d-flex justify-content-center align-items-center vh-100"> {/* container for sign in box */}
+        <div className="overlay"> {/* container for sign in box */}
                 <div
                 className="bg-white p-4 rounded shadow"
                 style={{ width: "70%", maxWidth: "400px" }}> 
@@ -72,12 +76,14 @@ function LogInComp() {
                 
                 
 
-            </div>
+            </div> 
             
            
         
        
    </div>
+
+        
    
     )
 }

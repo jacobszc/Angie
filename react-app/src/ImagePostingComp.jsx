@@ -12,6 +12,7 @@ function ImagePostingComp(){
     const hasRun = useRef(false)
     const firstRender = useRef(true);
     const [hasDroppedImg, setHasDroppedImg] = useState(false)
+    const [isAdmin, setIsAdmin] = useState(false)
     
 
    
@@ -233,7 +234,9 @@ function ImagePostingComp(){
             
             <div className = "caption-wrapper">
             <textarea  name = "caption" className = "listing-caption" value ={listing.caption} disabled > </textarea>
-          <button className ="listing-remove-button" onClick= {() => removeListing(listing)}>remove</button>
+          
+          
+          { isAdmin && <button className ="listing-remove-button" onClick= {() => removeListing(listing)}>remove</button>}
          </div>
            
             
