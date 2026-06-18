@@ -20,7 +20,8 @@ def Register(password: str = Form(...), username : str = Form(...)):
     
     supabase_client.supabase.table("Users").insert({
         "username" : username,
-        "password" : password
+        "password" : password,
+        "user_id" : supabase_client.SUPABASE_ADMIN_UUID
         
 
     }).execute()

@@ -33,7 +33,7 @@ async def upload(file : UploadFile = File(...), caption: str = Form(...)): # par
    result = supabase_client.supabase.table("Animals").insert({
         "img_url": public_url,
           "caption" : caption,
-         "user_id": supabase_client.supabase.SUPABASE_ADMIN_UUID
+         "user_id": supabase_client.SUPABASE_ADMIN_UUID
     }).execute()
    
    print("the reult of ure query is: " , result)
