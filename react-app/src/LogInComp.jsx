@@ -3,6 +3,48 @@ import "./styles/LogInComp.css"
 function LogInComp() {
 
 
+     function handleSubmit(event) {
+
+        event.preventDefault();
+        const form = event.target;
+        const username = form.username.value;
+        const password = form.password.value;
+        const formData = new FormData()
+        formData.append("username", username)
+        formData.append("password", password)
+        console.log(username, " ", password)
+
+        const SignIn = async () => {
+        
+        try{
+          const resp = await fetch('http://127.0.0.1:8000/SignIn' , {
+            method: "POST",
+            body: formData
+          })
+
+          const data = await resp.text()
+        
+
+          if(!resp.ok) {
+            throw new Error("error caught: ",resp.stauts)
+          }
+
+          
+          console.log(data)
+        }
+
+        catch(err) {
+          console.log(err)
+        }
+
+
+    }
+
+    SignIn()
+    
+    
+    }
+
 
 
     return (
@@ -14,7 +56,7 @@ function LogInComp() {
                 className="bg-white p-4 rounded shadow"
                 style={{ width: "70%", maxWidth: "400px" }}> 
                     <h2 className="text-center mb-4">Sign In</h2>
-                    <form  >
+                    <form onSubmit={handleSubmit} >
                         <div className="mb-3">
                         <label className="form-label">
                             Username

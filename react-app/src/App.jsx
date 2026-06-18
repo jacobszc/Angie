@@ -28,14 +28,14 @@ function App() {
    
    <div className = "place-holder-container" style = {{backgroundColor: "hsl(11, 37%, 95%)"}}>
     
-    <SignUpComp/>
+    {/* <SignUpComp/> */}
 
     {/* <TitleComp/>
     <MenuComp/>
-    <ImagePostingComp />
-    <LogInComp/>
-    <ContactUsComp/> */}
-    {/*<LogInComp/>*/}
+    <ImagePostingComp /> */}
+  
+    {/* <ContactUsComp/> */}
+  <LogInComp/>
    
    
    </div> // end of placeholder container

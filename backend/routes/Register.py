@@ -1,5 +1,5 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException, Form
-
+from argon2 import PasswordHasher
 from clients.SupaBaseClient import SupaBaseClient
 
 router = APIRouter()
@@ -18,9 +18,12 @@ def Register(password: str = Form(...), username : str = Form(...)):
         print(result)
         return("username : ", username, " already exists")
     
+    hashedpass = passhash(password)
+    print("hashedpass:" , hashedpass)
+    
     supabase_client.supabase.table("Users").insert({
         "username" : username,
-        "password" : password,
+        "password" : hashedpass,
         "user_id" : supabase_client.SUPABASE_ADMIN_UUID
         
 
@@ -30,3 +33,12 @@ def Register(password: str = Form(...), username : str = Form(...)):
    
    
     return(username, " registered succesfully")
+
+
+def passhash(password: str):
+    
+    hasher = PasswordHasher()
+    hashedpass = hasher.hash(password)
+
+    
+    return hashedpass

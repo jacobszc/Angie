@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 
-from routes import UploadImages, Contact, Register
+from routes import UploadImages, Contact, Register, SignIn
 
 
 
@@ -25,4 +25,5 @@ app.add_middleware(
 app.include_router(UploadImages.router)
 app.include_router(Contact.router)
 app.include_router(Register.router)
+app.include_router(SignIn.router)
 
