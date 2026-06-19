@@ -28,7 +28,7 @@ function App() {
    
    <div className = "place-holder-container" style = {{backgroundColor: "hsl(11, 37%, 95%)"}}>
     
-    {/* <SignUpComp/> */}
+   
 
     {/* <TitleComp/>
     <MenuComp/>
@@ -36,6 +36,7 @@ function App() {
   
     {/* <ContactUsComp/> */}
   <LogInComp/>
+   <SignUpComp/> 
    
    
    </div> // end of placeholder container

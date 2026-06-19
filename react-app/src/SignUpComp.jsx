@@ -6,46 +6,78 @@ function SignUpComp() {
     function handleSubmit(event) {
 
         event.preventDefault();
-        const username = event.target.username.value;
-        const password = event.target.password.value;
-        const confirmpassword = event.target.confirmpassword.value;
+        const username = event.target.username.value
+        const password = event.target.password.value
+        const confirmpassword = event.target.confirmpassword.value
         
-           const valdiated = (password, username, confirmpassword) => {
-              let validity = true;
-            if((password.length < 10) || (password != confirmpassword)) {
-                validity = false
-                return validity
-            }
-             
-            const re = [/[A-Z]/ , /[0-9]/ , /[!@#$%^&*]/ ];
+        console.log("this is right after event .target.vlaue and confrim password is :" , confirmpassword)
+       
+        const validateUserName = (username)  => {
+           let isvalid = true
             
-
-            for(const exp of re) {
-               if(validity) {
-                validity = exp.test(password)
-                         }
-                else {
-                    
-                    return false
-                }
-               }
-
            if(username.length < 8) {
+            console.log("username is: ",  username.length , " characters which is not valid!")
             return false
            }
 
-           return validity
+
+           console.log("username is: ",  username.length , " characters which is valid!")
+           return isvalid
+         
+        } 
+
+
+        const validatePassword = (password, confirmpassword) => {
+             let isvalid = true
+           // check is pass and confirm pass match and is proper length
+           
+           
+           if(password !== confirmpassword) {
+                console.log("passwords dont match!!!!")
+                return false
+            }
+
+           if(password.length < 10) {
+                console.log("password must be atleast 10 characters!!!")
+                return false
+            }
 
          
-        }
+             
+             
+          // check is password includes atleast 1 of each required char
+             let regex = [/[A-Z]/ , /[0-9]/ , /[!@#$%^&*]/]
 
-       console.log(valdiated(password, username, confirmpassword))
+             for(const exp of regex) {
+                if(isvalid) {
+                    isvalid = exp.test(password)
+                }
+
+                else {
+                    console.log("password must contain 1 of each valid characters!!!")
+                    return false
+                }
+             }
+
+
+
+
+
+             return isvalid
+        }
+        
+        
+        
+        
+        
+        
+      
 
 
        // fetch backend
 
-       if(valdiated) {
-
+       if(validateUserName(username) && validatePassword(password, confirmpassword)) {
+       
        const formData = new FormData()
        formData.append("username", username)
        formData.append("password", password)
