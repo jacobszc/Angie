@@ -1,6 +1,6 @@
 import "./styles/LogInComp.css"
 
-function LogInComp() {
+function LogInComp({setIsAdmin, setSigningIn}) {
 
 
      function handleSubmit(event) {
@@ -22,14 +22,24 @@ function LogInComp() {
             body: formData
           })
 
-          const data = await resp.text()
+          const data = await resp.json()
         
 
           if(!resp.ok) {
             throw new Error("error caught: ",resp.stauts)
           }
 
-          
+          if(data === "admin") {
+           
+            setIsAdmin(true)
+            setSigningIn(false)
+           
+          }
+          else{
+            setSigningIn(false)
+            
+        }
+           
           console.log(data)
         }
 

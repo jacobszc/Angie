@@ -2,15 +2,15 @@ import "./styles/TitleComp.css"
 import { useState } from "react";
 
 
-function TitleComp() {
+function TitleComp({setSigningIn}) {
 
 
      
-     const [signInClicked, setSignInClicked] = useState(false)
+     
 
      function handleClick() {
          
-        setSignInClicked(true)
+        setSigningIn(true)
 
 
      }

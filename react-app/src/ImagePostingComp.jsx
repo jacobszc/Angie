@@ -3,7 +3,7 @@ import EnterCaptionComp from "./EnterCaptionComp";
 
 import "./styles/ImagePostingComp.css"
 
-function ImagePostingComp(){
+function ImagePostingComp({isadmin}){
     
     const [listings, setListings] = useState([])
  
@@ -12,7 +12,7 @@ function ImagePostingComp(){
     const hasRun = useRef(false)
     const firstRender = useRef(true);
     const [hasDroppedImg, setHasDroppedImg] = useState(false)
-    const [isAdmin, setIsAdmin] = useState(false)
+    
     
 
    
@@ -236,7 +236,7 @@ function ImagePostingComp(){
             <textarea  name = "caption" className = "listing-caption" value ={listing.caption} disabled > </textarea>
           
           
-          { isAdmin && <button className ="listing-remove-button" onClick= {() => removeListing(listing)}>remove</button>}
+          { isadmin && <button className ="listing-remove-button" onClick= {() => removeListing(listing)}>remove</button>}
          </div>
            
             

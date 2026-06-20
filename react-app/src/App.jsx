@@ -17,6 +17,9 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function App() {
 
+  const [isadmin, setIsAdmin] = useState(false)
+  const [signingin, setSigningIn] = useState(false)
+
   
 
   return (
@@ -30,13 +33,13 @@ function App() {
     
    
 
-    {/* <TitleComp/>
+    <TitleComp setSigningIn = {setSigningIn}/>
     <MenuComp/>
-    <ImagePostingComp /> */}
+    <ImagePostingComp isadmin={isadmin} />
   
-    {/* <ContactUsComp/> */}
-  <LogInComp/>
-   <SignUpComp/> 
+    <ContactUsComp/> 
+    { signingin && <LogInComp setIsAdmin={setIsAdmin} setSigningIn = {setSigningIn}/> }
+  
    
    
    </div> // end of placeholder container
