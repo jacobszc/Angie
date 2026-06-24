@@ -1,6 +1,8 @@
 import {useState, useEffect, useRef} from "react";
 import EnterCaptionComp from "./EnterCaptionComp";
 
+
+
 import "./styles/ImagePostingComp.css"
 
 function ImagePostingComp({isadmin}){

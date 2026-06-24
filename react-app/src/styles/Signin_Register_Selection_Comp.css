@@ -1,19 +1,82 @@
 .button-container {
 
     width:100%;
-    display: flex;
-    justify-content: end;
     gap:10px;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto auto ;
+    height:50px;
+   
     
 }
 
-.selection-button {
-    border-width: 0;
-    font-family: Fira Sans;
-    background-color: rgb(247, 239, 238) ;
-   
+
+
+.button-wrapper-1 {
+
+    grid-column: 6;
+    position: relative;
+    width: 70%;
+    height: 70%;
+    font-size: 14px;
 }
-.selection-button:hover {
-    background-color: rgba(218, 184, 179, 0.6) ;
+
+.selection-button-1 {
+    position: absolute;
+    width:50%;
+    height: 70%;
+    z-index: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+     box-shadow: 0 8px 20px rgba(35, 253, 46, 0.3);
+    
+}
+
+.img-container {
+    position: absolute;
+    
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    transform: translate(-50%, -50%);
+    
+    
+}
+
+.cart-icon {
+    height:100%;
+    width:100%;
+}
+
+.cart-quantity {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    color:black;
+    transform: translateY(-80%);
+    font-weight: bold;
+    
+    
 
 }
+
+.button-wrapper-2 {
+
+    grid-column: 7;
+     display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-wrapper-3 {
+
+    grid-column: 8;
+     display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
