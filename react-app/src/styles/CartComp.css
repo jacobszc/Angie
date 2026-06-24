@@ -4,3 +4,21 @@
     height: 300px;
     background-color: rgba(250, 109, 174, 0.3) ;
 }
+
+.items-container {
+
+     flex: auto;
+     flex-direction: column;
+     height: auto;
+     overflow-y: visible;
+     background-color: aliceblue;
+     gap:10px;
+}
+
+.item {
+    display: flex;
+    flex-direction: row;
+    flex:auto;
+    
+    
+}
