@@ -104,7 +104,7 @@
    min-height: 200px;
    height: auto;
   overflow-y: visible; /* will change to scroll after overflow */
-  background-color: whitesmoke;
+  background-color: rgb(247, 239, 238) ;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   
   
@@ -152,6 +152,7 @@
    border-radius: 12px;
    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
    border: 1px solid rgba(0,0,0,0.08);
+   background-color: hsl(103, 62%, 94%); ;
   
   
 }
@@ -169,6 +170,26 @@
 .listing-remove-button:hover {
     transform: translateY(1px);
   box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+
+
+}
+
+.add-to-cart-button {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  z-index: 2;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(177, 28, 28, 0.12);
+ border-radius: 10px;
+
+
+}
+
+.add-to-cart-button:hover {
+    transform: translateY(1px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+  background-color: rgba(166, 225, 129, 0.8);
 
 
 }

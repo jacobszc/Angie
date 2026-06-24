@@ -24,7 +24,7 @@ def read_root():
 
 
 @router.post("/uploadlisting")
-async def upload(file : UploadFile = File(...), caption: str = Form(...)): # param name file of type UploadFile
+async def upload(file : UploadFile = File(...), caption: str = Form(...), price: str = Form(...)): # param name file of type UploadFile
     
    
 
@@ -33,7 +33,8 @@ async def upload(file : UploadFile = File(...), caption: str = Form(...)): # par
    result = supabase_client.supabase.table("Animals").insert({
         "img_url": public_url,
           "caption" : caption,
-         "user_id": supabase_client.SUPABASE_ADMIN_UUID
+         "user_id": supabase_client.SUPABASE_ADMIN_UUID,
+         "price": price
     }).execute()
    
    print("the reult of ure query is: " , result)
@@ -44,7 +45,8 @@ async def upload(file : UploadFile = File(...), caption: str = Form(...)): # par
    listing = {
     "img_url": row["img_url"],
     "caption": row["caption"],
-    "id": row["id"]
+    "id": row["id"],
+    "price": row["price"]
    }
        
    print("you called upload listing from ure useEffect that only runs when new img is dropped")

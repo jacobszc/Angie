@@ -1,0 +1,28 @@
+.overlay {
+    position: fixed;;
+    background-color: rgba(0 ,0 ,0 ,0.6);
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    z-index: 1000;
+    top: 0;
+    left:0;
+    width: 100vw;
+    height: 100vh;
+}
+
+.close-button {
+
+    border-width: 0;
+    background-color: white;
+    border-radius: 8px;
+   margin-left: 90%;
+   box-shadow: 1px 1px 1px 1px rgba(255, 117, 117, 0.4);
+    
+}
+
+.close-button:hover {
+    
+   transform: translate(1px, -1px);
+   box-shadow: 1px 1px 1px 1px rgba(255, 117, 117, 0.9);
+}

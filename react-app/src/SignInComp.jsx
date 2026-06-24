@@ -1,6 +1,6 @@
-import "./styles/LogInComp.css"
+import "./styles/SignInComp.css"
 
-function LogInComp({setIsAdmin, setSigningIn}) {
+function SignInComp({setIsAdmin, setSigningIn}) {
 
 
      function handleSubmit(event) {
@@ -55,6 +55,10 @@ function LogInComp({setIsAdmin, setSigningIn}) {
     
     }
 
+    function handleClick() {
+        setSigningIn(false)
+    }
+
 
 
     return (
@@ -65,6 +69,8 @@ function LogInComp({setIsAdmin, setSigningIn}) {
                 <div
                 className="bg-white p-4 rounded shadow"
                 style={{ width: "70%", maxWidth: "400px" }}> 
+                    <button className = "close-button" onClick ={handleClick}>x</button>
+                    
                     <h2 className="text-center mb-4">Sign In</h2>
                     <form onSubmit={handleSubmit} >
                         <div className="mb-3">
@@ -140,4 +146,4 @@ function LogInComp({setIsAdmin, setSigningIn}) {
     )
 }
 
-export default LogInComp
+export default SignInComp

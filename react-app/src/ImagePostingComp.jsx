@@ -9,12 +9,20 @@ function ImagePostingComp({isadmin}){
  
     const [newImgFile, setNewImgFile] = useState("");
     const [newCaption, setNewCaption] = useState("")
+    const [newPrice, setNewPrice] = useState("")
     const hasRun = useRef(false)
     const firstRender = useRef(true);
     const [hasDroppedImg, setHasDroppedImg] = useState(false)
+    const [cart, setCart] = useState([])
     
     
+    
+   function handleAddToCart(listing) {
 
+    console.log(listing)
+
+
+   }
    
     
 
@@ -27,6 +35,8 @@ function ImagePostingComp({isadmin}){
 
     
 ///////////////////////////////////////////////////////////
+   
+
 
     function dropHandler(event){
       event.preventDefault();
@@ -132,6 +142,7 @@ function ImagePostingComp({isadmin}){
           
           formData.append("file", newImgFile)
           formData.append("caption", newCaption)
+          formData.append("price", newPrice)
           
 
           fetch('http://127.0.0.1:8000/uploadlisting', {
@@ -233,9 +244,10 @@ function ImagePostingComp({isadmin}){
             
             
             <div className = "caption-wrapper">
+            
             <textarea  name = "caption" className = "listing-caption" value ={listing.caption} disabled > </textarea>
           
-          
+            <button className ="add-to-cart-button" onClick={() => handleAddToCart(listing)}>Add to Cart <i className="fa-solid fa-cart-shopping cart-icon"></i></button>
           { isadmin && <button className ="listing-remove-button" onClick= {() => removeListing(listing)}>remove</button>}
          </div>
            
@@ -244,7 +256,7 @@ function ImagePostingComp({isadmin}){
              </div>
            )) : <p>drag and drop new posting here...</p>}  
 
-           {hasDroppedImg && <EnterCaptionComp setHasDroppedImg = {setHasDroppedImg} setNewCaption = {setNewCaption}/>}
+           {hasDroppedImg && <EnterCaptionComp setHasDroppedImg = {setHasDroppedImg} setNewCaption = {setNewCaption} setNewPrice={setNewPrice}/>}
        </div>
 
        </div>

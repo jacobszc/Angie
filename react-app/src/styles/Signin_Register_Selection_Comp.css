@@ -1,0 +1,19 @@
+.button-container {
+
+    width:100%;
+    display: flex;
+    justify-content: end;
+    gap:10px;
+    
+}
+
+.selection-button {
+    border-width: 0;
+    font-family: Fira Sans;
+    background-color: rgb(247, 239, 238) ;
+   
+}
+.selection-button:hover {
+    background-color: rgba(218, 184, 179, 0.6) ;
+
+}
