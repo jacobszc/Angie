@@ -40,7 +40,7 @@ function App() {
   
     <ContactUsComp/> 
     { signingin && <SignInComp setIsAdmin={setIsAdmin} setSigningIn = {setSigningIn}/> }
-    <CartComp/>
+  
   
 
    

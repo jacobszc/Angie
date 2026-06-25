@@ -1,7 +1,7 @@
 import { useState } from "react"
 import "./styles/CartComp.css"
 
-function CartComp({cart}) {
+function CartComp({setIsInCart}) {
     
 
     const [sampleCart, setSampleCart] = useState([{price: "200", name: "bob", id: "1"}, {price: "300", name: "bill" , id: "2"}, {price: "100", name: "charlie" , id: "3"}])
@@ -9,6 +9,7 @@ function CartComp({cart}) {
 
     return (
         <div className = "cart-container">
+            <button className ="exit" onClick={()=> setIsInCart(0)}>Exit</button>
         <div className="items-container">
 
             {sampleCart.map((item , index) => (
