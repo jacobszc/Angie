@@ -5,7 +5,7 @@ import EnterCaptionComp from "./EnterCaptionComp";
 
 import "./styles/ImagePostingComp.css"
 
-function ImagePostingComp({isadmin, setCart}){
+function ImagePostingComp({isadmin, setCart, setCartQuantity, cartQuantity}){
     
     const [listings, setListings] = useState([])
  
@@ -15,6 +15,7 @@ function ImagePostingComp({isadmin, setCart}){
     const hasRun = useRef(false)
     const firstRender = useRef(true);
     const [hasDroppedImg, setHasDroppedImg] = useState(false)
+    
     
     
     
@@ -244,7 +245,9 @@ function ImagePostingComp({isadmin, setCart}){
             
             <textarea  name = "caption" className = "listing-caption" value ={listing.caption} disabled > </textarea>
           
-            <button className ="add-to-cart-button" onClick={() => setCart((prev) => [...prev , listing])}>Add to Cart <i className="fa-solid fa-cart-shopping cart-icon"></i></button>
+            <button className ="add-to-cart-button" onClick={() => {setCart((prev) => [...prev , listing])
+                                                                    setCartQuantity(cartQuantity + 1)
+            }}>Add to Cart <i className="fa-solid fa-cart-shopping cart-icon"></i></button>
           { isadmin && <button className ="listing-remove-button" onClick= {() => removeListing(listing)}>remove</button>}
          </div>
            

@@ -21,6 +21,7 @@ function App() {
   const [isadmin, setIsAdmin] = useState(false)
   const [signingin, setSigningIn] = useState(false)
   const [cart, setCart] = useState([])
+  const [cartQuantity, setCartQuantity] = useState(0);
   
 
   return (
@@ -33,10 +34,10 @@ function App() {
    <div className = "place-holder-container" style = {{backgroundColor: "hsl(11, 37%, 95%)"}}>
     
     
-    < Signin_Register_Selection_Comp setSigningIn={setSigningIn} cart = {cart} setCart = {setCart}/>
+    < Signin_Register_Selection_Comp setSigningIn={setSigningIn} cart = {cart} setCart = {setCart} cartQuantity={cartQuantity} setCartQuantity={setCartQuantity}/>
     <TitleComp setSigningIn = {setSigningIn}/>
     <MenuComp/>
-    <ImagePostingComp isadmin={isadmin} setCart = {setCart} />
+    <ImagePostingComp isadmin={isadmin} setCart = {setCart} setCartQuantity = {setCartQuantity} cartQuantity ={cartQuantity} />
   
     <ContactUsComp/> 
     { signingin && <SignInComp setIsAdmin={setIsAdmin} setSigningIn = {setSigningIn}/> }
