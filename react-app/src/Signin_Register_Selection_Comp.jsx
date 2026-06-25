@@ -4,7 +4,8 @@ import CartComp from './CartComp'
 
 function Signin_Register_Selection_Comp({setSigningIn}) {
 
-    const [isInCart, setIsInCart] = useState(0)
+    const [isInCart, setIsInCart] = useState(false)
+    const [cartQuantity, setCartQuantity] = useState(0);
 
     function handleClick() {
 
@@ -17,7 +18,7 @@ function Signin_Register_Selection_Comp({setSigningIn}) {
         setIsInCart(1)
     }
 
-    const [cartQuantity, setCartQuantity] = useState(0);
+    
 
 
     return (

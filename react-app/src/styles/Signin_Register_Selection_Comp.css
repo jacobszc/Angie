@@ -9,7 +9,7 @@ align-items: center;
 
 
 .img-wrapper {
-    height:60%;
+    height:50%;
     width: 30px;
     border-radius: 7px;
     position: relative;
@@ -32,10 +32,11 @@ align-items: center;
 
 .cart-quantity {
     position: absolute;
-    top:7%;
-    left:40%;
+    top:2%;
+    left:43%;
     z-index: 1;
     font-weight: bold;
+    font-size: medium;
     color:rgb(202, 43, 43)
 }
 

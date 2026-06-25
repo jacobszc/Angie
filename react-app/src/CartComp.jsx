@@ -4,12 +4,14 @@ import "./styles/CartComp.css"
 function CartComp({setIsInCart}) {
     
 
-    const [sampleCart, setSampleCart] = useState([{price: "200", name: "bob", id: "1"}, {price: "300", name: "bill" , id: "2"}, {price: "100", name: "charlie" , id: "3"}])
+    const [sampleCart, setSampleCart] = useState([{price: "100", name: "charlie" , id: "3"}])
 
 
     return (
+
+        <div className ="overlay">
         <div className = "cart-container">
-            <button className ="exit" onClick={()=> setIsInCart(0)}>Exit</button>
+            <button className ="exit-thing" onClick={()=> setIsInCart(false)}>X</button>
         <div className="items-container">
 
             {sampleCart.map((item , index) => (
@@ -27,6 +29,8 @@ function CartComp({setIsInCart}) {
 
         </div>
      
+
+        </div>
 
         </div>
     )
