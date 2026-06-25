@@ -2,7 +2,7 @@ import {useState} from 'react'
 import "./styles/Signin_Register_Selection_Comp.css"
 import CartComp from './CartComp'
 
-function Signin_Register_Selection_Comp({setSigningIn}) {
+function Signin_Register_Selection_Comp({setSigningIn, cart, setCart}) {
 
     const [isInCart, setIsInCart] = useState(false)
     const [cartQuantity, setCartQuantity] = useState(0);
@@ -41,7 +41,7 @@ function Signin_Register_Selection_Comp({setSigningIn}) {
             <div className ="button-wrapper-2">
             <button className ="selection-button-2" onClick = {handleClick}>Sign In</button>
             </div>
-            {isInCart && <CartComp setIsInCart = {setIsInCart}/> }
+            {isInCart && <CartComp setIsInCart = {setIsInCart} cart = {cart} setCart ={setCart}/> }
         </div>
 
         
