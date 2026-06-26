@@ -10,7 +10,22 @@ function CartComp({setIsInCart, cart}) {
     return (
 
         <div className ="overlay">
+
         <div className = "cart-container">
+            <h1 className = "cart-title">Shopping Cart</h1>
+            
+            
+            <div className ="checkout-summary-container">
+                <div className = "checkout-summary-text-container">
+                    <h1 className ="summary-title">Summary</h1>
+                    <h5>Subtotal :</h5>
+                    <h5># of Items :</h5>
+                    <div className ="divider-line"></div>
+                </div>
+                <button className = "checkout-button" type ="submit">checkout</button>
+            </div> {/* end summary container */}
+            
+            
             <button className ="exit-thing" onClick={()=> setIsInCart(false)}>X</button>
         
 
