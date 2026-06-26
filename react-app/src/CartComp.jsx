@@ -18,9 +18,10 @@ function CartComp({setIsInCart, cart}) {
             <div className ="checkout-summary-container">
                 <div className = "checkout-summary-text-container">
                     <h1 className ="summary-title">Summary</h1>
-                    <h5>Subtotal :</h5>
-                    <h5># of Items :</h5>
+                    <h5>Subtotal</h5>
+                    <h5>Items</h5>
                     <div className ="divider-line"></div>
+                    <h4 className = "balance">Balance</h4>
                 </div>
                 <button className = "checkout-button" type ="submit">checkout</button>
             </div> {/* end summary container */}
@@ -32,11 +33,19 @@ function CartComp({setIsInCart, cart}) {
             {cart.map((item , index) => (
             
              <div className ="item" key = {index}> 
+               
                 <div className ="thumbnail-container">
-                 <img src = {item.img_url} className = "thumbnail" alt ="img not found"></img>
+                     <img src = {item.img_url} className = "thumbnail" alt ="img not found"></img>
                 </div>
-                <div className = "item-description-container">price: {item.price}</div>
-                <div className = "item-description-container">id: {item.id}</div>
+
+                
+                < div className = "item-description-container">
+                     <div className = "price"><p>$: {item.price}</p></div>
+                    <div className = "id"><p>id: {item.id}</p></div>
+                    <div className = "name"><p>name: cat</p></div>
+                    <div className = "x"><p>X</p></div> 
+                </div>
+                
              </div>
 
     ))}
