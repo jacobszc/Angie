@@ -3,9 +3,9 @@ import EnterCaptionComp from "./EnterCaptionComp";
 
 
 
-import "./styles/ImagePostingComp.css"
+import "./styles/HomeComp.css"
 
-function ImagePostingComp({isadmin, setCart, setCartQuantity, cartQuantity}){
+function HomeComp({isadmin, setCart, setCartQuantity, cartQuantity}){
     
     const [listings, setListings] = useState([])
  
@@ -267,4 +267,4 @@ function ImagePostingComp({isadmin, setCart, setCartQuantity, cartQuantity}){
     )
 }
 
-export default ImagePostingComp
+export default HomeComp

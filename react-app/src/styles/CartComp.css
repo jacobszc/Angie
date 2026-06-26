@@ -2,6 +2,7 @@
     position: fixed;
     background-color: rgba(0 ,0 ,0 ,0.6);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items:center;
     z-index: 1000;
@@ -13,59 +14,43 @@
 
 
 
-.cart-container {
-   
-    width: 50%;
-    height: auto;
-    background-color: rgba(253, 252, 253, 0.3) ;
-    position:relative ;
+.exit-thing {
+    position: absolute;
+    top:5px;
+    right: 5px;
+
 }
 
-.items-container {
-     
-     display:flex;
-     height: auto;
-     flex-direction: column;
-     height: auto;
-     overflow-y: visible;
-     background-color: aliceblue;
-     gap:10px;
+.cart-container {
+    min-height: 500px;
+    width: 75%;
+    background-color: rgb(236, 232, 232);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    border-radius: 8px;
+    
+   
 }
 
 .item {
-   
-    
-    
-}
-.exit-thing {
-
-position: absolute;
-    top: 5px;
-    right: 15px;
-
-    width: 20px;
-    height: 20px;
-    line-height: 18px;
-
+    height: 100px;
+    width:80%;
     display: flex;
-    justify-content: center;
-    align-items: center;
-
-    margin: 0;
-    padding: 0;
-
-    z-index: 1;
-    color: rgb(165, 42, 165);
-    font-weight: bold;
-    border: 1px solid brown;
-    cursor: pointer;
-    border-radius: 3px;
-    
+    gap: 10px;
+    margin: 10px 0 0 10px ;
 }
 
-.exit-thing:hover {
-
-    transform: translate(1px, -1px);
-    background-color: rgb(255, 240, 241);
-
+.thumbnail-container {
+    width: 80px;
+    height: 80%;
 }
+.thumbnail {
+    width: auto;
+    height: auto;
+}
+
+
+
+

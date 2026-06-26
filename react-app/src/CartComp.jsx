@@ -12,12 +12,14 @@ function CartComp({setIsInCart, cart}) {
         <div className ="overlay">
         <div className = "cart-container">
             <button className ="exit-thing" onClick={()=> setIsInCart(false)}>X</button>
-        <div className="items-container">
+        
 
             {cart.map((item , index) => (
             
              <div className ="item" key = {index}> 
-                
+                <div className ="thumbnail-container">
+                 <img src = {item.img_url} className = "thumbnail" alt ="img not found"></img>
+                </div>
                 <div className = "item-description-container">price: {item.price}</div>
                 <div className = "item-description-container">id: {item.id}</div>
              </div>
@@ -27,7 +29,6 @@ function CartComp({setIsInCart, cart}) {
 
 
 
-        </div>
      
 
         </div>

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import TitleComp from './TitleComp';
 import SignInComp from './SignInComp';
 import MenuComp from './MenuComp';
-import ImagePostingComp from './ImagePostingComp';
+import HomeComp from './HomeComp';
 import SearchComp from './SearchComp';
 import EnterCaptionComp from './EnterCaptionComp';
 import CartComp from './CartComp';
@@ -37,7 +37,7 @@ function App() {
     < Signin_Register_Selection_Comp setSigningIn={setSigningIn} cart = {cart} setCart = {setCart} cartQuantity={cartQuantity} setCartQuantity={setCartQuantity}/>
     <TitleComp setSigningIn = {setSigningIn}/>
     <MenuComp/>
-    <ImagePostingComp isadmin={isadmin} setCart = {setCart} setCartQuantity = {setCartQuantity} cartQuantity ={cartQuantity} />
+    <HomeComp isadmin={isadmin} setCart = {setCart} setCartQuantity = {setCartQuantity} cartQuantity ={cartQuantity} />
   
     <ContactUsComp/> 
     { signingin && <SignInComp setIsAdmin={setIsAdmin} setSigningIn = {setSigningIn}/> }
