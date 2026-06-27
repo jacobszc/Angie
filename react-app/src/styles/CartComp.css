@@ -88,19 +88,21 @@
 
 }
 
-.divider-line {
-    border-width: 1px;
-    border-style: solid;
-    width: 90%;
-    align-self: center;
-    margin-top: 50%;
+
+    
+    
    
     
     
-}
+
 .balance {
     height: auto;
     margin-left: 5%;
+    justify-self: end;
+    border-width: 1px 0 0 0;
+    border-style: solid;
+    
+    
 }
 
 .checkout-button {
@@ -189,6 +191,7 @@ align-items: center;
     width:auto;
     height:auto;
     transform: translateX(-20%);
+    cursor: pointer;
     
 }
 

@@ -1,12 +1,27 @@
 import { useState } from "react"
 import "./styles/CartComp.css"
 
-function CartComp({setIsInCart, cart}) {
+function CartComp({setIsInCart, setCart, cart, setCartQuantity}) {
+    
     
 
     const [sampleCart, setSampleCart] = useState([{price: "100", name: "charlie" , id: "3"}])
+    const [subTotal, setSubtotal] = useState(0)
+    
 
+    const handleRemoveItem = (itemToDelete) => {
+    
+        
+   const newCart = cart.filter((item) =>  item.id !== itemToDelete.id)
+   const finish = newCart.length
 
+   setCartQuantity(finish)
+
+   
+   setCart(newCart)
+   
+
+    }
     return (
 
         <div className ="overlay">
@@ -18,10 +33,10 @@ function CartComp({setIsInCart, cart}) {
             <div className ="checkout-summary-container">
                 <div className = "checkout-summary-text-container">
                     <h1 className ="summary-title">Summary</h1>
-                    <h5>Subtotal</h5>
-                    <h5>Items</h5>
-                    <div className ="divider-line"></div>
-                    <h4 className = "balance">Balance</h4>
+                    <h5>Subtotal ${subTotal}.00</h5>
+                    <h5>Items ({cart.length})</h5>
+                    
+                    <h4 className = "balance">Balance  ${subTotal}.00 </h4>
                 </div>
                 <button className = "checkout-button" type ="submit">checkout</button>
             </div> {/* end summary container */}
@@ -43,7 +58,7 @@ function CartComp({setIsInCart, cart}) {
                      <div className = "price"><p>$: {item.price}</p></div>
                     <div className = "id"><p>id: {item.id}</p></div>
                     <div className = "name"><p>name: cat</p></div>
-                    <div className = "x"><p>X</p></div> 
+                    <div className = "x" onClick = {() => handleRemoveItem(item)}><p>X</p></div> 
                 </div>
                 
              </div>
