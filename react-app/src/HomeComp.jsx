@@ -15,6 +15,9 @@ function HomeComp({isadmin, setCart, setCartQuantity, cartQuantity}){
     const hasRun = useRef(false)
     const firstRender = useRef(true);
     const [hasDroppedImg, setHasDroppedImg] = useState(false)
+
+
+    const [newCaptionObject, setNewCaptionObject] = useState({})
     
     
     

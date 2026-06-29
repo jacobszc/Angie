@@ -4,7 +4,11 @@ import "./styles/CartComp.css"
 function CartComp({setIsInCart, setCart, cart, setCartQuantity}) {
     
     
-
+    {cart.map((item) =>{
+       console.log(item)
+    })}
+   
+   
     const [sampleCart, setSampleCart] = useState([{price: "100", name: "charlie" , id: "3"}])
     const [subTotal, setSubtotal] = useState(0)
     

@@ -35,6 +35,9 @@ async def upload(file : UploadFile = File(...), caption: str = Form(...), price:
           "caption" : caption,
          "user_id": supabase_client.SUPABASE_ADMIN_UUID,
          "price": price
+        #  "name" : name,
+        #  "type" : type,
+        #  "breed" : breed
     }).execute()
    
    print("the reult of ure query is: " , result)
@@ -81,7 +84,7 @@ async def make_path(file: UploadFile = File(...)):
 @router.get("/load_images")
 def load_images():
 
-    result = supabase_client.supabase.table("Animals").select("img_url, caption, id").execute()
+    result = supabase_client.supabase.table("Animals").select("img_url, caption, id, price, name, type, breed").execute()
     print("Result: ",result.data)
     return result.data
 
