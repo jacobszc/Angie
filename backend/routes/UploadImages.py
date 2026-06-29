@@ -6,7 +6,7 @@ from pathlib import Path
 import uuid
 import os
 from clients.SupaBaseClient import SupaBaseClient
-
+import json
 
 router = APIRouter()
 
@@ -24,20 +24,20 @@ def read_root():
 
 
 @router.post("/uploadlisting")
-async def upload(file : UploadFile = File(...), caption: str = Form(...), price: str = Form(...)): # param name file of type UploadFile
+async def upload(file : UploadFile = File(...), captionDto : str = Form(...)): # param name file of type UploadFile
     
-   
+   captionDtoData = json.loads(captionDto)
 
    public_url = await make_path(file) 
 
    result = supabase_client.supabase.table("Animals").insert({
         "img_url": public_url,
-          "caption" : caption,
+          "caption" : captionDtoData["caption"],
          "user_id": supabase_client.SUPABASE_ADMIN_UUID,
-         "price": price
-        #  "name" : name,
-        #  "type" : type,
-        #  "breed" : breed
+         "price": captionDtoData["price"],
+         "name" : captionDtoData["name"],
+         "type" : captionDtoData["type"],
+         "breed" : captionDtoData["breed"]
     }).execute()
    
    print("the reult of ure query is: " , result)

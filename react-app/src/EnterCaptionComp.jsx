@@ -1,7 +1,7 @@
 import { captureOwnerStack } from "react";
 import "./styles/EnterCaptionComp.css";
 
-function EnterCaptionComp({setHasDroppedImg, setNewCaption, setNewPrice}) {
+function EnterCaptionComp({setHasDroppedImg, setNewCaptionObject}) {
 
   const captionDto = {
     "caption" : "",
@@ -12,13 +12,18 @@ function EnterCaptionComp({setHasDroppedImg, setNewCaption, setNewPrice}) {
 
 async function handleSubmit(event) {
     event.preventDefault()
-    const form = event.target;
-    const caption = form.caption.value
-    const price = form.price.value
-    console.log(caption, price)
-    setNewCaption(caption)
-    setNewPrice(price)
     
+    const form = event.target;
+    captionDto.caption = form.caption.value
+    captionDto.name = form.name.value
+    captionDto.price = form.price.value
+    captionDto.type = form.type.value
+    captionDto.breed = form.breed.value
+
+    
+
+      console.log(captionDto)
+     setNewCaptionObject(captionDto)
     setHasDroppedImg(false) // this is to make comp de render each tome caption is entered
 
 }
@@ -33,8 +38,8 @@ async function handleSubmit(event) {
           
           <input name = "name" className ="name-input" type ="text" placeholder="enter name..."></input>
            <input name = "price" className ="price-input" type ="text" placeholder="enter price..."></input>
-           <input name = "name" className ="type-input" type ="text" placeholder="enter type...(eg. cat/bird)"></input>
-           <input name = "price" className ="breed-input" type ="text" placeholder="enter breed..."></input>
+           <input name = "type" className ="type-input" type ="text" placeholder="enter type...(eg. cat/bird)"></input>
+           <input name = "breed" className ="breed-input" type ="text" placeholder="enter breed..."></input>
            
            </div>
            

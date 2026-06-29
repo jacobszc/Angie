@@ -142,8 +142,8 @@ function HomeComp({isadmin, setCart, setCartQuantity, cartQuantity}){
           const formData = new FormData();
           
           formData.append("file", newImgFile)
-          formData.append("caption", newCaption)
-          formData.append("price", newPrice)
+          formData.append("captionDto", JSON.stringify(newCaptionObject))
+          
           
 
           fetch('http://127.0.0.1:8000/uploadlisting', {
@@ -166,7 +166,7 @@ function HomeComp({isadmin, setCart, setCartQuantity, cartQuantity}){
           
 
 
-        }, [newCaption])
+        }, [newCaptionObject])
       
       
        //console.log(listings)
@@ -259,7 +259,7 @@ function HomeComp({isadmin, setCart, setCartQuantity, cartQuantity}){
              </div>
            )) : <p>drag and drop new posting here...</p>}  
 
-           {hasDroppedImg && <EnterCaptionComp setHasDroppedImg = {setHasDroppedImg} setNewCaption = {setNewCaption} setNewPrice={setNewPrice}/>}
+           {hasDroppedImg && <EnterCaptionComp setHasDroppedImg = {setHasDroppedImg} setNewCaptionObject = {setNewCaptionObject}/>}
        </div>
 
        </div>
