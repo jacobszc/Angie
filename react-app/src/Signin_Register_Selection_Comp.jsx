@@ -41,7 +41,7 @@ function Signin_Register_Selection_Comp({setSigningIn, cart, setCart, cartQuanti
             <div className ="button-wrapper-2">
             <button className ="selection-button-2" onClick = {handleClick}>Sign In</button>
             </div>
-            {isInCart && <CartComp setIsInCart = {setIsInCart} cart = {cart} setCart ={setCart} setCartQuantity = {setCartQuantity}/> }
+            {isInCart && <CartComp setIsInCart = {setIsInCart} cart = {cart} setCart ={setCart} setCartQuantity = {setCartQuantity} cartQuantity = {cartQuantity}/> }
         </div>
 
         

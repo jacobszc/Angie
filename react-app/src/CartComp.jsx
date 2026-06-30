@@ -1,7 +1,7 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import "./styles/CartComp.css"
 
-function CartComp({setIsInCart, setCart, cart, setCartQuantity}) {
+function CartComp({setIsInCart, setCart, cart, setCartQuantity, cartQuantity}) {
     
     
     {cart.map((item) =>{
@@ -15,18 +15,27 @@ function CartComp({setIsInCart, setCart, cart, setCartQuantity}) {
 
     const handleRemoveItem = (itemToDelete) => {
     
-        
-   const newCart = cart.filter((item) =>  item.id !== itemToDelete.id)
-   const finish = newCart.length
+        const newCart = cart.filter((item) =>  item.id !== itemToDelete.id)
+        const finish = newCart.length
+        setCartQuantity(finish)
+        setCart(newCart)
+}
+    
+useEffect(() => {
+     const initval = 0
+    const newSubtotal = cart.reduce((sum, item) => {
+    return sum + item.price;
+  }, initval);
 
-   setCartQuantity(finish)
+  setSubtotal(newSubtotal);
 
    
-   setCart(newCart)
-   
 
-    }
-    return (
+},[cart])
+
+
+
+return (
 
         <div className ="overlay">
 
@@ -61,7 +70,7 @@ function CartComp({setIsInCart, setCart, cart, setCartQuantity}) {
                 < div className = "item-description-container">
                      <div className = "price"><p>$: {item.price}</p></div>
                     <div className = "id"><p>id: {item.id}</p></div>
-                    <div className = "name"><p>name: cat</p></div>
+                    <div className = "name"><p>{item.name}</p></div>
                     <div className = "x" onClick = {() => handleRemoveItem(item)}><p>X</p></div> 
                 </div>
                 
