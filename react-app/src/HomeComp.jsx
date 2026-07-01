@@ -41,6 +41,10 @@ function HomeComp({isadmin, setCart, setCartQuantity, cartQuantity}){
 
     function dropHandler(event){
       event.preventDefault();
+
+      if(!isadmin) {
+        return
+      }
     const imgfile = event.dataTransfer.files[0];
     
     setNewImgFile(imgfile)
@@ -259,7 +263,7 @@ function HomeComp({isadmin, setCart, setCartQuantity, cartQuantity}){
              </div>
            )) : <p>drag and drop new posting here...</p>}  
 
-           {hasDroppedImg && <EnterCaptionComp setHasDroppedImg = {setHasDroppedImg} setNewCaptionObject = {setNewCaptionObject}/>}
+           {(isadmin &&hasDroppedImg) && <EnterCaptionComp setHasDroppedImg = {setHasDroppedImg} setNewCaptionObject = {setNewCaptionObject}/>}
        </div>
 
        </div>

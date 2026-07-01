@@ -2,14 +2,23 @@ import {useState} from 'react'
 import "./styles/Signin_Register_Selection_Comp.css"
 import CartComp from './CartComp'
 
-function Signin_Register_Selection_Comp({setSigningIn, cart, setCart, cartQuantity, setCartQuantity}) {
+function Signin_Register_Selection_Comp({setSigningIn, cart, setCart, cartQuantity, setCartQuantity, user, setUser, setIsSignedIn, isSignedIn}) {
 
     const [isInCart, setIsInCart] = useState(false)
     
 
-    function handleClick() {
-
+    function handleSignIn() {
+        
         setSigningIn(true)
+       
+    }
+
+    function handleSignOut() {
+
+        setIsSignedIn(false)
+        setUser(null)
+        setCart([])
+        setCartQuantity(0)
     }
 
 
@@ -28,7 +37,7 @@ function Signin_Register_Selection_Comp({setSigningIn, cart, setCart, cartQuanti
              
            
             <div className = "img-wrapper" onClick={goToCart}>
-            <img src = "src/assets/cart.jpg" alt ="cart" className ="cart-icon"/>
+            <img src = "src/assets/Screenshot 2026-07-01 094123.png" alt ="cart" className ="cart-icon"/>
             <p className ="cart-quantity">{cartQuantity}</p>
             </div>
             
@@ -39,7 +48,8 @@ function Signin_Register_Selection_Comp({setSigningIn, cart, setCart, cartQuanti
             </div>
             
             <div className ="button-wrapper-2">
-            <button className ="selection-button-2" onClick = {handleClick}>Sign In</button>
+            {!isSignedIn &&<button className ="selection-button-2" onClick = {handleSignIn}>Sign In</button>}
+            {isSignedIn &&<button className ="selection-button-2" onClick = {handleSignOut}>Log Out</button>}          
             </div>
             {isInCart && <CartComp setIsInCart = {setIsInCart} cart = {cart} setCart ={setCart} setCartQuantity = {setCartQuantity} cartQuantity = {cartQuantity}/> }
         </div>

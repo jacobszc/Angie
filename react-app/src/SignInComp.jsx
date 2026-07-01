@@ -1,6 +1,6 @@
 import "./styles/SignInComp.css"
 
-function SignInComp({setIsAdmin, setSigningIn}) {
+function SignInComp({setIsAdmin, setSigningIn, setUser, setIsSignedIn}) {
 
 
      function handleSubmit(event) {
@@ -30,12 +30,18 @@ function SignInComp({setIsAdmin, setSigningIn}) {
           }
 
           if(data === "admin") {
-           
+            
+            setUser(username)
+            console.log("succesful log in! username set to: ", username)
             setIsAdmin(true)
+            setIsSignedIn(true)
             setSigningIn(false)
            
           }
           else{
+            setUser(username)
+            setIsSignedIn(true)
+            console.log("succesful log in! username set to: ", username)
             setSigningIn(false)
             
         }

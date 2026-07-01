@@ -18,10 +18,13 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function App() {
 
+
+  const [user, setUser] = useState(null)
   const [isadmin, setIsAdmin] = useState(false)
   const [signingin, setSigningIn] = useState(false)
   const [cart, setCart] = useState([])
   const [cartQuantity, setCartQuantity] = useState(0);
+  const [isSignedIn, setIsSignedIn] = useState(false)
   
 
   return (
@@ -34,13 +37,13 @@ function App() {
    <div className = "place-holder-container" style = {{backgroundColor: "hsl(11, 37%, 95%)"}}>
     
     
-    < Signin_Register_Selection_Comp setSigningIn={setSigningIn} cart = {cart} setCart = {setCart} cartQuantity={cartQuantity} setCartQuantity={setCartQuantity}/>
+    < Signin_Register_Selection_Comp setSigningIn={setSigningIn} cart = {cart} setCart = {setCart} cartQuantity={cartQuantity} setCartQuantity={setCartQuantity} user ={user} setUser = {setUser}  setIsSignedIn = {setIsSignedIn} isSignedIn={isSignedIn}/>
     <TitleComp setSigningIn = {setSigningIn}/>
     <MenuComp/>
     <HomeComp isadmin={isadmin} setCart = {setCart} setCartQuantity = {setCartQuantity} cartQuantity ={cartQuantity} />
   
     <ContactUsComp/> 
-    { signingin && <SignInComp setIsAdmin={setIsAdmin} setSigningIn = {setSigningIn}/> }
+    { signingin && <SignInComp setIsAdmin={setIsAdmin} setSigningIn = {setSigningIn} setUser = {setUser} setIsSignedIn = {setIsSignedIn}/> }
   
   
 
