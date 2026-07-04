@@ -37,10 +37,10 @@ function App() {
    <div className = "place-holder-container" style = {{backgroundColor: "hsl(11, 37%, 95%)"}}>
     
     
-    < Signin_Register_Selection_Comp setSigningIn={setSigningIn} cart = {cart} setCart = {setCart} cartQuantity={cartQuantity} setCartQuantity={setCartQuantity} user ={user} setUser = {setUser}  setIsSignedIn = {setIsSignedIn} isSignedIn={isSignedIn}/>
+    <Signin_Register_Selection_Comp setSigningIn={setSigningIn} cart = {cart} setCart = {setCart} cartQuantity={cartQuantity} setCartQuantity={setCartQuantity} user ={user} setUser = {setUser}  setIsSignedIn = {setIsSignedIn} isSignedIn={isSignedIn} setIsAdmin = {setIsAdmin}/>
     <TitleComp setSigningIn = {setSigningIn}/>
     <MenuComp/>
-    <HomeComp isadmin={isadmin} setCart = {setCart} setCartQuantity = {setCartQuantity} cartQuantity ={cartQuantity} />
+    <HomeComp isadmin={isadmin} setCart = {setCart} cart ={cart} setCartQuantity = {setCartQuantity} cartQuantity ={cartQuantity} isSignedIn={isSignedIn}/>
   
     <ContactUsComp/> 
     { signingin && <SignInComp setIsAdmin={setIsAdmin} setSigningIn = {setSigningIn} setUser = {setUser} setIsSignedIn = {setIsSignedIn}/> }

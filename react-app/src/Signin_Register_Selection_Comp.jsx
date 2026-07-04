@@ -1,11 +1,17 @@
 import {useState} from 'react'
 import "./styles/Signin_Register_Selection_Comp.css"
 import CartComp from './CartComp'
+import SignUpComp from './RegisterComp'
 
-function Signin_Register_Selection_Comp({setSigningIn, cart, setCart, cartQuantity, setCartQuantity, user, setUser, setIsSignedIn, isSignedIn}) {
+function Signin_Register_Selection_Comp({setSigningIn, cart, setCart, cartQuantity, setCartQuantity, user, setUser, setIsSignedIn, isSignedIn, setIsAdmin}) {
 
     const [isInCart, setIsInCart] = useState(false)
-    
+    const [isRegistering, setIsRegistering] = useState(false)
+
+    function handleRegister() {
+
+        setIsRegistering(true)
+    }
 
     function handleSignIn() {
         
@@ -18,6 +24,7 @@ function Signin_Register_Selection_Comp({setSigningIn, cart, setCart, cartQuanti
         setIsSignedIn(false)
         setUser(null)
         setCart([])
+        setIsAdmin(false)
         setCartQuantity(0)
     }
 
@@ -44,15 +51,26 @@ function Signin_Register_Selection_Comp({setSigningIn, cart, setCart, cartQuanti
             
             
             <div className ="button-wrapper-1">
-            <button className ="selection-button-1">Register</button>
+            <button className ="selection-button-1" onClick = {handleRegister}>Register</button>
+
+            {isRegistering &&<SignUpComp/>}
             </div>
             
             <div className ="button-wrapper-2">
             {!isSignedIn &&<button className ="selection-button-2" onClick = {handleSignIn}>Sign In</button>}
             {isSignedIn &&<button className ="selection-button-2" onClick = {handleSignOut}>Log Out</button>}          
             </div>
+             
+             {isSignedIn &&
+            <div className = "name-wrapper ">
+                <p className ="name">welcome {user} </p>
+            </div>
+             }
+
             {isInCart && <CartComp setIsInCart = {setIsInCart} cart = {cart} setCart ={setCart} setCartQuantity = {setCartQuantity} cartQuantity = {cartQuantity}/> }
         </div>
+
+        
 
         
 

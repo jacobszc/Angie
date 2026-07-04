@@ -1,22 +1,33 @@
-import "./styles/SignUpComp.css"
+import "./styles/RegisterComp.css"
+import { useState } from "react";
 
-function SignUpComp() {
+function RegisterComp() {
 
+     const [isValidUserName, setIsValidUserName] = useState(true)
+     const [isvalidPass, setIsValidPass] = useState(true)
+     const [isPassMatch, setIsPassMatch] = useState(true)
+     
+      
 
     function handleSubmit(event) {
-
+        
+        
         event.preventDefault();
+         
         const username = event.target.username.value
         const password = event.target.password.value
         const confirmpassword = event.target.confirmpassword.value
         
-        console.log("this is right after event .target.vlaue and confrim password is :" , confirmpassword)
-       
+        event.target.username.value = ""
+        event.target.password.value = ""
+        event.target.confirmpassword.value = ""
+        
         const validateUserName = (username)  => {
            let isvalid = true
             
            if(username.length < 8) {
             console.log("username is: ",  username.length , " characters which is not valid!")
+            setIsValidUserName(false)
             return false
            }
 
@@ -33,11 +44,13 @@ function SignUpComp() {
            
            
            if(password !== confirmpassword) {
+                setIsPassMatch(false)
                 console.log("passwords dont match!!!!")
                 return false
             }
 
            if(password.length < 10) {
+            setIsValidPass(false)
                 console.log("password must be atleast 10 characters!!!")
                 return false
             }
@@ -54,6 +67,7 @@ function SignUpComp() {
                 }
 
                 else {
+                    setIsValidPass(false)
                     console.log("password must contain 1 of each valid characters!!!")
                     return false
                 }
@@ -114,13 +128,13 @@ function SignUpComp() {
 
             <div className = "row1">
              <p className = "username-label">UserName</p>
-              <input type = "text" name = "username" className = "username-input" placeholder="username...."></input>
+              { isValidUserName ? <input type = "text" name = "username" className = "username-input" placeholder="username...."></input> : <input type = "text" name = "username" className = "username-input-invalid"  placeholder=" must be atleast 8 characters..."></input>}
               </div>
               
               
               <div className ="row2">
               <p className = "password-label">Password</p>
-              <input type = "text" name = "password" className = "password-input" placeholder="password...."></input>
+              {isPassMatch ? <input type = "text" name = "password" className = "password-input" placeholder="password...."></input> : <input type = "text" name = "password" className = "password-input-invalid" placeholder="passwords dont match"></input> }
               </div>
               
 
@@ -140,4 +154,4 @@ function SignUpComp() {
     )
 }
 
-export default SignUpComp;
+export default RegisterComp;

@@ -77,3 +77,15 @@ margin-right: 5px;
     background-color: hsl(100, 37%, 95%);
     transform: scale(105%);
 }
+
+.name-wrapper {
+
+    display: flex;
+    
+    font-size: small;
+    font-weight: 500;
+    width: 100px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x:visible;
+   
+}

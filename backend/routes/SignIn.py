@@ -24,6 +24,7 @@ def SignIn(username: str = Form(...), password: str = Form(...) ):
      stored_hash = response.data[0]["password"]
      role = response.data[0]["role"]
      
+     
      verifier = PasswordHasher()
      
      try:

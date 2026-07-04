@@ -5,7 +5,7 @@ import EnterCaptionComp from "./EnterCaptionComp";
 
 import "./styles/HomeComp.css"
 
-function HomeComp({isadmin, setCart, setCartQuantity, cartQuantity}){
+function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSignedIn}){
     
     const [listings, setListings] = useState([])
  
@@ -24,7 +24,51 @@ function HomeComp({isadmin, setCart, setCartQuantity, cartQuantity}){
     
     
    
-   
+   function handleAddToCart(listing) {
+
+    setCart([...cart, listing])
+    setCartQuantity(cartQuantity +1)
+    
+    
+    
+    
+    
+    
+     
+    
+    
+    const newCart = cart.map(item => ({
+  name: item.name,
+  price: item.price,
+  type: item.type,
+  breed: item.breed
+}));
+
+    
+
+    fetch('http://127.0.0.1:8000/UpdateCart', {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(newCart) 
+
+    }).then(resp => {
+       if(!resp.ok) {
+          throw new Error( resp.status)
+       }
+
+       return resp.text()
+    }).then(data => {
+      console.log(data)
+    }).catch(err => {
+
+      console.log(err)
+    })
+
+
+
+    return
+
+   }
     
 
   
@@ -252,10 +296,8 @@ function HomeComp({isadmin, setCart, setCartQuantity, cartQuantity}){
             
             <textarea  name = "caption" className = "listing-caption" value ={listing.caption} disabled > </textarea>
           
-            <button className ="add-to-cart-button" onClick={() => {setCart((prev) => [...prev , listing])
-                                                                    setCartQuantity(cartQuantity + 1)
-            }}>Add to Cart <i className="fa-solid fa-cart-shopping cart-icon"></i></button>
-          { isadmin && <button className ="listing-remove-button" onClick= {() => removeListing(listing)}>remove</button>}
+            {isSignedIn && <button className ="add-to-cart-button" onClick={() =>handleAddToCart(listing)}>Add to Cart <i className="fa-solid fa-cart-shopping cart-icon"></i></button>}
+           { isadmin && <button className ="listing-remove-button" onClick= {() => removeListing(listing)}>remove</button>}
          </div>
            
             
