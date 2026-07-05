@@ -1,6 +1,6 @@
 import "./styles/SignInComp.css"
 
-function SignInComp({setIsAdmin, setSigningIn, setUser, setIsSignedIn}) {
+function SignInComp({setIsAdmin, setSigningIn, setUser, setIsSignedIn, cart,  setCart, setCartQuantity}) {
 
 
      function handleSubmit(event) {
@@ -29,7 +29,7 @@ function SignInComp({setIsAdmin, setSigningIn, setUser, setIsSignedIn}) {
             throw new Error("error caught: ",resp.stauts)
           }
 
-          if(data === "admin") {
+          if(data.role === "admin") {
             
             setUser(username)
             console.log("succesful log in! username set to: ", username)
@@ -41,6 +41,9 @@ function SignInComp({setIsAdmin, setSigningIn, setUser, setIsSignedIn}) {
           else{
             setUser(username)
             setIsSignedIn(true)
+            setCart(data.cart) //////////////////////////// <------
+            
+            setCartQuantity(data.cart.length)
             console.log("succesful log in! username set to: ", username)
             setSigningIn(false)
             
