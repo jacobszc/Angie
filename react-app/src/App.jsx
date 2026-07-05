@@ -40,7 +40,7 @@ function App() {
     <Signin_Register_Selection_Comp setSigningIn={setSigningIn} cart = {cart} setCart = {setCart} cartQuantity={cartQuantity} setCartQuantity={setCartQuantity} user ={user} setUser = {setUser}  setIsSignedIn = {setIsSignedIn} isSignedIn={isSignedIn} setIsAdmin = {setIsAdmin}/>
     <TitleComp setSigningIn = {setSigningIn}/>
     <MenuComp/>
-    <HomeComp isadmin={isadmin} setCart = {setCart} cart ={cart} setCartQuantity = {setCartQuantity} cartQuantity ={cartQuantity} isSignedIn={isSignedIn}/>
+    <HomeComp isadmin={isadmin} setCart = {setCart} cart ={cart} setCartQuantity = {setCartQuantity} cartQuantity ={cartQuantity} isSignedIn={isSignedIn} user ={user}/>
   
     <ContactUsComp/> 
     { signingin && <SignInComp setIsAdmin={setIsAdmin} setSigningIn = {setSigningIn} setUser = {setUser} setIsSignedIn = {setIsSignedIn}/> }

@@ -5,7 +5,7 @@ import EnterCaptionComp from "./EnterCaptionComp";
 
 import "./styles/HomeComp.css"
 
-function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSignedIn}){
+function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSignedIn, user}){
     
     const [listings, setListings] = useState([])
     const [newImgFile, setNewImgFile] = useState("");
@@ -112,14 +112,19 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
   } 
     
   
-   
+        const body = {
+          cart: cart,
+          username: user
+        }
+
+        console.log("body: ", body)
 
     
 
     fetch('http://127.0.0.1:8000/UpdateCart', {
     method: "POST",
     headers: {"Content-Type": "application/json"},
-    body: JSON.stringify(cart)
+    body: JSON.stringify(body)
 
     }
   
