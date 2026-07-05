@@ -1,7 +1,7 @@
 import "./styles/RegisterComp.css"
 import { useState } from "react";
 
-function RegisterComp() {
+function RegisterComp({setIsRegistering}) {
 
      const [isValidUserName, setIsValidUserName] = useState(true)
      const [isvalidPass, setIsValidPass] = useState(true)
@@ -123,8 +123,10 @@ function RegisterComp() {
         <div className = "overlay">
             
             <div className ="sign-up-container">
+              <p className = "exit-register" onClick={() => setIsRegistering(false)}>X</p>
+             <h3 className = "title">Sign Up </h3>
             
-             <h3 className = "title">Sign Up</h3>
+             
 
             <div className = "row1">
              <p className = "username-label">UserName</p>

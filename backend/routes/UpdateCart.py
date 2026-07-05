@@ -2,9 +2,12 @@ from clients.SupaBaseClient import SupaBaseClient
 from fastapi import APIRouter, UploadFile, File, HTTPException, Form
 from pydantic import BaseModel
 
-class cartDto(BaseModel):
+class PYcartDto(BaseModel):
+    img_url : str
+    caption: str
+    id: int
     name: str
-    price: str
+    price: int
     type: str
     breed: str
 
@@ -14,12 +17,12 @@ router = APIRouter()
 
 
 @router.post("/UpdateCart")
-def UpdateCart(newCart : list[cartDto]):
-    
-    for item in newCart:
-        print(item)
+def UpdateCart(cart : list[PYcartDto]):
+   
+    print(cart)
+      
 
-    # supabaseClient.supabase.table("Users").update("user_cart", newCart)
+    # supabaseClient.supabase.table("Users").update({"user_cart" : cart}).eq("id",cart.id).execute()
     
     
     return "cart updated suceesfuly"

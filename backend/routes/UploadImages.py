@@ -85,7 +85,7 @@ async def make_path(file: UploadFile = File(...)):
 def load_images():
 
     result = supabase_client.supabase.table("Animals").select("img_url, caption, id, price, name, type, breed").execute()
-    print("Result: ",result.data)
+    # print("Result: ",result.data)
     return result.data
 
 class RemoveImgDto(BaseModel):

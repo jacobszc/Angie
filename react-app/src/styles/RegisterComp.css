@@ -205,3 +205,10 @@
     background-color: rgba(0, 0, 255, 0.2);
     
 }
+
+.exit-register {
+    right:5px;
+    top:5px;
+    font-weight: 500;
+    cursor: pointer;
+}

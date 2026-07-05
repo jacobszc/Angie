@@ -8,10 +8,7 @@ function Signin_Register_Selection_Comp({setSigningIn, cart, setCart, cartQuanti
     const [isInCart, setIsInCart] = useState(false)
     const [isRegistering, setIsRegistering] = useState(false)
 
-    function handleRegister() {
-
-        setIsRegistering(true)
-    }
+    
 
     function handleSignIn() {
         
@@ -51,9 +48,9 @@ function Signin_Register_Selection_Comp({setSigningIn, cart, setCart, cartQuanti
             
             
             <div className ="button-wrapper-1">
-            <button className ="selection-button-1" onClick = {handleRegister}>Register</button>
+            <button className ="selection-button-1" onClick = {() => setIsRegistering(true)}>Register</button>
 
-            {isRegistering &&<SignUpComp/>}
+            {isRegistering &&<SignUpComp setIsRegistering = {setIsRegistering}/>}
             </div>
             
             <div className ="button-wrapper-2">

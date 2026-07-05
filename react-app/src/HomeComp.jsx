@@ -8,57 +8,130 @@ import "./styles/HomeComp.css"
 function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSignedIn}){
     
     const [listings, setListings] = useState([])
- 
     const [newImgFile, setNewImgFile] = useState("");
     const [newCaption, setNewCaption] = useState("")
     const [newPrice, setNewPrice] = useState("")
     const hasRun = useRef(false)
-    const firstRender = useRef(true);
+    const firstRenderForUploadImages = useRef(true);
+    const firstRenderForUpdateCart = useRef(true);
     const [hasDroppedImg, setHasDroppedImg] = useState(false)
-
-
     const [newCaptionObject, setNewCaptionObject] = useState({})
-    
-    
-    
-    
-    
-   
-   function handleAddToCart(listing) {
 
-    setCart([...cart, listing])
-    setCartQuantity(cartQuantity +1)
+    function handleAddCart(listing) {
+
+      console.log("this is what a listing shape looks like: " , listing)
+
+      setCart(prev => [...prev, listing])
+      setCartQuantity(cartQuantity +1)
+      
+    }
     
     
     
+    /// load images wil be first use effect run ///
+
+     useEffect(()=> {
+      
+         if(hasRun.current) return;
+          hasRun.current = true
+         
+         const fetchImages = async () => {
+            try {
+              const response = await fetch("http://127.0.0.1:8000/load_images", { method: "GET"});
+              const data = await response.json();
+              setListings(data) // <---- going to grab objects from backend now rather than string
+             
+            }
+            catch (error) {
+              console.log(error)
+
+           }
+
+         } 
+
+        fetchImages()
+
+        },[]) // end use effect, ohnly runs on init render
+           
+        
+     ////////// 2nd useEffect which shuld only run when a new image is dropped and caption is complete
+
+     useEffect(() => {
+         
+          
+          if(firstRenderForUploadImages.current) {
+            firstRenderForUploadImages.current = false
+            return
+          }
+
+           
+           
+          const formData = new FormData();
+          
+          formData.append("file", newImgFile)
+          formData.append("captionDto", JSON.stringify(newCaptionObject))
+          
+          
+
+          fetch('http://127.0.0.1:8000/uploadlisting', {
+            method: "POST",
+            body: formData
+            }).then(resp => {
+              const obj = resp.json();
+              if(!resp.ok) {
+              throw new Error(obj.status)
+             }
+            return obj;
+             }).then(data => {
+            console.log("this is the url retuned by backend: " , data) // data shhould be the url to the newly created image
+             setListings(prev => ([...prev , data])) // this will append any new images added after app is loaded
+             
+           }).catch(err => {
+           console.log(err)
+         })
+
+          
+
+
+        }, [newCaptionObject])
+      
+ /////////////////////////////// end 2nd use effect /////////////////////////////////
+
+
+
+
+
+
+
+   useEffect(() => {
+
+  if(firstRenderForUpdateCart.current) {
+       firstRenderForUpdateCart.current = false;
+       return;
+
+  } 
     
-    
-    
-     
-    
-    
-    const newCart = cart.map(item => ({
-  name: item.name,
-  price: item.price,
-  type: item.type,
-  breed: item.breed
-}));
+  
+   
 
     
 
     fetch('http://127.0.0.1:8000/UpdateCart', {
     method: "POST",
     headers: {"Content-Type": "application/json"},
-    body: JSON.stringify(newCart) 
+    body: JSON.stringify(cart)
 
-    }).then(resp => {
+    }
+  
+  ).then(resp => {
+      
        if(!resp.ok) {
           throw new Error( resp.status)
        }
 
        return resp.text()
     }).then(data => {
-      console.log(data)
+      console.log(data) // here well retrun a json list and setCart = that list
     }).catch(err => {
 
       console.log(err)
@@ -66,9 +139,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
 
 
 
-    return
-
-   }
+   },[cart])
     
 
   
@@ -149,73 +220,11 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
 
     /////////////////////////////////////////////////////
 
-   useEffect(()=> {
-      
-         if(hasRun.current) return;
-        
-         hasRun.current = true
-         
-         const fetchImages = async () => {
-            try {
-              const response = await fetch("http://127.0.0.1:8000/load_images", { method: "GET"});
-              const data = await response.json();
-              setListings(data) // <---- going to grab objects from backend now rather than string
-             
-            }
-            catch (error) {
-              console.log(error)
-
-           }
-
-         } 
-
-        fetchImages()
-
-        },[]) // end use effect
-           
-        console.log(listings)
+   
         ////////////////////////////////////////////////
 
 
-        useEffect(() => {
-         
-          
-          if(firstRender.current) {
-            firstRender.current = false
-            return
-          }
-
-           
-           
-          const formData = new FormData();
-          
-          formData.append("file", newImgFile)
-          formData.append("captionDto", JSON.stringify(newCaptionObject))
-          
-          
-
-          fetch('http://127.0.0.1:8000/uploadlisting', {
-            method: "POST",
-            body: formData
-            }).then(resp => {
-              const obj = resp.json();
-              if(!resp.ok) {
-              throw new Error(obj.status)
-             }
-            return obj;
-             }).then(data => {
-            console.log("this is the url retuned by backend: " , data) // data shhould be the url to the newly created image
-             setListings(prev => ([...prev , data])) // this will append any new images added after app is loaded
-             
-           }).catch(err => {
-           console.log(err)
-         })
-
-          
-
-
-        }, [newCaptionObject])
-      
+        
       
        //console.log(listings)
 
@@ -296,7 +305,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
             
             <textarea  name = "caption" className = "listing-caption" value ={listing.caption} disabled > </textarea>
           
-            {isSignedIn && <button className ="add-to-cart-button" onClick={() =>handleAddToCart(listing)}>Add to Cart <i className="fa-solid fa-cart-shopping cart-icon"></i></button>}
+            {isSignedIn && <button className ="add-to-cart-button" onClick={()=> handleAddCart(listing)}>Add to Cart <i className="fa-solid fa-cart-shopping cart-icon"></i></button>}
            { isadmin && <button className ="listing-remove-button" onClick= {() => removeListing(listing)}>remove</button>}
          </div>
            
