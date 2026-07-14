@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 
-from routes import UploadImages, Contact, Register, SignIn, UpdateCart
+from routes import UploadImages, Contact, Register, SignIn, UpdateCart, InitPayment
 
 
 
@@ -27,3 +27,4 @@ app.include_router(Contact.router)
 app.include_router(Register.router)
 app.include_router(SignIn.router)
 app.include_router(UpdateCart.router)
+app.include_router(InitPayment.router)

@@ -3,10 +3,35 @@ import "./styles/CartComp.css"
 
 function CartComp({setIsInCart, setCart, cart, setCartQuantity, cartQuantity}) {
     
+    function handleCheckout() {
+
+        // test stripe api
+       
+        const body = {
+            cart: cart
+         }
+
+        fetch("http://127.0.0.1:8000/create-checkout-session", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body:JSON.stringify(body)
+            
+        }).then(resp => {
+           
+            if(!resp.ok) {
+                throw new Error(resp.status)
+            }
+
+            return resp.json()
+            
+        }).then(data => {
+            console.log(data)
+            window.location.assign(data.checkout_session_url)
+        }).catch(err => {
+            console.log(err)
+        })
+    }
     
-    {cart.map((item) =>{
-       console.log(item)
-    })}
    
    
     const [sampleCart, setSampleCart] = useState([{price: "100", name: "charlie" , id: "3"}])
@@ -51,7 +76,7 @@ return (
                     
                     <h4 className = "balance">Balance  ${subTotal}.00 </h4>
                 </div>
-                <button className = "checkout-button" type ="submit">checkout</button>
+                <button className = "checkout-button" type ="submit" onClick={handleCheckout}>checkout</button>
             </div> {/* end summary container */}
             
             

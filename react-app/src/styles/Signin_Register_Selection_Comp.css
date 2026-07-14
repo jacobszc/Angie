@@ -60,6 +60,19 @@ margin-right: 5px;
     border-radius: 4px;
 }
 
+.selection-button-1:hover {
+
+     background-color: hsl(100, 37%, 95%);
+    transform: scale(105%);
+}
+
+.selection-button-2:hover {
+
+     background-color: hsl(100, 37%, 95%);
+    transform: scale(105%);
+}
+
+
 .selection-button-2 {
 
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -72,11 +85,7 @@ margin-right: 5px;
     border-width: 0;
 }
 
-.button-container button:hover {
 
-    background-color: hsl(100, 37%, 95%);
-    transform: scale(105%);
-}
 
 .name-wrapper {
 

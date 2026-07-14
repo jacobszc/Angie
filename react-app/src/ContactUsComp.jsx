@@ -27,7 +27,7 @@ function ContactUsComp() {
 
         fetch("http://127.0.0.1:8000/SubmitContact", {
             method : "POST",
-            body: JSON.stringify(formData)
+            body: formData
         }).then(resp => {
             if(!resp.ok) {
                throw new Error(resp.status)
