@@ -1,0 +1,10 @@
+
+listing is the defualt obj used to store the items shown on the home page aswell as sent to backend for db storage and also sent to stripe for product creation. its is effectivly a js dto that can be used for all cases where a new product needs to be displayed, persisted, new product for sale created, or for react based state manipulation done only by admin.
+
+listing = {
+    img_url = "",
+    caption = "",
+    id = int,
+    price = int,
+    name = str
+}

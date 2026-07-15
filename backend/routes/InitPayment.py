@@ -32,25 +32,9 @@ class Items(BaseModel):
 
 @router.post("/create-checkout-session")
 def create_checkout_session(cart : Items):
-
-
-
-    # product = client.products.create(
-    #     {"name" : "doggy"}
-    # )
-
-    # price = client.prices.create({
-    #     "unit_amount" : 500000,   # $5000.00
-    #     "currency": "usd",
-    #     "product" : product.id,
-
-    # })
-
-    # print("price id: " , price.id)
+    for item in cart.cart:
+        print(item)
     
-    # cart_data = [item.model_dump() for item in cart.cart]
-    # item_price = cart_data[0].price
-    # print(cart_data)
     try:
         checkout_session = client.v1.checkout.sessions.create(params={
             'line_items': [
@@ -71,16 +55,12 @@ def create_checkout_session(cart : Items):
 
 
 
+@router.post("create-product")
+def create_product(product: CartItem):
 
 
-@router.post("/testStripe")
-def testStripe():
+    return("product created succesfully")
 
-    
-
-    
-   
-    return("success!")
 
     
 

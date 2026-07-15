@@ -24,20 +24,20 @@ def read_root():
 
 
 @router.post("/uploadlisting")
-async def upload(file : UploadFile = File(...), captionDto : str = Form(...)): # param name file of type UploadFile
+async def upload(file : UploadFile = File(...), newListing : str = Form(...)): # param name file of type UploadFile
     
-   captionDtoData = json.loads(captionDto)
+   newListingData = json.loads( newListing)
 
    public_url = await make_path(file) 
 
    result = supabase_client.supabase.table("Animals").insert({
         "img_url": public_url,
-          "caption" : captionDtoData["caption"],
+          "caption" : newListingData["caption"],
          "user_id": supabase_client.SUPABASE_ADMIN_UUID,
-         "price": captionDtoData["price"],
-         "name" : captionDtoData["name"],
-         "type" : captionDtoData["type"],
-         "breed" : captionDtoData["breed"]
+         "price": newListingData["price"],
+         "name" : newListingData["name"],
+         "type" : newListingData["type"],
+         "breed" : newListingData["breed"]
     }).execute()
    
    print("the reult of ure query is: " , result)
@@ -49,7 +49,8 @@ async def upload(file : UploadFile = File(...), captionDto : str = Form(...)): #
     "img_url": row["img_url"],
     "caption": row["caption"],
     "id": row["id"],
-    "price": row["price"]
+    "price": row["price"],
+    "name" : row["name"]
    }
        
    print("you called upload listing from ure useEffect that only runs when new img is dropped")

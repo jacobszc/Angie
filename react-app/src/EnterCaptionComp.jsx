@@ -1,10 +1,11 @@
-import { captureOwnerStack } from "react";
+
 import "./styles/EnterCaptionComp.css";
 
-function EnterCaptionComp({setHasDroppedImg, setNewCaptionObject}) {
+function EnterCaptionComp({setHasDroppedImg, setNewListing}) {
 
-  const captionDto = {
+  const NewListingDto = {
     "caption" : "",
+    "name" : "",
     "price" : 0,
     "type" : "",
     "breed" : ""
@@ -14,16 +15,16 @@ async function handleSubmit(event) {
     event.preventDefault()
     
     const form = event.target;
-    captionDto.caption = form.caption.value
-    captionDto.name = form.name.value
-    captionDto.price = form.price.value
-    captionDto.type = form.type.value
-    captionDto.breed = form.breed.value
+    NewListingDto.caption = form.caption.value
+    NewListingDto.name = form.name.value
+    NewListingDto.price = form.price.value
+    NewListingDto.type = form.type.value
+    NewListingDto.breed = form.breed.value
 
     
 
-      console.log(captionDto)
-     setNewCaptionObject(captionDto)
+      console.log(NewListingDto)
+     setNewListing(NewListingDto)
     setHasDroppedImg(false) // this is to make comp de render each tome caption is entered
 
 }

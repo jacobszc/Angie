@@ -15,7 +15,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
     const firstRenderForUploadImages = useRef(true);
     const firstRenderForUpdateCart = useRef(true);
     const [hasDroppedImg, setHasDroppedImg] = useState(false)
-    const [newCaptionObject, setNewCaptionObject] = useState({})
+    const [NewListing, setNewListing] = useState({})
 
     function handleAddCart(listing) {
 
@@ -69,7 +69,16 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
           const formData = new FormData();
           
           formData.append("file", newImgFile)
-          formData.append("captionDto", JSON.stringify(newCaptionObject))
+          formData.append("newListing", JSON.stringify(NewListing))
+
+          console.log("this is the new listing", NewListing)
+          // fetch('http://127.0.0.1:8000/create-new-stripe-product', {
+          //   method: "POST",
+          //   headers: {
+          //     "Content-Type": "application/json"
+          //   },
+          //   body: JSON.stringify()
+          // })
           
           
 
@@ -93,7 +102,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
           
 
 
-        }, [newCaptionObject])
+        }, [NewListing])
       
  /////////////////////////////// end 2nd use effect /////////////////////////////////
 
@@ -319,7 +328,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
              </div>
            )) : <p>drag and drop new posting here...</p>}  
 
-           {(isadmin &&hasDroppedImg) && <EnterCaptionComp setHasDroppedImg = {setHasDroppedImg} setNewCaptionObject = {setNewCaptionObject}/>}
+           {(isadmin &&hasDroppedImg) && <EnterCaptionComp setHasDroppedImg = {setHasDroppedImg} setNewListing = {setNewListing}/>}
        </div>
 
        </div>
