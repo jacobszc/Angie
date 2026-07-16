@@ -58,21 +58,26 @@ def create_checkout_session(cart : Items):
 @router.post("/create-new-stripe-product")
 def create_new_stripe_product(product: CartItem):
 
-    # client = StripeClient(STRIPE_API_KEY)
+     client = StripeClient(STRIPE_API_KEY)
 
-    # product = client.v1.products.retrieve("")
+     products = client.v1.products.list({"limit" : 99})
+
+     for item in products:
+         if item.name == product.name:
+             return("stripe product already exists!")
     
     
     
-    
-    # product = client.v1.products.create({
-    #     "name": product.name
-    # })
+     new_product = client.v1.products.create({"name" : product.name
+                                              
+
+                                              
+                                              })
 
 
 
 
-    return("product created succesfully")
+     return("product created succesfully")
 
 
     
