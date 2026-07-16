@@ -13,13 +13,13 @@ STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
 client = StripeClient(STRIPE_API_KEY)
 
 class CartItem(BaseModel):
-    img_url : str
-    caption: str
-    id: int
+    img_url : str | None = None
+    caption: str | None = None
+    id: int | None = None
     name: str
     price: int
-    type: str
-    breed: str
+    type: str | None = None
+    breed: str | None = None
 
 class Items(BaseModel):
     
@@ -55,8 +55,21 @@ def create_checkout_session(cart : Items):
 
 
 
-@router.post("create-product")
-def create_product(product: CartItem):
+@router.post("/create-new-stripe-product")
+def create_new_stripe_product(product: CartItem):
+
+    # client = StripeClient(STRIPE_API_KEY)
+
+    # product = client.v1.products.retrieve("")
+    
+    
+    
+    
+    # product = client.v1.products.create({
+    #     "name": product.name
+    # })
+
+
 
 
     return("product created succesfully")

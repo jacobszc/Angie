@@ -71,14 +71,27 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
           formData.append("file", newImgFile)
           formData.append("newListing", JSON.stringify(NewListing))
 
-          console.log("this is the new listing", NewListing)
-          // fetch('http://127.0.0.1:8000/create-new-stripe-product', {
-          //   method: "POST",
-          //   headers: {
-          //     "Content-Type": "application/json"
-          //   },
-          //   body: JSON.stringify()
-          // })
+          console.log("new Listing :" , NewListing)
+          console.log("stringified new Listing :" , JSON.stringify(NewListing))
+
+          
+          fetch('http://127.0.0.1:8000/create-new-stripe-product', {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(NewListing)
+          }).then(resp => {
+            if(!resp.ok) {
+              throw new Error("error creating new stripe product!", resp.status)
+            }
+
+            return resp.json()
+          }).then(data => {
+            console.log("stripe product created succesfully: " , data)
+          }).catch(err => {
+            console.log(err)
+          })
           
           
 
