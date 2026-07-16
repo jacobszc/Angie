@@ -77,7 +77,7 @@ def create_new_stripe_product(product: CartItem):
      new_price = client.v1.prices.create({
          "currency" : "usd",
          "product" : new_product.id,
-         "unit_amount" : round(product.price * 100)
+         "unit_amount" : round(product.price * 100 )
 
      })
 
