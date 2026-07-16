@@ -120,3 +120,22 @@ def  remove_img(obj : RemoveImgDto):
     
 
     return("row with id: " , id , " succesfully deleted!")
+
+class StripeIdDto(BaseModel):
+    stripe_ID: str
+    id: int
+    
+
+
+@router.post("/add_stripeID_db_entry")
+def add_stripe_ID_db_entry(StripeIdUpdate : StripeIdDto):
+
+    result = supabase_client.supabase.table("Animals").select().eq("id" , StripeIdUpdate.id).execute()
+
+    if(result):
+        update =  supabase_client.supabase.table("Animals").update({"stripe_ID" : StripeIdUpdate.stripe_ID}).eq("id", StripeIdUpdate.id).execute()
+        return("stripe id updated succesfully")
+    else:
+        return("item id doesnt exist in db!")
+
+

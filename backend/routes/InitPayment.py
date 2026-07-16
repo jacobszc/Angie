@@ -63,9 +63,7 @@ def create_new_stripe_product(product: CartItem):
 
      products = client.v1.products.list({"limit" : 99})
 
-     for item in products:
-         if item.name == product.name:
-             return("stripe product already exists!")
+     
     
     
     
@@ -84,7 +82,33 @@ def create_new_stripe_product(product: CartItem):
 
 
 
-     return("product created succesfully")
+     return({"stripe_ID" : new_product.id , "id" : product.id})
+
+@router.post("/archive-stripe-product")
+def remove_stripe_product(product: CartItem):
+
+     client = StripeClient(STRIPE_API_KEY)
+
+     
+     
+    
+    
+    
+     archived_product = client.v1.products.update({"name" : product.name,
+                                              "metadata" : {
+                                                  "db_id" : product.id
+                                              },
+                                              "active" : False
+                                              
+                                              
+                                              })
+     
+     
+
+
+
+
+     return("product archived succesfully")
 
 
     

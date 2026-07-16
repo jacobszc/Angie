@@ -116,7 +116,28 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
 
             return resp.json()
           }).then(data => {
-            console.log("stripe product created succesfully: " , data)
+            console.log("stripe product created succesfully: " , JSON.stringify(data))
+
+            fetch('http://127.0.0.1:8000/add_stripeID_db_entry' , {
+              method: "POST",
+              headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+
+            }).then(resp => {
+              if(!resp.ok) {
+                throw new Error(resp.status)
+              }
+
+              return resp.text()
+            }).then(data => {
+              console.log(data)
+            }).catch(err => {
+              console.log(err)
+            })
+
+
           }).catch(err => {
             console.log(err)
           })
