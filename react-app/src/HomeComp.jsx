@@ -7,16 +7,18 @@ import "./styles/HomeComp.css"
 
 function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSignedIn, user}){
     
+  
+    const [NewListing, setNewListing] = useState({})
     const [listings, setListings] = useState([])
     const [newImgFile, setNewImgFile] = useState("");
-    const [newCaption, setNewCaption] = useState("")
-    const [newPrice, setNewPrice] = useState("")
+    const [newStripeListing, setNewStripeListing] = useState({})
+    
+    
     const hasRun = useRef(false)
     const firstRenderForUploadImages = useRef(true);
     const firstRenderForUpdateCart = useRef(true);
     const [hasDroppedImg, setHasDroppedImg] = useState(false)
-    const [NewListing, setNewListing] = useState({})
-
+    
     function handleAddCart(listing) {
 
       console.log("this is what a listing shape looks like: " , listing)
@@ -75,23 +77,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
           console.log("stringified new Listing :" , JSON.stringify(NewListing))
 
           
-          fetch('http://127.0.0.1:8000/create-new-stripe-product', {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(NewListing)
-          }).then(resp => {
-            if(!resp.ok) {
-              throw new Error("error creating new stripe product!", resp.status)
-            }
-
-            return resp.json()
-          }).then(data => {
-            console.log("stripe product created succesfully: " , data)
-          }).catch(err => {
-            console.log(err)
-          })
+         
           
           
 
@@ -106,11 +92,34 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
             return obj;
              }).then(data => {
             console.log("this is the url retuned by backend: " , data) // data shhould be the url to the newly created image
-             setListings(prev => ([...prev , data])) // this will append any new images added after app is loaded
+             setListings(prev => ([...prev , data]))
+             setNewStripeListing(data) //<--- prep a listing with db created id to be sent to stripe
              
+             // need to extract id from data and send it along with stripe entry as meta data
            }).catch(err => {
            console.log(err)
          })
+
+         //////////////////////////////////////////////////////////////
+
+
+          fetch('http://127.0.0.1:8000/create-new-stripe-product', {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newStripeListing)
+          }).then(resp => {
+            if(!resp.ok) {
+              throw new Error("error creating new stripe product!", resp.status)
+            }
+
+            return resp.json()
+          }).then(data => {
+            console.log("stripe product created succesfully: " , data)
+          }).catch(err => {
+            console.log(err)
+          })
 
           
 

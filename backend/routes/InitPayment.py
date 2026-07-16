@@ -3,6 +3,7 @@ from fastapi import APIRouter, UploadFile, File, HTTPException, Form
 from fastapi.responses import RedirectResponse
 import os
 from pydantic import BaseModel
+from decimal import Decimal
 router = APIRouter()
 
 # list customers
@@ -15,9 +16,9 @@ client = StripeClient(STRIPE_API_KEY)
 class CartItem(BaseModel):
     img_url : str | None = None
     caption: str | None = None
-    id: int | None = None
+    id: int  
     name: str
-    price: int
+    price: float
     type: str | None = None
     breed: str | None = None
 
@@ -68,11 +69,17 @@ def create_new_stripe_product(product: CartItem):
     
     
     
-     new_product = client.v1.products.create({"name" : product.name
-                                              
+     new_product = client.v1.products.create({"name" : product.name,
+                                              "metadata" : {
+                                                  "db_id" : product.id
+                                              },})
+     
+     new_price = client.v1.prices.create({
+         "currency" : "usd",
+         "product" : new_product.id,
+         "unit_amount" : round(product.price * 100)
 
-                                              
-                                              })
+     })
 
 
 

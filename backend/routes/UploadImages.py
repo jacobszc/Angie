@@ -26,7 +26,7 @@ def read_root():
 @router.post("/uploadlisting")
 async def upload(file : UploadFile = File(...), newListing : str = Form(...)): # param name file of type UploadFile
     
-   newListingData = json.loads( newListing)
+   newListingData = json.loads(newListing)
 
    public_url = await make_path(file) 
 
