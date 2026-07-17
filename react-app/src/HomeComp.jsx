@@ -54,8 +54,12 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
 
         fetchImages()
 
+         
+
         },[]) // end use effect, ohnly runs on init render
-           
+          
+        
+        console.log("this is what i lsiting looks like on init page load: ", listings[0])
         
      ////////// 2nd useEffect which shuld only run when a new image is dropped and caption is complete
 

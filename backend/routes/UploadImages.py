@@ -85,7 +85,7 @@ async def make_path(file: UploadFile = File(...)):
 @router.get("/load_images")
 def load_images():
 
-    result = supabase_client.supabase.table("Animals").select("img_url, caption, id, price, name, type, breed").execute()
+    result = supabase_client.supabase.table("Animals").select("img_url, caption, id, price, name, type, breed, stripe_ID, stripe_price_ID").execute()
     # print("Result: ",result.data)
     return result.data
 
@@ -124,6 +124,7 @@ def  remove_img(obj : RemoveImgDto):
 
 class StripeIdDto(BaseModel):
     stripe_ID: str
+    stripe_price_ID: str
     id: int
     
 
@@ -134,7 +135,7 @@ def add_stripe_ID_db_entry(StripeIdUpdate : StripeIdDto):
     result =  supabase_client.supabase.table("Animals").select().eq("id" , StripeIdUpdate.id).execute()
 
     if(result):
-        update =  supabase_client.supabase.table("Animals").update({"stripe_ID" : StripeIdUpdate.stripe_ID}).eq("id", StripeIdUpdate.id).execute()
+        update =  supabase_client.supabase.table("Animals").update({"stripe_ID" : StripeIdUpdate.stripe_ID, "stripe_price_ID" : StripeIdUpdate.stripe_price_ID  }).eq("id", StripeIdUpdate.id).execute()
         return("stripe id updated succesfully")
     else:
         return("item id doesnt exist in db!")

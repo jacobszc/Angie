@@ -21,6 +21,10 @@ class CartItem(BaseModel):
     price: float
     type: str | None = None
     breed: str | None = None
+    stripe_ID: str | None = None
+    stripe_price_ID: str | None = None
+
+
 
 class Items(BaseModel):
     
@@ -36,28 +40,29 @@ def create_checkout_session(cart : Items):
     for item in cart.cart:
         print(item)
     
-    try:
-        checkout_session = client.v1.checkout.sessions.create(params={
-            'line_items': [
-                {
-                    # Provide the exact Price ID (for example, price_1234) of the product you want to sell
-                    'price': 'price_1Tt5h4IzoQjAE2P1TAdYf99Z',
-                    'quantity': 1,
-                },
-            ],
-            'mode': 'payment',
-            'success_url': YOUR_DOMAIN + '/success.html',
-        })
-    except Exception as e:
-        return str(e)
+    # try:
+    #     checkout_session = client.v1.checkout.sessions.create(params={
+    #         'line_items': [
+    #             {
+    #                 # Provide the exact Price ID (for example, price_1234) of the product you want to sell
+    #                 'price': 'price_1Tt5h4IzoQjAE2P1TAdYf99Z',
+    #                 'quantity': 1,
+    #             },
+    #         ],
+    #         'mode': 'payment',
+    #         'success_url': YOUR_DOMAIN + '/success.html',
+    #     })
+    # except Exception as e:
+    #     return str(e)
     
-    return ({ "checkout_session_url" : checkout_session.url})
-
+    # return ({ "checkout_session_url" : checkout_session.url})
+    
+    return("all good son")
 
 
 
 @router.post("/create-new-stripe-product")
-def create_new_stripe_product(product: CartItem):
+async def create_new_stripe_product(product: CartItem):
 
      client = StripeClient(STRIPE_API_KEY)
 
@@ -68,6 +73,7 @@ def create_new_stripe_product(product: CartItem):
     
     
      new_product = client.v1.products.create({"name" : product.name,
+                                             
                                               "metadata" : {
                                                   "db_id" : product.id
                                               },})
@@ -82,7 +88,7 @@ def create_new_stripe_product(product: CartItem):
 
 
 
-     return({"stripe_ID" : new_product.id , "id" : product.id})
+     return({"stripe_ID" : new_product.id , "stripe_price_ID" : new_price.id, "id" : product.id})
 
 
 class StripeId(BaseModel):
