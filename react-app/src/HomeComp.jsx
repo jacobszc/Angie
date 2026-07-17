@@ -17,6 +17,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
     const hasRun = useRef(false)
     const firstRenderForUploadImages = useRef(true);
     const firstRenderForUpdateCart = useRef(true);
+    const firstRenderForCreateStripeProduct = useRef(true);
     const [hasDroppedImg, setHasDroppedImg] = useState(false)
     
     function handleAddCart(listing) {
@@ -79,9 +80,9 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
           
          
           
-          
-
-          fetch('http://127.0.0.1:8000/uploadlisting', {
+           
+           
+           fetch('http://127.0.0.1:8000/uploadlisting', {
             method: "POST",
             body: formData
             }).then(resp => {
@@ -100,10 +101,35 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
            console.log(err)
          })
 
+        
+
+        
+
          //////////////////////////////////////////////////////////////
+        
+          
+        
+
+        
+
+       
+          
 
 
-          fetch('http://127.0.0.1:8000/create-new-stripe-product', {
+        }, [NewListing])
+      
+ /////////////////////////////// end 2nd use effect /////////////////////////////////
+       
+
+        useEffect(() =>{
+
+          if(firstRenderForCreateStripeProduct.current) {
+            firstRenderForCreateStripeProduct.current = false
+            return
+          }
+
+
+           fetch('http://127.0.0.1:8000/create-new-stripe-product', {
             method: "POST",
             headers: {
               "Content-Type": "application/json"
@@ -136,19 +162,28 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
             }).catch(err => {
               console.log(err)
             })
-
+            return data
+            
 
           }).catch(err => {
             console.log(err)
           })
 
+          ///////////////////////////////////////////////
+
+
+
           
 
 
-        }, [NewListing])
-      
- /////////////////////////////// end 2nd use effect /////////////////////////////////
 
+
+
+         
+
+
+
+        },[newStripeListing])
 
 
 

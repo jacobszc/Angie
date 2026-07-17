@@ -30,7 +30,7 @@ async def upload(file : UploadFile = File(...), newListing : str = Form(...)): #
 
    public_url = await make_path(file) 
 
-   result = supabase_client.supabase.table("Animals").insert({
+   result =  supabase_client.supabase.table("Animals").insert({
         "img_url": public_url,
           "caption" : newListingData["caption"],
          "user_id": supabase_client.SUPABASE_ADMIN_UUID,
@@ -130,7 +130,7 @@ class StripeIdDto(BaseModel):
 @router.post("/add_stripeID_db_entry")
 def add_stripe_ID_db_entry(StripeIdUpdate : StripeIdDto):
 
-    result = supabase_client.supabase.table("Animals").select().eq("id" , StripeIdUpdate.id).execute()
+    result =  supabase_client.supabase.table("Animals").select().eq("id" , StripeIdUpdate.id).execute()
 
     if(result):
         update =  supabase_client.supabase.table("Animals").update({"stripe_ID" : StripeIdUpdate.stripe_ID}).eq("id", StripeIdUpdate.id).execute()
