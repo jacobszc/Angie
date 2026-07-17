@@ -84,8 +84,15 @@ def create_new_stripe_product(product: CartItem):
 
      return({"stripe_ID" : new_product.id , "id" : product.id})
 
+
+class StripeId(BaseModel):
+
+    stripe_ID : str
+
+
+
 @router.post("/archive-stripe-product")
-def remove_stripe_product(product: CartItem):
+def archive_stripe_product(stripeID: StripeId):
 
      client = StripeClient(STRIPE_API_KEY)
 
@@ -94,14 +101,7 @@ def remove_stripe_product(product: CartItem):
     
     
     
-     archived_product = client.v1.products.update({"name" : product.name,
-                                              "metadata" : {
-                                                  "db_id" : product.id
-                                              },
-                                              "active" : False
-                                              
-                                              
-                                              })
+     archived_product = client.v1.products.update(stripeID.stripe_ID, {"active" : False })
      
      
 

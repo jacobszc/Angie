@@ -287,11 +287,34 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
         throw new Error(resp.status)
       }
 
-      return resp.text()
+      return resp.json()
     }).then(data => {
 
+      console.log("retruned stripe id: " , data)
+      fetch('http://127.0.0.1:8000/archive-stripe-product', {
+      method: "POST",
+      headers: {
+        "content-type" : "application/json"
+      },
+      body : JSON.stringify(data)
+
+    }).then(resp => {
+        if(!resp.ok) {
+          throw new Error(resp.status)
+        }
+
+        return resp.text()
+
+    }).then(data => {
       console.log(data)
     }).catch(err => {
+      console.log(err)
+    })
+    
+  
+  
+  
+  }).catch(err => {
 
         console.log(err)
     })
@@ -303,7 +326,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
   );
   
 
-    // remove image from image folder by name
+    
 
 
 

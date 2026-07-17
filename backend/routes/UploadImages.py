@@ -113,13 +113,14 @@ def  remove_img(obj : RemoveImgDto):
 
     print("img ure is: " , img_url)
 
-    result =  supabase_client.supabase.table("Animals").delete().eq("id", id).execute()
-
+    result =  supabase_client.supabase.table("Animals").delete().eq("id", id).select("stripe_ID").execute()
+    
+    print("result looks like: ---- >>>> ", result)
     remove_local_img(img_url)
      
     
 
-    return("row with id: " , id , " succesfully deleted!")
+    return(result.data[0]) ## <-- result here only contains stripeId as well need that to archive assosiated stripe prodct
 
 class StripeIdDto(BaseModel):
     stripe_ID: str
