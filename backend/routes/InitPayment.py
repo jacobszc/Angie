@@ -39,23 +39,23 @@ class Items(BaseModel):
 def create_checkout_session(cart : Items):
     for item in cart.cart:
         print(item)
+
+    items = []
+
+    for item in cart.cart:
+        items.append({'price' : item.stripe_price_ID,
+                    'quantity' : 1})
     
-    # try:
-    #     checkout_session = client.v1.checkout.sessions.create(params={
-    #         'line_items': [
-    #             {
-    #                 # Provide the exact Price ID (for example, price_1234) of the product you want to sell
-    #                 'price': 'price_1Tt5h4IzoQjAE2P1TAdYf99Z',
-    #                 'quantity': 1,
-    #             },
-    #         ],
-    #         'mode': 'payment',
-    #         'success_url': YOUR_DOMAIN + '/success.html',
-    #     })
-    # except Exception as e:
-    #     return str(e)
+    try:
+        checkout_session = client.v1.checkout.sessions.create(params={
+            'line_items': items,
+            'mode': 'payment',
+            'success_url': YOUR_DOMAIN + '/success.html',
+        })
+    except Exception as e:
+        return str(e)
     
-    # return ({ "checkout_session_url" : checkout_session.url})
+    return ({ "checkout_session_url" : checkout_session.url})
     
     return("all good son")
 
