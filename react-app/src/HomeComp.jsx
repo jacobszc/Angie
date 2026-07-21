@@ -19,7 +19,9 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
     const firstRenderForUpdateCart = useRef(true);
     const firstRenderForCreateStripeProduct = useRef(true);
     const [hasDroppedImg, setHasDroppedImg] = useState(false)
-    const [filter, setFilter] = useState([])
+    
+    const DEFAULT_FILTER = ["cat", "dog", "bird", "reptile", "fish"]
+    const [filter, setFilter] = useState(DEFAULT_FILTER)
     
     function filterListings(event) {
 
@@ -40,6 +42,11 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
 
       const checkList = Array.from(event.currentTarget.elements)
 
+      
+      
+      
+      
+      
       checkList.map((element, index) => {
 
         if(element.type === "checkbox" && element.checked) {
@@ -49,8 +56,14 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
         }
       })
 
-
+       
+      if(newfilter.length > 0) {
       setFilter(newfilter)
+      }
+      else {
+        setFilter(DEFAULT_FILTER)
+        
+      }
     
       
       
@@ -405,6 +418,9 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
             <div className = "group">
              
             {listings.length > 0 && listings.map((listing, index) => (
+             
+             
+             
              <div className = "img-container" key = {index}>
               <img
               src = {listing.img_url}
@@ -478,8 +494,12 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
 
 
           <div className = "listing-container">
-         {listings.length > 0 ? listings.map((listing) => (
-             
+         {(listings.length > 0) ? listings.map((listing) => (
+            
+           
+            (filter.includes(listing.type)) &&
+
+            
             <div className = "listing" key = {listing.id} >
                <img
                src = {listing.img_url} // <-- need to now gran imurl from obj that contains imgurl and caption string
@@ -500,13 +520,20 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
            { isadmin && <button className ="listing-remove-button" onClick= {() => removeListing(listing)}>remove</button>}
          </div>
            
-            
+         
             
              </div>
            )) : <p>drag and drop new posting here...</p>}  
 
            {(isadmin &&hasDroppedImg) && <EnterCaptionComp setHasDroppedImg = {setHasDroppedImg} setNewListing = {setNewListing}/>}
        </div>
+
+
+
+
+        
+
+
 
        </div>
 
