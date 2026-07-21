@@ -19,25 +19,40 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
     const firstRenderForUpdateCart = useRef(true);
     const firstRenderForCreateStripeProduct = useRef(true);
     const [hasDroppedImg, setHasDroppedImg] = useState(false)
-    
+    const [filter, setFilter] = useState([])
     
     function filterListings(event) {
 
       event.preventDefault();
+
+      const mappings = {
+        0 : "cat",
+        1 : "dog",
+        2 : "bird",
+        3 : "reptile",
+        4 : "fish"
+      }
         
- 
+      const newfilter = []
      
        
       console.log(event.currentTarget.elements)
 
-      const checkList = event.currentTarget.elements
+      const checkList = Array.from(event.currentTarget.elements)
+
+      checkList.map((element, index) => {
+
+        if(element.type === "checkbox" && element.checked) {
+           
+          newfilter.push(mappings[index])
+          
+        }
+      })
+
+
+      setFilter(newfilter)
     
-       for (const element of checkList) {
-    
-         if(element.type === "checkbox")  {
-        console.log(element.checked);
-         }
-}
+      
       
 
       
