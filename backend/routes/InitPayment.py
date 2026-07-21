@@ -72,7 +72,8 @@ async def create_new_stripe_product(product: CartItem):
     
     
     
-     new_product = client.v1.products.create({"name" : product.name,
+     new_product = client.v1.products.create({ 
+                                              "name" : product.name,
                                              
                                               "metadata" : {
                                                   "db_id" : product.id

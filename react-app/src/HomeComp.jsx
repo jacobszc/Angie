@@ -20,6 +20,33 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
     const firstRenderForCreateStripeProduct = useRef(true);
     const [hasDroppedImg, setHasDroppedImg] = useState(false)
     
+    
+    function filterListings(event) {
+
+      event.preventDefault();
+        
+ 
+     
+       
+      console.log(event.currentTarget.elements)
+
+      const checkList = event.currentTarget.elements
+    
+       for (const element of checkList) {
+    
+         if(element.type === "checkbox")  {
+        console.log(element.checked);
+         }
+}
+      
+
+      
+      
+
+      
+    }
+    
+    
     function handleAddCart(listing) {
 
       console.log("this is what a listing shape looks like: " , listing)
@@ -247,7 +274,9 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
 
     
 ///////////////////////////////////////////////////////////
-   
+
+
+
 
 
     function dropHandler(event){
@@ -395,15 +424,42 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
           
           <div className = "listings-banner">
             < link rel = "style-sheet" href ="https://googleapis.com/css2?family=Alfa+Slab+One"></link>
-            <p className ="banner-text"> Below are all of our current animals looking for new homes. Make ure to email us, check avalibilty and click the "intrested button" to let us know your intrested and be first in line if more people are interested!
-
-
-            </p>
+            <link rel ="style-sheet" href = "https://googleapis.com/css2?family=Fira+Sans"></link>
+            <p className ="banner-text"> Below are all of our current animals looking for new homes. Make ure to email us, check avalibilty and click the "intrested button" to let us know your intrested and be first in line if more people are interested! </p>
+             
+             <div className ="check-box-container">
+            <form onSubmit={filterListings}>
+                <div className = "checkbox-row-1">
+                  <label htmlFor ="checkbox-1">cat</label>
+                  <input className ="checkbox-1" type = "checkbox"></input>
+                </div>
+                <div className = "checkbox-row-2">
+                  <label htmlFor ="checkbox-2">dog</label>
+                  <input className ="checkbox-2" type = "checkbox"></input>
+                </div>
+                <div className = "checkbox-row-3">
+                  <label htmlFor ="checkbox-3">bird</label>
+                  <input className ="checkbox-3" type = "checkbox"></input>
+                </div>
+                <div className = "checkbox-row-4">
+                  <label htmlFor ="checkbox-4">reptile</label>
+                  <input className ="checkbox-4" type = "checkbox"></input>
+                </div>
+                <div className = "checkbox-row-5">
+                  <label htmlFor ="checkbox-5">fish</label>
+                  <input className ="checkbox-5" type = "checkbox"></input>
+                  
+                </div>
+                <button type="submit">apply</button>
+                </form>
+                
+             </div>
+             
             
          
           </div>
 
-          <div></div>
+          
 
 
           <div className = "listing-container">
@@ -422,9 +478,10 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
             
             <div className = "caption-wrapper">
             
-            <textarea  name = "caption" className = "listing-caption" value ={listing.caption} disabled > </textarea>
+            <textarea name = "caption" className = "listing-caption" value ={listing.caption}> </textarea>
           
-            {isSignedIn && <button className ="add-to-cart-button" onClick={()=> handleAddCart(listing)}>Add to Cart <i className="fa-solid fa-cart-shopping cart-icon"></i></button>}
+            {(isSignedIn && !isadmin) && <button className ="add-to-cart-button" onClick={()=> handleAddCart(listing)}>Add to Cart <i className="fa-solid fa-cart-shopping cart-icon"></i></button>}
+            
            { isadmin && <button className ="listing-remove-button" onClick= {() => removeListing(listing)}>remove</button>}
          </div>
            

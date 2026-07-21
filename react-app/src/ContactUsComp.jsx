@@ -63,11 +63,11 @@ return (
 
        <div className = "image-container">
 
-        <div className = "image-frame">
+        
 
-         
-            
-        </div>
+        <img className = "contact-us-img" src ="src/assets/contact-us-monkey.png" alt = "image not found"></img>
+
+      
 
 
        </div>
