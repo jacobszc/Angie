@@ -34,7 +34,7 @@ function App() {
 
  
    
-   <div className = "place-holder-container" style = {{backgroundColor: "hsl(11, 37%, 95%)"}}>
+   <div id ="place-holder-container" className = "place-holder-container">
     
     
     <Signin_Register_Selection_Comp setSigningIn={setSigningIn} cart = {cart} setCart = {setCart} cartQuantity={cartQuantity} setCartQuantity={setCartQuantity} user ={user} setUser = {setUser}  setIsSignedIn = {setIsSignedIn} isSignedIn={isSignedIn} setIsAdmin = {setIsAdmin}/>

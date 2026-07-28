@@ -1,9 +1,11 @@
 import {useState, useEffect, useRef} from "react";
 import EnterCaptionComp from "./EnterCaptionComp";
+import FilterComp from "./FilterComp";
 
 
 
 import "./styles/HomeComp.css"
+
 
 function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSignedIn, user}){
     
@@ -22,65 +24,91 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
     
     const DEFAULT_FILTER = ["cat", "dog", "bird", "reptile", "fish"]
     const [filter, setFilter] = useState(DEFAULT_FILTER)
+    const [isFiltering, setIsFiltering] = useState(false)
     
-    function filterListings(event) {
-
-      event.preventDefault();
-
-      const mappings = {
-        0 : "cat",
-        1 : "dog",
-        2 : "bird",
-        3 : "reptile",
-        4 : "fish"
-      }
-        
-      const newfilter = []
-     
+    
+    
+    function handleAddCart(event ,listing) {
        
-      console.log(event.currentTarget.elements)
+      event.preventDefault()
 
-      const checkList = Array.from(event.currentTarget.elements)
+      const button = event.currentTarget
+      button.disabled = true
 
-      
-      
-      
-      
-      
-      checkList.map((element, index) => {
 
-        if(element.type === "checkbox" && element.checked) {
-           
-          newfilter.push(mappings[index])
-          
-        }
-      })
-
-       
-      if(newfilter.length > 0) {
-      setFilter(newfilter)
-      }
-      else {
-        setFilter(DEFAULT_FILTER)
-        
-      }
-    
-      
-      
 
       
-      
-
-      
-    }
-    
-    
-    function handleAddCart(listing) {
-
       console.log("this is what a listing shape looks like: " , listing)
 
       setCart(prev => [...prev, listing])
       setCartQuantity(cartQuantity +1)
+
+
+      /// run added to cart animation
+       
+        const rect = event.currentTarget.getBoundingClientRect();
+        console.log("event: " ,event.currentTarget)
+        console.log(rect.left, rect.top)
+        let anim = document.createElement("div");
+        let text = document.createElement("text")
+          const body = document.body
+
+
+        text.textContent = "hello"
+        text.style.display = "flex"
+        text.style.alignContent = "center"
+        text.style.justifyContent = "center"
+
+
+        let img = document.createElement("img")
+
+        img.src = "src/assets/thumbs-up.png"
+        img.style.width = "100%"
+        img.style.height = "100%"
+
+      
+       
+      
+         anim.style.position = "fixed";
+         anim.style.width = "50px";
+         anim.style.height = "50px";
+         anim.style.left = `${(rect.right) - 40}px`;
+         anim.style.top = `${(rect.top) - 40}px`;
+
+         
+         anim.style.zIndex = "99999";
+           body.appendChild(anim)
+         anim.appendChild(img)
+
+         img.style.animation = "rotate 3s"
+        
+
+         setTimeout(() => {
+          anim.remove()
+         }, 2000)
+
+         setTimeout(() => {
+          button.disabled = false
+         }, 2000)
+ 
+
+        
+
+
+// anim.classList.add("cart-animation");
+
+// anim.style.position = "fixed";
+// anim.style.left = `${rect.left}px`;
+// anim.style.top = `${rect.top}px`;
+
+
+
+ 
+
+
+      
+     
+     
       
     }
     
@@ -92,6 +120,9 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
       
          if(hasRun.current) return;
           hasRun.current = true
+
+         
+          
          
          const fetchImages = async () => {
             try {
@@ -410,7 +441,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
 
       
       
-     <div className = "comp-container" onDrop = {dropHandler} onDragOver={dragOverHandler}>
+     <div  id ="comp-container" className = "comp-container" onDrop = {dropHandler} onDragOver={dragOverHandler}>
            <div className="scroll-container">
             
 
@@ -434,20 +465,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
             ))}
 
             </div>
-             <div aria-hidden = "true" className = "group">
-            {listings.map((listing, index) => (
-              <div className = "img-container" key = {index}>
-              <img
-              src = {listing.img_url}
-              key = {index}
-              alt ="no image"
-              className = "scrolling-img"
-              ></img>
-
-             </div>
-            ))}
-
-            </div>
+            
           
             
           </div> {/* end scroll container */}
@@ -458,33 +476,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
             <link rel ="style-sheet" href = "https://googleapis.com/css2?family=Fira+Sans"></link>
             <p className ="banner-text"> Below are all of our current animals looking for new homes. Make ure to email us, check avalibilty and click the "intrested button" to let us know your intrested and be first in line if more people are interested! </p>
              
-             <div className ="check-box-container">
-            <form onSubmit={filterListings}>
-                <div className = "checkbox-row-1">
-                  <label htmlFor ="checkbox-1">cat</label>
-                  <input className ="checkbox-1" type = "checkbox"></input>
-                </div>
-                <div className = "checkbox-row-2">
-                  <label htmlFor ="checkbox-2">dog</label>
-                  <input className ="checkbox-2" type = "checkbox"></input>
-                </div>
-                <div className = "checkbox-row-3">
-                  <label htmlFor ="checkbox-3">bird</label>
-                  <input className ="checkbox-3" type = "checkbox"></input>
-                </div>
-                <div className = "checkbox-row-4">
-                  <label htmlFor ="checkbox-4">reptile</label>
-                  <input className ="checkbox-4" type = "checkbox"></input>
-                </div>
-                <div className = "checkbox-row-5">
-                  <label htmlFor ="checkbox-5">fish</label>
-                  <input className ="checkbox-5" type = "checkbox"></input>
-                  
-                </div>
-                <button type="submit">apply</button>
-                </form>
-                
-             </div>
+             
              
             
          
@@ -492,8 +484,14 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
 
           
 
-
+           
           <div className = "listing-container">
+            
+            
+            <button className ="filter-button" onClick = {() => setIsFiltering(true)}>filter -|-</button>
+            
+            
+            
          {(listings.length > 0) ? listings.map((listing) => (
             
            
@@ -511,11 +509,11 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
             
             
             
-            <div className = "caption-wrapper">
+            <div id = "caption-wrapper" className = "caption-wrapper">
             
             <textarea name = "caption" className = "listing-caption" value ={listing.caption}> </textarea>
           
-            {(isSignedIn && !isadmin) && <button className ="add-to-cart-button" onClick={()=> handleAddCart(listing)}>Add to Cart <i className="fa-solid fa-cart-shopping cart-icon"></i></button>}
+            {(isSignedIn && !isadmin) && <button className ="add-to-cart-button" onClick={(event)=> handleAddCart(event,listing)}>Add to Cart <i className="fa-solid fa-cart-shopping cart-icon"></i></button>}
             
            { isadmin && <button className ="listing-remove-button" onClick= {() => removeListing(listing)}>remove</button>}
          </div>
@@ -529,7 +527,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
        </div>
 
 
-
+        {isFiltering && <FilterComp setIsFiltering = {setIsFiltering} setFilter = {setFilter} DEFAULT_FILTER = {DEFAULT_FILTER}/>}
 
         
 

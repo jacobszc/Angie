@@ -66,7 +66,7 @@ async def create_new_stripe_product(product: CartItem):
 
      client = StripeClient(STRIPE_API_KEY)
 
-     products = client.v1.products.list({"limit" : 99})
+     
 
      
     
@@ -74,6 +74,7 @@ async def create_new_stripe_product(product: CartItem):
     
      new_product = client.v1.products.create({ 
                                               "name" : product.name,
+                                              
                                              
                                               "metadata" : {
                                                   "db_id" : product.id
