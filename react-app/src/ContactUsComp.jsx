@@ -46,8 +46,10 @@ function ContactUsComp() {
     }
 
 return (
-
+    <div className ="overlay">
     <div className = "contact-us-container">
+        
+       
         <form className = "input-container"  type ="input" name = "contact-us-form" onSubmit={handleSubmit}>
       
        
@@ -62,16 +64,21 @@ return (
        </form>
 
        <div className = "image-container">
+        
+        
 
         
 
         <img className = "contact-us-img" src ="src/assets/contact-us-monkey.png" alt = "image not found"></img>
 
-      
+      <button className ="exit-button">X</button>
 
 
        </div>
 
+
+    </div>
+    
 
     </div>
 )

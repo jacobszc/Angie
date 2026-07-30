@@ -80,12 +80,12 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
            body.appendChild(anim)
          anim.appendChild(img)
 
-         img.style.animation = "rotate 3s"
+         img.style.animation = "rotate 0.5s"
         
 
          setTimeout(() => {
           anim.remove()
-         }, 2000)
+         }, 500)
 
          setTimeout(() => {
           button.disabled = false

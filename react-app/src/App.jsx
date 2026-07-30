@@ -42,7 +42,7 @@ function App() {
     <MenuComp/>
     <HomeComp isadmin={isadmin} setCart = {setCart} cart ={cart} setCartQuantity = {setCartQuantity} cartQuantity ={cartQuantity} isSignedIn={isSignedIn} user ={user}/>
   
-    <ContactUsComp/> 
+    
     { signingin && <SignInComp setIsAdmin={setIsAdmin} setSigningIn = {setSigningIn} setUser = {setUser} setIsSignedIn = {setIsSignedIn} cart = {cart} setCart={setCart} setCartQuantity = {setCartQuantity}/> }
   
   

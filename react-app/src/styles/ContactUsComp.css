@@ -1,9 +1,14 @@
 
 
+
+
+
+
+
 .contact-us-container {
 
     height: 500px;
-    width: 100%;
+    width: 80%;
     background-color:hsl(151, 30%, 94%); 
     border-radius: 8px 8px 8px 8px;
     box-shadow: 8px 8px 12px 12px rgb(0,0,0, 0.25);
@@ -20,6 +25,8 @@
  flex:1;
  width:auto;
  margin-right: 40px;
+ margin-top: 10px;
+ margin-bottom: 10px;
  }
 
  .input-container input {
