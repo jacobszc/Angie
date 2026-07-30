@@ -65,13 +65,13 @@ return (
 
        <div className = "image-container">
         
-        
+         <button className ="exit-button">X</button>
 
         
 
         <img className = "contact-us-img" src ="src/assets/contact-us-monkey.png" alt = "image not found"></img>
 
-      <button className ="exit-button">X</button>
+     
 
 
        </div>

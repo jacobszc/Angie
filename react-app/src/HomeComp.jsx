@@ -486,6 +486,8 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
 
            
           <div className = "listing-container">
+
+            
             
             
             <button className ="filter-button" onClick = {() => setIsFiltering(true)}>filter -|-</button>
@@ -499,6 +501,12 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
 
             
             <div className = "listing" key = {listing.id} >
+              
+              
+              <div className ="price-tag-img-wrapper">
+                <img className ="price-tag-img" src ="src/assets/price-tag.png"></img>
+                <p className ="price-tag-display">${listing.price}</p>
+              </div>
                <img
                src = {listing.img_url} // <-- need to now gran imurl from obj that contains imgurl and caption string
                key = {listing.id}
