@@ -1,13 +1,20 @@
 
 
+
+
+
+
+
 .contact-us-container {
 
     height: 500px;
-    width: 100%;
+    width: 80%;
     background-color:hsl(151, 30%, 94%); 
-    border-radius: 8px;
+    border-radius: 8px 8px 8px 8px;
     box-shadow: 8px 8px 12px 12px rgb(0,0,0, 0.25);
     display: flex;
+    overflow-x: hidden;
+    
     
 }
 
@@ -16,7 +23,10 @@
  flex-direction: column;
  gap: 2em;
  flex:1;
- position: relative
+ width:auto;
+ margin-right: 40px;
+ margin-top: 10px;
+ margin-bottom: 10px;
  }
 
  .input-container input {
@@ -27,28 +37,23 @@
 .image-container {
     flex:1;
     display: flex;
-    display: grid;
-    grid-template-columns: auto auto auto auto auto;
-    grid-template-rows: auto auto auto auto auto;
+    position: relative;
+    width:50%;
+    border-radius: 8px 8px 8px 8px;
+    
+  
 
    
 
 
 }
 
-.image-frame {
-    
-    grid-column: 2/5;
-    grid-row: 2/5;
-    
-    
+.contact-us-img {
 
-
+    width: auto;
+    border-radius: 8px 8px 8px 8px;
 }
 
-.image {
-    
-}
 
 .message-area {
     margin-left: 1em;
@@ -60,4 +65,17 @@
     height: 2em;
     width: 6em;
     margin-left:1em;
+    border-radius: 6px;
+background-color: rgb(223, 248, 0);}
+
+.contact-us-button:hover {
+
+    transform: translate(1px, -1px);
+    background-color: aqua;
+}
+
+.exit-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
 }

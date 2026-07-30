@@ -60,7 +60,7 @@ function Signin_Register_Selection_Comp({setSigningIn, cart, setCart, cartQuanti
              
              {isSignedIn &&
             <div className = "name-wrapper ">
-                <p className ="name">welcome {user} </p>
+                <p className ="name">welcome, {user} </p>
             </div>
              }
 

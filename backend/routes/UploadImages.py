@@ -26,11 +26,11 @@ def read_root():
 @router.post("/uploadlisting")
 async def upload(file : UploadFile = File(...), newListing : str = Form(...)): # param name file of type UploadFile
     
-   newListingData = json.loads( newListing)
+   newListingData = json.loads(newListing)
 
    public_url = await make_path(file) 
 
-   result = supabase_client.supabase.table("Animals").insert({
+   result =  supabase_client.supabase.table("Animals").insert({
         "img_url": public_url,
           "caption" : newListingData["caption"],
          "user_id": supabase_client.SUPABASE_ADMIN_UUID,
@@ -85,7 +85,7 @@ async def make_path(file: UploadFile = File(...)):
 @router.get("/load_images")
 def load_images():
 
-    result = supabase_client.supabase.table("Animals").select("img_url, caption, id, price, name, type, breed").execute()
+    result = supabase_client.supabase.table("Animals").select("img_url, caption, id, price, name, type, breed, stripe_ID, stripe_price_ID").execute()
     # print("Result: ",result.data)
     return result.data
 
@@ -113,10 +113,31 @@ def  remove_img(obj : RemoveImgDto):
 
     print("img ure is: " , img_url)
 
-    result =  supabase_client.supabase.table("Animals").delete().eq("id", id).execute()
-
+    result =  supabase_client.supabase.table("Animals").delete().eq("id", id).select("stripe_ID").execute()
+    
+    print("result looks like: ---- >>>> ", result)
     remove_local_img(img_url)
      
     
 
-    return("row with id: " , id , " succesfully deleted!")
+    return(result.data[0]) ## <-- result here only contains stripeId as well need that to archive assosiated stripe prodct
+
+class StripeIdDto(BaseModel):
+    stripe_ID: str
+    stripe_price_ID: str
+    id: int
+    
+
+
+@router.post("/add_stripeID_db_entry")
+def add_stripe_ID_db_entry(StripeIdUpdate : StripeIdDto):
+
+    result =  supabase_client.supabase.table("Animals").select().eq("id" , StripeIdUpdate.id).execute()
+
+    if(result):
+        update =  supabase_client.supabase.table("Animals").update({"stripe_ID" : StripeIdUpdate.stripe_ID, "stripe_price_ID" : StripeIdUpdate.stripe_price_ID  }).eq("id", StripeIdUpdate.id).execute()
+        return("stripe id updated succesfully")
+    else:
+        return("item id doesnt exist in db!")
+
+

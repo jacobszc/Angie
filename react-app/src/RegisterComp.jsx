@@ -123,7 +123,7 @@ function RegisterComp({setIsRegistering}) {
         <div className = "overlay">
             
             <div className ="sign-up-container">
-              <p className = "exit-register" onClick={() => setIsRegistering(false)}>X</p>
+              <button className = "exit-button" onClick={() => setIsRegistering(false)}>X</button>
              <h3 className = "title">Sign Up </h3>
             
              

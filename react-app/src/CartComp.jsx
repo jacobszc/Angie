@@ -26,7 +26,7 @@ function CartComp({setIsInCart, setCart, cart, setCartQuantity, cartQuantity}) {
             
         }).then(data => {
             console.log(data)
-            window.location.assign(data.checkout_session_url)
+             window.location.assign(data.checkout_session_url)
         }).catch(err => {
             console.log(err)
         })

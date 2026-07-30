@@ -52,6 +52,7 @@
 
 body {
   margin: 0;
+  
 }
 
 #root {
@@ -144,6 +145,47 @@ code {
 
 /* ///// image posting div styles ////////*/
 
+
+.overlay {
+    position: fixed;;
+    background-color: rgba(0 ,0 ,0 ,0.6);
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    z-index: 1000;
+    top: 0;
+    left:0;
+    width: 100vw;
+    height: 100vh;
+}
+
+button {
+  background-image: linear-gradient(to bottom, #ffe88c, #ffed85, #fff37e, #fff978, #ffff71);
+}
+button:hover {
+
+  background-image: linear-gradient(to bottom, #f4d55c, #f1d955, #eedd4f, #eae148, #e5e542);
+  transform: translate(1px, -1px);
+}
+
+input[type="checkbox"]:hover {
+
+  transform: scale(1.1);
+  cursor: pointer;
+  
+
+
+}
+
+.exit-button {
+
+  width: 20px;
+  height:20px;
+  background-color: #9ca3af;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 
 

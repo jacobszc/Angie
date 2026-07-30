@@ -6,7 +6,7 @@ function EnterCaptionComp({setHasDroppedImg, setNewListing}) {
   const NewListingDto = {
     "caption" : "",
     "name" : "",
-    "price" : 0,
+    "price" : 0.00,
     "type" : "",
     "breed" : ""
   }

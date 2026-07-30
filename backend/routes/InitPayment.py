@@ -3,6 +3,7 @@ from fastapi import APIRouter, UploadFile, File, HTTPException, Form
 from fastapi.responses import RedirectResponse
 import os
 from pydantic import BaseModel
+from decimal import Decimal
 router = APIRouter()
 
 # list customers
@@ -13,13 +14,17 @@ STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
 client = StripeClient(STRIPE_API_KEY)
 
 class CartItem(BaseModel):
-    img_url : str
-    caption: str
-    id: int
+    img_url : str | None = None
+    caption: str | None = None
+    id: int  
     name: str
-    price: int
-    type: str
-    breed: str
+    price: float
+    type: str | None = None
+    breed: str | None = None
+    stripe_ID: str | None = None
+    stripe_price_ID: str | None = None
+
+
 
 class Items(BaseModel):
     
@@ -34,16 +39,16 @@ class Items(BaseModel):
 def create_checkout_session(cart : Items):
     for item in cart.cart:
         print(item)
+
+    items = []
+
+    for item in cart.cart:
+        items.append({'price' : item.stripe_price_ID,
+                    'quantity' : 1})
     
     try:
         checkout_session = client.v1.checkout.sessions.create(params={
-            'line_items': [
-                {
-                    # Provide the exact Price ID (for example, price_1234) of the product you want to sell
-                    'price': 'price_1Tt5h4IzoQjAE2P1TAdYf99Z',
-                    'quantity': 1,
-                },
-            ],
+            'line_items': items,
             'mode': 'payment',
             'success_url': YOUR_DOMAIN + '/success.html',
         })
@@ -51,15 +56,67 @@ def create_checkout_session(cart : Items):
         return str(e)
     
     return ({ "checkout_session_url" : checkout_session.url})
+    
+    return("all good son")
+
+
+
+@router.post("/create-new-stripe-product")
+async def create_new_stripe_product(product: CartItem):
+
+     client = StripeClient(STRIPE_API_KEY)
+
+     
+
+     
+    
+    
+    
+     new_product = client.v1.products.create({ 
+                                              "name" : product.name,
+                                              
+                                             
+                                              "metadata" : {
+                                                  "db_id" : product.id
+                                              },})
+     
+     new_price = client.v1.prices.create({
+         "currency" : "usd",
+         "product" : new_product.id,
+         "unit_amount" : round(product.price * 100 )
+
+     })
 
 
 
 
-@router.post("create-product")
-def create_product(product: CartItem):
+     return({"stripe_ID" : new_product.id , "stripe_price_ID" : new_price.id, "id" : product.id})
 
 
-    return("product created succesfully")
+class StripeId(BaseModel):
+
+    stripe_ID : str
+
+
+
+@router.post("/archive-stripe-product")
+def archive_stripe_product(stripeID: StripeId):
+
+     client = StripeClient(STRIPE_API_KEY)
+
+     
+     
+    
+    
+    
+     archived_product = client.v1.products.update(stripeID.stripe_ID, {"active" : False })
+     
+     
+
+
+
+
+     return("product archived succesfully")
 
 
     

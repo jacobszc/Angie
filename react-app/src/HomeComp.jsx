@@ -1,28 +1,114 @@
 import {useState, useEffect, useRef} from "react";
 import EnterCaptionComp from "./EnterCaptionComp";
+import FilterComp from "./FilterComp";
 
 
 
 import "./styles/HomeComp.css"
 
+
 function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSignedIn, user}){
     
+  
+    const [NewListing, setNewListing] = useState({})
     const [listings, setListings] = useState([])
     const [newImgFile, setNewImgFile] = useState("");
-    const [newCaption, setNewCaption] = useState("")
-    const [newPrice, setNewPrice] = useState("")
+    const [newStripeListing, setNewStripeListing] = useState({})
+    
+    
     const hasRun = useRef(false)
     const firstRenderForUploadImages = useRef(true);
     const firstRenderForUpdateCart = useRef(true);
+    const firstRenderForCreateStripeProduct = useRef(true);
     const [hasDroppedImg, setHasDroppedImg] = useState(false)
-    const [NewListing, setNewListing] = useState({})
+    
+    const DEFAULT_FILTER = ["cat", "dog", "bird", "reptile", "fish"]
+    const [filter, setFilter] = useState(DEFAULT_FILTER)
+    const [isFiltering, setIsFiltering] = useState(false)
+    
+    
+    
+    function handleAddCart(event ,listing) {
+       
+      event.preventDefault()
 
-    function handleAddCart(listing) {
+      const button = event.currentTarget
+      button.disabled = true
 
+
+
+      
       console.log("this is what a listing shape looks like: " , listing)
 
       setCart(prev => [...prev, listing])
       setCartQuantity(cartQuantity +1)
+
+
+      /// run added to cart animation
+       
+        const rect = event.currentTarget.getBoundingClientRect();
+        console.log("event: " ,event.currentTarget)
+        console.log(rect.left, rect.top)
+        let anim = document.createElement("div");
+        let text = document.createElement("text")
+          const body = document.body
+
+
+        text.textContent = "hello"
+        text.style.display = "flex"
+        text.style.alignContent = "center"
+        text.style.justifyContent = "center"
+
+
+        let img = document.createElement("img")
+
+        img.src = "src/assets/thumbs-up.png"
+        img.style.width = "100%"
+        img.style.height = "100%"
+
+      
+       
+      
+         anim.style.position = "fixed";
+         anim.style.width = "50px";
+         anim.style.height = "50px";
+         anim.style.left = `${(rect.right) - 40}px`;
+         anim.style.top = `${(rect.top) - 40}px`;
+
+         
+         anim.style.zIndex = "99999";
+           body.appendChild(anim)
+         anim.appendChild(img)
+
+         img.style.animation = "rotate 0.5s"
+        
+
+         setTimeout(() => {
+          anim.remove()
+         }, 500)
+
+         setTimeout(() => {
+          button.disabled = false
+         }, 2000)
+ 
+
+        
+
+
+// anim.classList.add("cart-animation");
+
+// anim.style.position = "fixed";
+// anim.style.left = `${rect.left}px`;
+// anim.style.top = `${rect.top}px`;
+
+
+
+ 
+
+
+      
+     
+     
       
     }
     
@@ -34,6 +120,9 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
       
          if(hasRun.current) return;
           hasRun.current = true
+
+         
+          
          
          const fetchImages = async () => {
             try {
@@ -51,8 +140,12 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
 
         fetchImages()
 
+         
+
         },[]) // end use effect, ohnly runs on init render
-           
+          
+        
+        console.log("this is what i lsiting looks like on init page load: ", listings[0])
         
      ////////// 2nd useEffect which shuld only run when a new image is dropped and caption is complete
 
@@ -71,18 +164,15 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
           formData.append("file", newImgFile)
           formData.append("newListing", JSON.stringify(NewListing))
 
-          console.log("this is the new listing", NewListing)
-          // fetch('http://127.0.0.1:8000/create-new-stripe-product', {
-          //   method: "POST",
-          //   headers: {
-          //     "Content-Type": "application/json"
-          //   },
-          //   body: JSON.stringify()
-          // })
-          
-          
+          console.log("new Listing :" , NewListing)
+          console.log("stringified new Listing :" , JSON.stringify(NewListing))
 
-          fetch('http://127.0.0.1:8000/uploadlisting', {
+          
+         
+          
+           
+           
+           fetch('http://127.0.0.1:8000/uploadlisting', {
             method: "POST",
             body: formData
             }).then(resp => {
@@ -93,19 +183,97 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
             return obj;
              }).then(data => {
             console.log("this is the url retuned by backend: " , data) // data shhould be the url to the newly created image
-             setListings(prev => ([...prev , data])) // this will append any new images added after app is loaded
+             setListings(prev => ([...prev , data]))
+             setNewStripeListing(data) //<--- prep a listing with db created id to be sent to stripe
              
+             // need to extract id from data and send it along with stripe entry as meta data
            }).catch(err => {
            console.log(err)
          })
 
+        
+
+        
+
+         //////////////////////////////////////////////////////////////
+        
+          
+        
+
+        
+
+       
           
 
 
         }, [NewListing])
       
  /////////////////////////////// end 2nd use effect /////////////////////////////////
+       
 
+        useEffect(() =>{
+
+          if(firstRenderForCreateStripeProduct.current) {
+            firstRenderForCreateStripeProduct.current = false
+            return
+          }
+
+
+           fetch('http://127.0.0.1:8000/create-new-stripe-product', {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newStripeListing)
+          }).then(resp => {
+            if(!resp.ok) {
+              throw new Error("error creating new stripe product!", resp.status)
+            }
+
+            return resp.json()
+          }).then(data => {
+            console.log("stripe product created succesfully: " , JSON.stringify(data))
+
+            fetch('http://127.0.0.1:8000/add_stripeID_db_entry' , {
+              method: "POST",
+              headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+
+            }).then(resp => {
+              if(!resp.ok) {
+                throw new Error(resp.status)
+              }
+
+              return resp.text()
+            }).then(data => {
+              console.log(data)
+            }).catch(err => {
+              console.log(err)
+            })
+            return data
+            
+
+          }).catch(err => {
+            console.log(err)
+          })
+
+          ///////////////////////////////////////////////
+
+
+
+          
+
+
+
+
+
+         
+
+
+
+        },[newStripeListing])
 
 
 
@@ -165,7 +333,9 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
 
     
 ///////////////////////////////////////////////////////////
-   
+
+
+
 
 
     function dropHandler(event){
@@ -209,11 +379,34 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
         throw new Error(resp.status)
       }
 
-      return resp.text()
+      return resp.json()
     }).then(data => {
 
+      console.log("retruned stripe id: " , data)
+      fetch('http://127.0.0.1:8000/archive-stripe-product', {
+      method: "POST",
+      headers: {
+        "content-type" : "application/json"
+      },
+      body : JSON.stringify(data)
+
+    }).then(resp => {
+        if(!resp.ok) {
+          throw new Error(resp.status)
+        }
+
+        return resp.text()
+
+    }).then(data => {
       console.log(data)
     }).catch(err => {
+      console.log(err)
+    })
+    
+  
+  
+  
+  }).catch(err => {
 
         console.log(err)
     })
@@ -225,7 +418,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
   );
   
 
-    // remove image from image folder by name
+    
 
 
 
@@ -248,7 +441,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
 
       
       
-     <div className = "comp-container" onDrop = {dropHandler} onDragOver={dragOverHandler}>
+     <div  id ="comp-container" className = "comp-container" onDrop = {dropHandler} onDragOver={dragOverHandler}>
            <div className="scroll-container">
             
 
@@ -256,6 +449,9 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
             <div className = "group">
              
             {listings.length > 0 && listings.map((listing, index) => (
+             
+             
+             
              <div className = "img-container" key = {index}>
               <img
               src = {listing.img_url}
@@ -269,20 +465,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
             ))}
 
             </div>
-             <div aria-hidden = "true" className = "group">
-            {listings.map((listing, index) => (
-              <div className = "img-container" key = {index}>
-              <img
-              src = {listing.img_url}
-              key = {index}
-              alt ="no image"
-              className = "scrolling-img"
-              ></img>
-
-             </div>
-            ))}
-
-            </div>
+            
           
             
           </div> {/* end scroll container */}
@@ -290,21 +473,40 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
           
           <div className = "listings-banner">
             < link rel = "style-sheet" href ="https://googleapis.com/css2?family=Alfa+Slab+One"></link>
-            <p className ="banner-text"> Below are all of our current animals looking for new homes. Make ure to email us, check avalibilty and click the "intrested button" to let us know your intrested and be first in line if more people are interested!
-
-
-            </p>
+            <link rel ="style-sheet" href = "https://googleapis.com/css2?family=Fira+Sans"></link>
+            <p className ="banner-text"> Below are all of our current animals looking for new homes. Make ure to email us, check avalibilty and click the "intrested button" to let us know your intrested and be first in line if more people are interested! </p>
+             
+             
+             
             
          
           </div>
 
-          <div></div>
+          
 
-
+           
           <div className = "listing-container">
-         {listings.length > 0 ? listings.map((listing) => (
-             
+
+            
+            
+            
+            <button className ="filter-button" onClick = {() => setIsFiltering(true)}>filter -|-</button>
+            
+            
+            
+         {(listings.length > 0) ? listings.map((listing) => (
+            
+           
+            (filter.includes(listing.type)) &&
+
+            
             <div className = "listing" key = {listing.id} >
+              
+              
+              <div className ="price-tag-img-wrapper">
+                <img className ="price-tag-img" src ="src/assets/price-tag.png"></img>
+                <p className ="price-tag-display">${listing.price}</p>
+              </div>
                <img
                src = {listing.img_url} // <-- need to now gran imurl from obj that contains imgurl and caption string
                key = {listing.id}
@@ -315,21 +517,29 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
             
             
             
-            <div className = "caption-wrapper">
+            <div id = "caption-wrapper" className = "caption-wrapper">
             
-            <textarea  name = "caption" className = "listing-caption" value ={listing.caption} disabled > </textarea>
+            <textarea name = "caption" className = "listing-caption" value ={listing.caption}> </textarea>
           
-            {isSignedIn && <button className ="add-to-cart-button" onClick={()=> handleAddCart(listing)}>Add to Cart <i className="fa-solid fa-cart-shopping cart-icon"></i></button>}
+            {(isSignedIn && !isadmin) && <button className ="add-to-cart-button" onClick={(event)=> handleAddCart(event,listing)}>Add to Cart <i className="fa-solid fa-cart-shopping cart-icon"></i></button>}
+            
            { isadmin && <button className ="listing-remove-button" onClick= {() => removeListing(listing)}>remove</button>}
          </div>
            
-            
+         
             
              </div>
            )) : <p>drag and drop new posting here...</p>}  
 
            {(isadmin &&hasDroppedImg) && <EnterCaptionComp setHasDroppedImg = {setHasDroppedImg} setNewListing = {setNewListing}/>}
        </div>
+
+
+        {isFiltering && <FilterComp setIsFiltering = {setIsFiltering} setFilter = {setFilter} DEFAULT_FILTER = {DEFAULT_FILTER}/>}
+
+        
+
+
 
        </div>
 

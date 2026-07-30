@@ -3,13 +3,17 @@ from fastapi import APIRouter, UploadFile, File, HTTPException, Form
 from pydantic import BaseModel
 
 class CartItem(BaseModel):
-    img_url : str
-    caption: str
-    id: int
+    img_url : str | None = None
+    caption: str | None = None
+    id: int  
     name: str
-    price: int
-    type: str
-    breed: str
+    price: float
+    type: str | None = None
+    breed: str | None = None
+    stripe_ID: str | None = None
+    stripe_price_ID: str | None = None
+
+
 
 class UpdateCartRequest(BaseModel):
     username: str
@@ -26,8 +30,8 @@ def UpdateCart(updateRequest : UpdateCartRequest):
 
     cart_data = [item.model_dump() for item in updateRequest.cart]
    
-    print(updateRequest.username)
-    print(updateRequest.cart)
+    # print(updateRequest.username)
+    # print(updateRequest.cart)
       
 
     supabaseClient.supabase.table("Users").update({"user_cart": cart_data}).eq("username",updateRequest.username).execute()
