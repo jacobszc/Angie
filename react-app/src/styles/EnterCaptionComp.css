@@ -33,10 +33,30 @@
     border-radius: 6px;
 }
 
+.type-dropdown {
+
+     width: 50%;
+    border-radius: 6px;
+    border-width: 2px;
+    border-left-color: black;
+    border-top-color: black;
+
+}
+
 .caption-submit-button {
 
     position: absolute;
-    bottom: 10px;
+    bottom: 2px;
     right: 5px;
     border-radius: 5px;
+}
+
+.caption-cancel-button {
+
+    position: absolute;
+    bottom: 2px;
+    left: 5px;
+    border-radius: 5px;
+
+
 }
