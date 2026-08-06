@@ -3,7 +3,7 @@ import "./styles/Signin_Register_Selection_Comp.css"
 import CartComp from './CartComp'
 import SignUpComp from './RegisterComp'
 
-function Signin_Register_Selection_Comp({setSigningIn, cart, setCart, cartQuantity, setCartQuantity, user, setUser, setIsSignedIn, isSignedIn, setIsAdmin}) {
+function Signin_Register_Selection_Comp({setSigningIn, cart, setCart, cartQuantity, setCartQuantity, user, setUser, setIsSignedIn, isSignedIn, setIsAdmin, setIsStripeApproved}) {
 
     const [isInCart, setIsInCart] = useState(false)
     const [isRegistering, setIsRegistering] = useState(false)

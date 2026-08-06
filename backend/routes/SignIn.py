@@ -24,6 +24,7 @@ def SignIn(username: str = Form(...), password: str = Form(...) ):
      stored_hash = response.data[0]["password"]
      role = response.data[0]["role"]
      cart = response.data[0]["user_cart"]
+     stripe_approved = response.data[0]["stripe_approved"]
      
 
      
@@ -34,7 +35,7 @@ def SignIn(username: str = Form(...), password: str = Form(...) ):
        isverified =  verifier.verify(stored_hash, submitted_pass)
        if(isverified): 
           print("pass verified")
-          return ({"role" : role , "cart" : cart})
+          return ({"role" : role , "cart" : cart, "stripe_approved": stripe_approved })
      except VerifyMismatchError:
          return("username or pass invalid")
          

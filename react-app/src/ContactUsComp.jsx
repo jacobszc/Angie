@@ -1,6 +1,6 @@
 import "./styles/ContactUsComp.css"
 import monkey from "./assets/monkey.png"
-function ContactUsComp() {
+function ContactUsComp({setIsRequesting}) {
     
 
     function handleSubmit(event) {
@@ -41,8 +41,9 @@ function ContactUsComp() {
         })
         
 
-      
+         
          console.log(formData.get("message"))
+         setIsRequesting(false)
     }
 
 return (
@@ -65,7 +66,7 @@ return (
 
        <div className = "image-container">
         
-         <button className ="exit-button">X</button>
+         <button className ="exit-button" onClick = {() => setIsRequesting(false)}>X</button>
 
         
 

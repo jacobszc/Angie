@@ -1,6 +1,6 @@
 import "./styles/SignInComp.css"
 
-function SignInComp({setIsAdmin, setSigningIn, setUser, setIsSignedIn, cart,  setCart, setCartQuantity}) {
+function SignInComp({setIsAdmin, setSigningIn, setUser, setIsSignedIn, cart,  setCart, setCartQuantity, setIsStripeApproved}) {
 
 
      function handleSubmit(event) {
@@ -36,13 +36,15 @@ function SignInComp({setIsAdmin, setSigningIn, setUser, setIsSignedIn, cart,  se
             setIsAdmin(true)
             setIsSignedIn(true)
             setSigningIn(false)
+            
            
           }
           else{
             setUser(username)
             setIsSignedIn(true)
             setCart(data.cart) //////////////////////////// <------
-            
+            console.log("stripe arroved ===> ", data.stripe_approved )
+            setIsStripeApproved(data.stripe_approved)
             setCartQuantity(data.cart.length)
             console.log("succesful log in! username set to: ", username)
             setSigningIn(false)

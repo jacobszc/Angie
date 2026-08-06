@@ -5,26 +5,29 @@ import FilterComp from "./FilterComp";
 
 
 import "./styles/HomeComp.css"
+import ContactUsComp from "./ContactUsComp";
 
 
-function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSignedIn, user}){
+function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSignedIn, user, isStripeApproved }){
     
   
     const [NewListing, setNewListing] = useState({})
     const [listings, setListings] = useState([])
     const [newImgFile, setNewImgFile] = useState("");
     const [newStripeListing, setNewStripeListing] = useState({})
-    
+    const buttonRef = useRef(null);
     
     const hasRun = useRef(false)
     const firstRenderForUploadImages = useRef(true);
     const firstRenderForUpdateCart = useRef(true);
     const firstRenderForCreateStripeProduct = useRef(true);
+    const firstRenderForRequestAnim = useRef(true);
     const [hasDroppedImg, setHasDroppedImg] = useState(false)
     
     const DEFAULT_FILTER = ["cat", "dog", "bird", "reptile", "fish"]
     const [filter, setFilter] = useState(DEFAULT_FILTER)
     const [isFiltering, setIsFiltering] = useState(false)
+    const[isRequesting,setIsRequesting] = useState(false)
     
     
     
@@ -111,6 +114,48 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
      
       
     }
+
+    useEffect(() => {
+
+     if(firstRenderForRequestAnim.current || isRequesting)  {
+
+      firstRenderForRequestAnim.current = false
+      return;
+
+     }
+
+       
+       
+       
+       
+       let anim = document.createElement("div");
+       let envelope = document.createElement("img")
+
+       envelope.src = "src/assets/mail_box_open.png"
+       envelope.style.width = "100%"
+       envelope.style.height = "100%"
+
+       
+
+       anim.style.width = "50px";
+       anim.style.height = "50px"
+       anim.style.position = "fixed";
+       anim.style.left = "50%"
+       anim.style.top ="50%"
+        
+       anim.style.zIndex = "99999";
+       document.body.appendChild(anim)
+       anim.appendChild(envelope)
+
+       setTimeout(()=> {
+        envelope.src = "src/assets/mail_box_closed.png"
+       },1000)
+
+       setTimeout(()=> {
+        anim.remove()
+       },2000)
+
+    },[isRequesting])
     
     
     
@@ -521,8 +566,10 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
             
             <textarea name = "caption" className = "listing-caption" value ={listing.caption}> </textarea>
           
-            {(isSignedIn && !isadmin) && <button className ="add-to-cart-button" onClick={(event)=> handleAddCart(event,listing)}>Add to Cart <i className="fa-solid fa-cart-shopping cart-icon"></i></button>}
+            {(isSignedIn && !isadmin && isStripeApproved) && <button id ="add-to-cart-button" className ="add-to-cart-button" onClick={(event)=> handleAddCart(event,listing)}>Add to Cart <i className="fa-solid fa-cart-shopping cart-icon"></i></button> }
             
+            {(isSignedIn && !isadmin && !isStripeApproved) && <button ref ={buttonRef} className ="request-button" onClick={() => setIsRequesting(true)}>Request <i className="fa-regular fa-envelope"></i></button>}
+
            { isadmin && <button className ="listing-remove-button" onClick= {() => removeListing(listing)}>remove</button>}
          </div>
            
@@ -540,11 +587,11 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
         
 
 
-
+          { isRequesting &&<ContactUsComp setIsRequesting = {setIsRequesting}/>}
        </div>
 
        ///// above returns each image that exists in state Array, which on load will be all
-      
+       
         
     )
 }
