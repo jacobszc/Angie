@@ -11,7 +11,7 @@ function EnterCaptionComp({setHasDroppedImg, setNewListing}) {
     "breed" : ""
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault()
     
     const form = event.target;
@@ -40,7 +40,8 @@ function EnterCaptionComp({setHasDroppedImg, setNewListing}) {
           <div  className ="admin-input-container">
           
           <input name = "name" className ="name-input" type ="text" placeholder="enter name..."></input>
-           <input name = "price" className ="price-input" type ="text" placeholder="enter price..."></input>
+          <input name = "price" type ="number" className="price" min ="0" max ="2000" placeholder="enter price..."></input>
+           
            <select name="type" id="pet-select" className ="type-dropdown">
               <option value="">--Choose Type--</option>
               <option value="cat">Cat</option>

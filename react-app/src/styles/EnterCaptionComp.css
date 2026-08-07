@@ -25,13 +25,18 @@
     display: flex;
     flex:auto;
     flex-wrap: wrap;
+    margin-right: 2%;
 }
 
 .admin-input-container input {
 
-    width: 50%;
+    width: 49%;
     border-radius: 6px;
+    margin-right: 1px;
 }
+
+
+
 
 .type-dropdown {
 
