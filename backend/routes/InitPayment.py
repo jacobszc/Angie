@@ -48,16 +48,18 @@ def create_checkout_session(cart : Items):
     
     try:
         checkout_session = client.v1.checkout.sessions.create(params={
+            'ui_mode' : "elements", 
             'line_items': items,
             'mode': 'payment',
-            'success_url': YOUR_DOMAIN + '/success.html',
+            'return_url' : YOUR_DOMAIN
         })
     except Exception as e:
         return str(e)
+
+    print("secret ----->" ,checkout_session.client_secret)
+    return ({"client_secret" : checkout_session.client_secret})
     
-    return ({ "checkout_session_url" : checkout_session.url})
     
-    return("all good son")
 
 
 

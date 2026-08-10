@@ -1,0 +1,31 @@
+.success-page-container {
+
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height:500px;
+    width: 100%;
+    background-image: linear-gradient(to right bottom, #ede7f2, #dcbcf5, #cc90f4, #bb60f1, #a914eb);
+}
+
+.success-text-container {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    width: 50%;
+    height: 50%;
+   background-image: linear-gradient(to right bottom, #e4cae7, #e1aae7, #dd89e6, #d864e4, #d231e1);
+    box-shadow: 8px 8px 4px 4px rgba(0, 0, 0, 0.5);
+}
+
+.success-text {
+    font-family: Sofia;
+    background: -webkit-linear-gradient(#9fec60, #cfcd29);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+
+
+
+}

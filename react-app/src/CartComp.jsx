@@ -1,7 +1,18 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect,  } from "react"
 import "./styles/CartComp.css"
 
+import {CheckoutElementsProvider} from '@stripe/react-stripe-js/checkout';
+import {loadStripe} from '@stripe/stripe-js';
+import CheckoutForm from './CheckoutForm';
+
+
+const stripePromise = loadStripe("pk_test_51Tq0KLIzoQjAE2P1MjdVZGTQeIAmreDfONebl1B8GIEHeWnv3ZjUXOFsVl9LykZqWf4RxBMrsem92jFmYSD6m7lD00qe70z0yV") 
+
+
 function CartComp({setIsInCart, setCart, cart, setCartQuantity, cartQuantity}) {
+
+    const [isInCheckoutSession, setIsInCheckoutSession] = useState(false)
+    const [clientSecret, setClientSecret] = useState("")
     
     function handleCheckout() {
 
@@ -11,7 +22,7 @@ function CartComp({setIsInCart, setCart, cart, setCartQuantity, cartQuantity}) {
             cart: cart
          }
 
-        fetch("http://127.0.0.1:8000/create-checkout-session", {
+        const clientSecret = fetch("http://127.0.0.1:8000/create-checkout-session", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body:JSON.stringify(body)
@@ -22,11 +33,15 @@ function CartComp({setIsInCart, setCart, cart, setCartQuantity, cartQuantity}) {
                 throw new Error(resp.status)
             }
 
-            return resp.json()
+             return resp.json()
             
         }).then(data => {
-            console.log(data)
-             window.location.assign(data.checkout_session_url)
+             console.log("stripe returned data --->" , data)
+            data.client_secret
+            setClientSecret(data.client_secret)
+            setIsInCheckoutSession(true)
+
+            
         }).catch(err => {
             console.log(err)
         })
@@ -34,7 +49,7 @@ function CartComp({setIsInCart, setCart, cart, setCartQuantity, cartQuantity}) {
     
    
    
-    const [sampleCart, setSampleCart] = useState([{price: "100", name: "charlie" , id: "3"}])
+    
     const [subTotal, setSubtotal] = useState(0)
     
 
@@ -63,6 +78,15 @@ useEffect(() => {
 return (
 
         <div className ="overlay">
+
+            {isInCheckoutSession ?  <CheckoutElementsProvider
+                                        stripe={stripePromise}
+                                        options={{clientSecret}}
+    >
+      <CheckoutForm />
+    </CheckoutElementsProvider> :
+    
+    
 
         <div className = "cart-container">
             <h1 className = "cart-title">Shopping Cart</h1>
@@ -99,7 +123,7 @@ return (
                     <div className = "x" onClick = {() => handleRemoveItem(item)}><p>X</p></div> 
                 </div>
                 
-             </div>
+             </div> 
 
     ))}
 
@@ -108,7 +132,7 @@ return (
 
      
 
-        </div>
+        </div> }
 
         </div>
     )

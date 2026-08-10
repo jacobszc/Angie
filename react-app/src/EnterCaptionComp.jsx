@@ -6,12 +6,12 @@ function EnterCaptionComp({setHasDroppedImg, setNewListing}) {
   const NewListingDto = {
     "caption" : "",
     "name" : "",
-    "price" : 0.00,
+    "price" : 0,
     "type" : "",
     "breed" : ""
   }
 
-  async function handleSubmit(event) {
+   function handleSubmit(event) {
     event.preventDefault()
     
     const form = event.target;

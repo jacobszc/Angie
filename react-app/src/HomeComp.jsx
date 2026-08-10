@@ -10,7 +10,7 @@ import ContactUsComp from "./ContactUsComp";
 
 function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSignedIn, user, isStripeApproved }){
     
-  
+    
     const [NewListing, setNewListing] = useState({})
     const [listings, setListings] = useState([])
     const [newImgFile, setNewImgFile] = useState("");
@@ -516,11 +516,11 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
           </div> {/* end scroll container */}
           
           
-          <div className = "listings-banner">
+          <div className = "listings-banner" >
             < link rel = "style-sheet" href ="https://googleapis.com/css2?family=Alfa+Slab+One"></link>
             <link rel ="style-sheet" href = "https://googleapis.com/css2?family=Fira+Sans"></link>
-            <p className ="banner-text"> Below are all of our current animals looking for new homes. Make ure to email us, check avalibilty and click the "intrested button" to let us know your intrested and be first in line if more people are interested! </p>
-             
+            <h1 className ="banner-text">Avalible Pets!</h1>
+             <h2></h2>
              
              
             
