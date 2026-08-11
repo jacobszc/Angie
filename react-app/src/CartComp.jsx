@@ -79,12 +79,16 @@ return (
 
         <div className ="overlay">
 
-            {isInCheckoutSession ?  <CheckoutElementsProvider
+            {isInCheckoutSession ?  
+            <div className ="checkout-conatiner">
+            <CheckoutElementsProvider
                                         stripe={stripePromise}
                                         options={{clientSecret}}
     >
       <CheckoutForm />
-    </CheckoutElementsProvider> :
+    </CheckoutElementsProvider>
+    
+    </div>:
     
     
 
