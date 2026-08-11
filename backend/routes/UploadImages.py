@@ -141,3 +141,18 @@ def add_stripe_ID_db_entry(StripeIdUpdate : StripeIdDto):
         return("item id doesnt exist in db!")
 
 
+
+
+@router.post("/add_secondary_image")
+def add_secondary_image():
+     temp_id = 10
+     new_secondary_image = " "
+    ## going to need img url, and some comparitor like name
+     result = supabase_client.supabase.table("Animals").select("secondary_images").eq("id" ,temp_id).execute()
+
+     secondary_images = result.data[0]
+     secondary_images.append(new_secondary_image)
+
+     supabase_client.supabase.table("Animals").update({"secondary_images" , secondary_images }).eq("id" ,temp_id).execute()
+
+     return("image added!" )
