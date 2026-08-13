@@ -435,6 +435,44 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
     
    } 
 
+   function dropHandlerSecondaryImage(event, listing){
+      event.preventDefault();
+
+      if(!isadmin) {
+        return
+      }
+    const imgfile = event.dataTransfer.files[0];
+    const id = listing.id
+
+    console.log(imgfile, "\n",  id)
+
+    const formData = new FormData()
+
+    formData.append("secondary_image", imgfile )
+    formData.append("id", id)
+
+
+    
+    fetch('http://127.0.0.1:8000/add_secondary_image', {
+      method: "POST",
+      body: formData
+
+    }).then(resp => {
+      if(!resp.ok) {
+        throw new Error(resp.status)
+      }
+
+      return resp.text()
+    }).then(data => {
+      console.log(data)
+    }).catch(err =>  {
+      console.log(err)
+    })
+
+
+    
+   } 
+
    function removeListing(listing) {
 
       console.log("this is the lsiting" , listing)
@@ -591,7 +629,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
 
                
                
-               <div  ref ={ListingDivRef} className ="listing-img-container" onClick={() => handleHoverEnter(ListingDivRef.current, listing)} > 
+               <div  ref ={ListingDivRef} className ="listing-img-container" onClick={() => handleHoverEnter(ListingDivRef.current, listing) } onDrop = {() => dropHandlerSecondaryImage(event, listing)} onDragOver={() => dragOverHandler} > 
                
                <img
                src = {listing.img_url} // <-- need to now gran imurl from obj that contains imgurl and caption string

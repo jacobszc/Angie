@@ -8,7 +8,9 @@ function EnterCaptionComp({setHasDroppedImg, setNewListing}) {
     "name" : "",
     "price" : 0,
     "type" : "",
-    "breed" : ""
+    "breed" : "",
+    "secondary_images" : []
+   
   }
 
    function handleSubmit(event) {
@@ -20,6 +22,9 @@ function EnterCaptionComp({setHasDroppedImg, setNewListing}) {
     NewListingDto.price = form.price.value
     NewListingDto.type = form.type.value
     NewListingDto.breed = form.breed.value
+    NewListingDto.secondary_images = []
+   
+
 
     
 

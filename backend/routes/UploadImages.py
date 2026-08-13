@@ -37,7 +37,9 @@ async def upload(file : UploadFile = File(...), newListing : str = Form(...)): #
          "price": newListingData["price"],
          "name" : newListingData["name"],
          "type" : newListingData["type"],
-         "breed" : newListingData["breed"]
+         "breed" : newListingData["breed"],
+         "secondary_images" : newListingData["secondary_images"]
+
     }).execute()
    
    print("the reult of ure query is: " , result)
@@ -50,7 +52,9 @@ async def upload(file : UploadFile = File(...), newListing : str = Form(...)): #
     "caption": row["caption"],
     "id": row["id"],
     "price": row["price"],
-    "name" : row["name"]
+    "name" : row["name"],
+    "secondary_images" : row["secondary_images"]
+
    }
        
    print("you called upload listing from ure useEffect that only runs when new img is dropped")
@@ -85,7 +89,7 @@ async def make_path(file: UploadFile = File(...)):
 @router.get("/load_images")
 def load_images():
 
-    result = supabase_client.supabase.table("Animals").select("img_url, caption, id, price, name, type, breed, stripe_ID, stripe_price_ID").execute()
+    result = supabase_client.supabase.table("Animals").select("img_url, caption, id, price, name, type, breed, stripe_ID, stripe_price_ID, secondary_images").execute()
     # print("Result: ",result.data)
     return result.data
 
@@ -144,15 +148,29 @@ def add_stripe_ID_db_entry(StripeIdUpdate : StripeIdDto):
 
 
 @router.post("/add_secondary_image")
-def add_secondary_image():
-     temp_id = 10
-     new_secondary_image = " "
+async def add_secondary_image(secondary_image: UploadFile = File(...), id: int = Form(...)):
+
+
+    
+     
+     
+     url = await make_path(secondary_image)
+
+    
+     
     ## going to need img url, and some comparitor like name
-     result = supabase_client.supabase.table("Animals").select("secondary_images").eq("id" ,temp_id).execute()
+     result = supabase_client.supabase.table("Animals").select("secondary_images").eq("id" ,id).execute()
 
-     secondary_images = result.data[0]
-     secondary_images.append(new_secondary_image)
+     secondary_images = result.data[0]["secondary_images"]
 
-     supabase_client.supabase.table("Animals").update({"secondary_images" , secondary_images }).eq("id" ,temp_id).execute()
+     print(secondary_images)
+     secondary_images.append(url)
+     print(secondary_images)
+
+
+
+     supabase_client.supabase.table("Animals").update({"secondary_images" : secondary_images }).eq("id" ,id).execute()
 
      return("image added!" )
+
+
