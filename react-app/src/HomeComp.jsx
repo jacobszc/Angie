@@ -6,6 +6,7 @@ import FilterComp from "./FilterComp";
 
 import "./styles/HomeComp.css"
 import ContactUsComp from "./ContactUsComp";
+import SecondaryImagesComp from "./SecondaryImagesComp";
 
 
 function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSignedIn, user, isStripeApproved }){
@@ -23,11 +24,46 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
     const firstRenderForCreateStripeProduct = useRef(true);
     const firstRenderForRequestAnim = useRef(true);
     const [hasDroppedImg, setHasDroppedImg] = useState(false)
+    const[isHoveringImage, setIsHoveringImage] = useState(false)
+    
     
     const DEFAULT_FILTER = ["cat", "dog", "bird", "reptile", "fish"]
     const [filter, setFilter] = useState(DEFAULT_FILTER)
     const [isFiltering, setIsFiltering] = useState(false)
     const[isRequesting,setIsRequesting] = useState(false)
+    const ListingDivRef = useRef(null);
+    
+    
+    function handleHoverEnter(listingDivRef, listing) {
+
+      event.preventDefault();
+
+      console.log(listingDivRef)
+      console.log(listing)
+      
+     
+       
+      
+     
+      
+      
+
+    
+
+    }
+
+    // function handleHoverExit(event) {
+
+    //   event.preventDefault();
+      
+    //   setIsHoveringImage(true)
+      
+      
+    //   const currentListing = event.currentTarget
+    // console.log("current listing --->" , currentListing )
+    //   currentListing.appendChild(secondary)
+
+    // }
     
     
     
@@ -190,7 +226,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
         },[]) // end use effect, ohnly runs on init render
           
         
-        console.log("this is what i lsiting looks like on init page load: ", listings[0])
+        
         
      ////////// 2nd useEffect which shuld only run when a new image is dropped and caption is complete
 
@@ -545,20 +581,27 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
             (filter.includes(listing.type)) &&
 
             
-            <div className = "listing" key = {listing.id} >
+            <div className = "listing" key = {listing.id}  >
               
               
               <div className ="price-tag-img-wrapper">
                 <img className ="price-tag-img" src ="src/assets/price-tag.png"></img>
                 <p className ="price-tag-display">${listing.price}</p>
               </div>
+
+               
+               
+               <div  ref ={ListingDivRef} className ="listing-img-container" onClick={() => handleHoverEnter(ListingDivRef.current, listing)} > 
+               
                <img
                src = {listing.img_url} // <-- need to now gran imurl from obj that contains imgurl and caption string
                key = {listing.id}
                alt="image not found"
                className="listing-img"
                
+               
             />
+            </div>
             
             
             

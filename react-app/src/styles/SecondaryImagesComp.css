@@ -1,0 +1,24 @@
+.secondary-images-wrapper {
+
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    position: absolute;
+    width: 50%;
+    height:50%;
+    right: -150px;
+    top: -25px;
+    z-index: 11;
+    background-color: azure;
+    border-radius: 8px;
+  
+}
+
+.secondary-image-container {
+    background-color: aqua;
+    width:50%;
+    height:20%;
+    border-radius: 8px;
+
+    
+}
