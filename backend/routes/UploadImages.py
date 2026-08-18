@@ -155,7 +155,7 @@ async def add_secondary_image(secondary_image: UploadFile = File(...), id: int =
      
      
      url = await make_path(secondary_image)
-
+     
     
      
     ## going to need img url, and some comparitor like name
@@ -169,8 +169,12 @@ async def add_secondary_image(secondary_image: UploadFile = File(...), id: int =
 
 
 
-     supabase_client.supabase.table("Animals").update({"secondary_images" : secondary_images }).eq("id" ,id).execute()
+     result = supabase_client.supabase.table("Animals").update({"secondary_images" : secondary_images }).eq("id" ,id).execute()
 
-     return("image added!" )
+     data = result.data[0]
+
+     print(data)
+      
+     return(data)
 
 

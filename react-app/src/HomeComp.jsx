@@ -16,6 +16,10 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
     const [listings, setListings] = useState([])
     const [newImgFile, setNewImgFile] = useState("");
     const [newStripeListing, setNewStripeListing] = useState({})
+    const[currentSecondariesListing, setCurrentSecondariesListing] = useState({})
+    const[currentId , setCurrentId] = useState(null)
+
+
     const buttonRef = useRef(null);
     
     const hasRun = useRef(false)
@@ -24,7 +28,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
     const firstRenderForCreateStripeProduct = useRef(true);
     const firstRenderForRequestAnim = useRef(true);
     const [hasDroppedImg, setHasDroppedImg] = useState(false)
-    const[isHoveringImage, setIsHoveringImage] = useState(false)
+   
     
     
     const DEFAULT_FILTER = ["cat", "dog", "bird", "reptile", "fish"]
@@ -34,15 +38,23 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
     const ListingDivRef = useRef(null);
     
     
-    function handleHoverEnter(listingDivRef, listing) {
+    function handleClickShowSecondary(listing) {
 
       event.preventDefault();
 
-      console.log(listingDivRef)
-      console.log(listing)
       
-     
-       
+      // console.log(listing)
+      // console.log(listing.secondary_images)
+      // console.log(listing.id)
+
+      setCurrentSecondariesListing(listing)
+      setCurrentId(listing.id)
+      
+
+      
+      
+
+
       
      
       
@@ -462,9 +474,18 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
         throw new Error(resp.status)
       }
 
-      return resp.text()
+      return resp.json()
     }).then(data => {
       console.log(data)
+       
+        const updatedListings = listings.map((listing) => {
+
+        if(listing.id == data.id) {return data}
+
+       })
+
+        setListings(updatedListings)
+
     }).catch(err =>  {
       console.log(err)
     })
@@ -581,7 +602,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
 
              </div>
 
-            ))}
+))}
 
             </div>
             
@@ -626,10 +647,11 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
                 <img className ="price-tag-img" src ="src/assets/price-tag.png"></img>
                 <p className ="price-tag-display">${listing.price}</p>
               </div>
-
+              
+              {<SecondaryImagesComp currentlyDisplayedSecondaries = {currentSecondariesListing.secondary_images} currentId = {currentId} listingId = {listing.id}/>}
                
                
-               <div  ref ={ListingDivRef} className ="listing-img-container" onClick={() => handleHoverEnter(ListingDivRef.current, listing) } onDrop = {() => dropHandlerSecondaryImage(event, listing)} onDragOver={() => dragOverHandler} > 
+               <div  ref ={ListingDivRef} className ="listing-img-container" onClick={() => handleClickShowSecondary(listing) } onDrop = {() => dropHandlerSecondaryImage(event, listing)} onDragOver={() => dragOverHandler} > 
                
                <img
                src = {listing.img_url} // <-- need to now gran imurl from obj that contains imgurl and caption string
