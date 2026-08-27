@@ -1,7 +1,5 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException, Form
-
 from pydantic import BaseModel
-
 from pathlib import Path
 import uuid
 import os
@@ -18,6 +16,10 @@ supabase_client = SupaBaseClient()
 
 
 
+
+
+
+
 @router.get("/")
 def read_root():
     return {"you called the base api endppoint which does nothing"}
@@ -25,13 +27,26 @@ def read_root():
 
 @router.post("/uploadlisting")
 async def upload(file : UploadFile = File(...), newListing : str = Form(...)): # param name file of type UploadFile
+
+
+   img_file_name = await make_file_name(file)
+
+   bytes =  await file.read()
     
-   newListingData = json.loads(newListing)
+   newListingData = json.loads(newListing)  ## this is my listing object sent from front end before any storage
 
-   public_url = await make_path(file) 
+     ## we jsut need to create a name for the image to be stored in buecket
 
-   result =  supabase_client.supabase.table("Animals").insert({
-        "img_url": public_url,
+   
+
+   upload =  supabase_client.supabase.storage.from_("listing_images").upload(img_file_name , bytes , {"content-type": file.content_type}) #insert into bucket
+
+   bucket_url = supabase_client.supabase.storage.from_("listing_images").get_public_url(upload.path)
+
+   print("bucket result --> " , bucket_url)
+
+   result = supabase_client.supabase.table("Animals").insert({
+        "img_url": bucket_url, ## this should now be url to bucket and work exactly the same
           "caption" : newListingData["caption"],
          "user_id": supabase_client.SUPABASE_ADMIN_UUID,
          "price": newListingData["price"],
@@ -64,33 +79,26 @@ async def upload(file : UploadFile = File(...), newListing : str = Form(...)): #
 
 
     
-async def make_path(file: UploadFile = File(...)):
+async def make_file_name(file: UploadFile = File(...)):
 
-    unique_id = str(uuid.uuid4())
+    unique_id = str(uuid.uuid4()) # 034242-5454353-fsdf3
 
-    file_name = f"{unique_id}_{file.filename}"
+    file_name = f"{unique_id}.png" #034242-5454353-fsdf3_pikachu.png
 
-    path_to_react_imgs = Path(("../react-app/public/images")) 
     
-    save_path = path_to_react_imgs / file_name
-
-    public_url = f"/images/{file_name}"
    
-    ## path.parent.mkdir(parents=True, exist_ok=True)
-
-    img_bytes = await file.read()
-
-    # create/write file
-    with open(save_path, "wb") as f:  # jsut a try catch that cleans up when done and throws errors if broken
-        f.write(img_bytes)
-
-    return public_url
+    return file_name
     
 @router.get("/load_images")
 def load_images():
 
+    
+
     result = supabase_client.supabase.table("Animals").select("img_url, caption, id, price, name, type, breed, stripe_ID, stripe_price_ID, secondary_images").execute()
-    # print("Result: ",result.data)
+
+    
+
+    print("Result: ",result.data)
     return result.data
 
 class RemoveImgDto(BaseModel):
@@ -98,32 +106,42 @@ class RemoveImgDto(BaseModel):
     img_url : str
 
 
-def remove_local_img(img_url : str):
- 
-    path_to_delete = Path("../react-app/public" ) / img_url.lstrip("/")
-    print("path to delete is: ", path_to_delete)
-    if(path_to_delete.exists()):
-        path_to_delete.unlink()
-    else:
-        print("file not found!")
-    return
 
     
 @router.post("/remove_img")   
-def  remove_img(obj : RemoveImgDto): 
+def remove_img(ImageToRemove : RemoveImgDto): 
 
-    id = obj.id
-    img_url = obj.img_url
-
-    print("img ure is: " , img_url)
-
-    result =  supabase_client.supabase.table("Animals").delete().eq("id", id).select("stripe_ID").execute()
+    id = ImageToRemove.id
+    img_url = ImageToRemove.img_url
+    reversed = []
+    file_name = []
     
-    print("result looks like: ---- >>>> ", result)
-    remove_local_img(img_url)
-     
+    for char in img_url:
+        reversed.insert(0,char)
+
+    for char in reversed:
+        if char == "/":
+           break
+        file_name.insert(0, char)
+
+    file_name = "".join(file_name)
+
+
+    print("----FILENAME---- : " , file_name)
+
     
 
+    
+
+    
+
+
+        
+
+
+    resp = supabase_client.supabase.storage.from_("listing_images").remove(file_name)  ## first remove from bucket by img_url
+    result = supabase_client.supabase.table("Animals").delete().eq("id", id).select("stripe_ID").execute()  ## then remove from db itself
+  
     return(result.data[0]) ## <-- result here only contains stripeId as well need that to archive assosiated stripe prodct
 
 class StripeIdDto(BaseModel):
@@ -151,30 +169,33 @@ def add_stripe_ID_db_entry(StripeIdUpdate : StripeIdDto):
 async def add_secondary_image(secondary_image: UploadFile = File(...), id: int = Form(...)):
 
 
-    
+    bytes = await secondary_image.read()
      
      
-     url = await make_path(secondary_image)
-     
+    img_file_name = await make_file_name(secondary_image)
+
+    bucket_result = supabase_client.supabase.storage.from_("listing_images").upload(img_file_name , bytes, {"content-type": secondary_image.content_type})
+
+    bucket_url  = f"https://supabase.co/storage/v1/object/public/listing_images/{img_file_name}"
     
      
     ## going to need img url, and some comparitor like name
-     result = supabase_client.supabase.table("Animals").select("secondary_images").eq("id" ,id).execute()
+    result = supabase_client.supabase.table("Animals").select("secondary_images").eq("id" ,id).execute()
 
-     secondary_images = result.data[0]["secondary_images"]
+    secondary_images = result.data[0]["secondary_images"]
 
-     print(secondary_images)
-     secondary_images.append(url)
-     print(secondary_images)
+    print(secondary_images)
+    secondary_images.append(bucket_url)
+    print(secondary_images)
 
 
 
-     result = supabase_client.supabase.table("Animals").update({"secondary_images" : secondary_images }).eq("id" ,id).execute()
+    result = supabase_client.supabase.table("Animals").update({"secondary_images" : secondary_images }).eq("id" ,id).execute()
 
-     data = result.data[0]
+    data = result.data[0]
 
-     print(data)
+    print(data)
       
-     return(data)
+    return(data)
 
 

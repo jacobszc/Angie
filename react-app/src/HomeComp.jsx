@@ -1,4 +1,5 @@
 import {useState, useEffect, useRef} from "react";
+import { supabase } from "./supabaseClient";
 import EnterCaptionComp from "./EnterCaptionComp";
 import FilterComp from "./FilterComp";
 
@@ -221,6 +222,8 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
             try {
               const response = await fetch("http://127.0.0.1:8000/load_images", { method: "GET"});
               const data = await response.json();
+
+               console.log("load images return = " , data.img_url )
               setListings(data) // <---- going to grab objects from backend now rather than string
              
             }
@@ -230,6 +233,8 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
            }
 
          } 
+
+         
 
         fetchImages()
 
@@ -261,28 +266,33 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
           console.log("stringified new Listing :" , JSON.stringify(NewListing))
 
           
-         
-          
-           
-           
-           fetch('http://127.0.0.1:8000/uploadlisting', {
+            fetch('http://127.0.0.1:8000/uploadlisting', {
             method: "POST",
             body: formData
             }).then(resp => {
-              const obj = resp.json();
+              
               if(!resp.ok) {
-              throw new Error(obj.status)
+              throw new Error(resp.status)
              }
-            return obj;
+            return resp.json()
+            
+           
+
              }).then(data => {
-            console.log("this is the url retuned by backend: " , data) // data shhould be the url to the newly created image
-             setListings(prev => ([...prev , data]))
-             setNewStripeListing(data) //<--- prep a listing with db created id to be sent to stripe
+
+               console.log("upload listing return = " , data )
+               setListings(prev => ([...prev , data]))
+               setNewStripeListing(data) //<--- prep a listing with db created id to be sent to stripe
              
              // need to extract id from data and send it along with stripe entry as meta data
            }).catch(err => {
            console.log(err)
          })
+
+         
+       
+
+      
 
         
 
@@ -498,9 +508,9 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
 
       console.log("this is the lsiting" , listing)
       
-      const obj = {
+      const RemoveImgDto = {
         id: listing.id,
-        img_url: listing.img_url
+        img_url : listing.img_url
       }
       
       
@@ -508,52 +518,51 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
        
     fetch('http://127.0.0.1:8000/remove_img' , {
       method: "POST",
-      headers: {
-
-       "Content-Type": "application/json" 
-
-      },
-      body: JSON.stringify(obj)
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(RemoveImgDto)
     }).then(resp => {
       if(!resp.ok) {
+         console.log("here it is!", resp)
         throw new Error(resp.status)
       }
 
       return resp.json()
     }).then(data => {
+     
+    //   fetch('http://127.0.0.1:8000/archive-stripe-product', {
+    //   method: "POST",
+    //   headers: {
+    //     "content-type" : "application/json"
+    //   },
+    //   body : JSON.stringify(data)
 
-      console.log("retruned stripe id: " , data)
-      fetch('http://127.0.0.1:8000/archive-stripe-product', {
-      method: "POST",
-      headers: {
-        "content-type" : "application/json"
-      },
-      body : JSON.stringify(data)
+    // }).then(resp => {
+    //     if(!resp.ok) {
+    //       throw new Error(resp.status)
+    //     }
 
-    }).then(resp => {
-        if(!resp.ok) {
-          throw new Error(resp.status)
-        }
+    //     return resp.text()
 
-        return resp.text()
+    // }).then(data => {
+    //   console.log(data)
+    // }).catch(err => {
+    //   console.log(err)
+    // })
 
-    }).then(data => {
-      console.log(data)
+    console.log("here it is!" , data)
     }).catch(err => {
-      console.log(err)
-    })
-    
-  
-  
-  
-  }).catch(err => {
 
         console.log(err)
     })
 
+
+    
+
+
+
     
     //remove image based on id from state array
-     setListings(prev =>
+  setListings(prev =>
     prev.filter((item) => item.id !== listing.id)
   );
   
