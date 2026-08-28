@@ -30,7 +30,7 @@
 
 .group {
   display: flex;
-  flex: 1 0 0;
+  flex: 1 1 1;
   align-items: center;
   justify-content: center;
   gap: 1em;

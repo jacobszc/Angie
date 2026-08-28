@@ -24,16 +24,14 @@ class CartItem(BaseModel):
     stripe_ID: str | None = None
     stripe_price_ID: str | None = None
 
+class StripeId(BaseModel):
+
+    stripe_ID : str
+
 
 
 class Items(BaseModel):
-    
     cart: list[CartItem]
-
-
-
-
-
 
 @router.post("/create-checkout-session")
 def create_checkout_session(cart : Items):
@@ -57,30 +55,22 @@ def create_checkout_session(cart : Items):
         return str(e)
 
     print("secret ----->" ,checkout_session.client_secret)
-    return ({"client_secret" : checkout_session.client_secret})
+    return ({"client_secret" : checkout_session.client_secret}) # client secret needed on front end for react to render comp
     
     
-
+#############################################################################################
 
 
 @router.post("/create-new-stripe-product")
 async def create_new_stripe_product(product: CartItem):
 
      client = StripeClient(STRIPE_API_KEY)
-
-     
-
-     
-    
-    
-    
-     new_product = client.v1.products.create({ 
-                                              "name" : product.name,
-                                              
-                                             
-                                              "metadata" : {
-                                                  "db_id" : product.id
-                                              },})
+     new_product = client.v1.products.create(
+         { 
+            "name" : product.name,
+            "metadata" : {
+            "db_id" : product.id
+         },})
      
      new_price = client.v1.prices.create({
          "currency" : "usd",
@@ -89,15 +79,10 @@ async def create_new_stripe_product(product: CartItem):
 
      })
 
-
-
-
      return({"stripe_ID" : new_product.id , "stripe_price_ID" : new_price.id, "id" : product.id})
 
 
-class StripeId(BaseModel):
-
-    stripe_ID : str
+################################################################################################################
 
 
 
@@ -105,18 +90,7 @@ class StripeId(BaseModel):
 def archive_stripe_product(stripeID: StripeId):
 
      client = StripeClient(STRIPE_API_KEY)
-
-     
-     
-    
-    
-    
      archived_product = client.v1.products.update(stripeID.stripe_ID, {"active" : False })
-     
-     
-
-
-
 
      return("product archived succesfully")
 

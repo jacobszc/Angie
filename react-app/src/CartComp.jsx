@@ -124,7 +124,7 @@ return (
                      <div className = "price"><p>$: {item.price}</p></div>
                     <div className = "id"><p>id: {item.id}</p></div>
                     <div className = "name"><p>{item.name}</p></div>
-                    <div className = "x" onClick = {() => handleRemoveItem(item)}><p>X</p></div> 
+                    <div className = "x" onClick = {() => handleRemoveItem(item)}><img className = "remove-image" src = "src/assets/garbage-can.png" alt = "X"></img></div>
                 </div>
                 
              </div> 

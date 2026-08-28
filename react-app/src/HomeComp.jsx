@@ -276,11 +276,9 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
              }
             return resp.json()
             
-           
+           }).then(data => {
 
-             }).then(data => {
-
-               console.log("upload listing return = " , data )
+               
                setListings(prev => ([...prev , data]))
                setNewStripeListing(data) //<--- prep a listing with db created id to be sent to stripe
              
@@ -289,27 +287,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
            console.log(err)
          })
 
-         
-       
-
-      
-
-        
-
-        
-
-         //////////////////////////////////////////////////////////////
-        
-          
-        
-
-        
-
-       
-          
-
-
-        }, [NewListing])
+          }, [NewListing])
       
  /////////////////////////////// end 2nd use effect /////////////////////////////////
        
@@ -522,32 +500,32 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
       body: JSON.stringify(RemoveImgDto)
     }).then(resp => {
       if(!resp.ok) {
-         console.log("here it is!", resp)
+         
         throw new Error(resp.status)
       }
 
       return resp.json()
     }).then(data => {
      
-    //   fetch('http://127.0.0.1:8000/archive-stripe-product', {
-    //   method: "POST",
-    //   headers: {
-    //     "content-type" : "application/json"
-    //   },
-    //   body : JSON.stringify(data)
+      fetch('http://127.0.0.1:8000/archive-stripe-product', {
+      method: "POST",
+      headers: {
+        "content-type" : "application/json"
+      },
+      body : JSON.stringify(data)
 
-    // }).then(resp => {
-    //     if(!resp.ok) {
-    //       throw new Error(resp.status)
-    //     }
+    }).then(resp => {
+        if(!resp.ok) {
+          throw new Error(resp.status)
+        }
 
-    //     return resp.text()
+        return resp.text()
 
-    // }).then(data => {
-    //   console.log(data)
-    // }).catch(err => {
-    //   console.log(err)
-    // })
+    }).then(data => {
+      console.log(data)
+    }).catch(err => {
+      console.log(err)
+    })
 
     console.log("here it is!" , data)
     }).catch(err => {

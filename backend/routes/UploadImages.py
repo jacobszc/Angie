@@ -7,13 +7,16 @@ from clients.SupaBaseClient import SupaBaseClient
 import json
 
 router = APIRouter()
-
 supabase_client = SupaBaseClient()
 
+class RemoveImgDto(BaseModel):
+    id: int 
+    img_url : str
 
-
-
-
+class StripeIdDto(BaseModel):
+    stripe_ID: str
+    stripe_price_ID: str
+    id: int
 
 
 
@@ -27,23 +30,13 @@ def read_root():
 
 @router.post("/uploadlisting")
 async def upload(file : UploadFile = File(...), newListing : str = Form(...)): # param name file of type UploadFile
-
-
    img_file_name = await make_file_name(file)
-
    bytes =  await file.read()
-    
    newListingData = json.loads(newListing)  ## this is my listing object sent from front end before any storage
-
-     ## we jsut need to create a name for the image to be stored in buecket
-
-   
-
    upload =  supabase_client.supabase.storage.from_("listing_images").upload(img_file_name , bytes , {"content-type": file.content_type}) #insert into bucket
-
    bucket_url = supabase_client.supabase.storage.from_("listing_images").get_public_url(upload.path)
 
-   print("bucket result --> " , bucket_url)
+  
 
    result = supabase_client.supabase.table("Animals").insert({
         "img_url": bucket_url, ## this should now be url to bucket and work exactly the same
@@ -53,13 +46,8 @@ async def upload(file : UploadFile = File(...), newListing : str = Form(...)): #
          "name" : newListingData["name"],
          "type" : newListingData["type"],
          "breed" : newListingData["breed"],
-         "secondary_images" : newListingData["secondary_images"]
-
-    }).execute()
+         "secondary_images" : newListingData["secondary_images"]}).execute()
    
-   print("the reult of ure query is: " , result)
-    
-
    row = result.data[0]
 
    listing = {
@@ -72,42 +60,20 @@ async def upload(file : UploadFile = File(...), newListing : str = Form(...)): #
 
    }
        
-   print("you called upload listing from ure useEffect that only runs when new img is dropped")
-   print(listing)
    return listing
 
+#######################################################################################################################
 
-
-    
-async def make_file_name(file: UploadFile = File(...)):
-
-    unique_id = str(uuid.uuid4()) # 034242-5454353-fsdf3
-
-    file_name = f"{unique_id}.png" #034242-5454353-fsdf3_pikachu.png
-
-    
-   
-    return file_name
-    
 @router.get("/load_images")
 def load_images():
 
-    
-
     result = supabase_client.supabase.table("Animals").select("img_url, caption, id, price, name, type, breed, stripe_ID, stripe_price_ID, secondary_images").execute()
+    print("---- results.data----" , result.data)
 
-    
-
-    print("Result: ",result.data)
     return result.data
 
-class RemoveImgDto(BaseModel):
-    id: int 
-    img_url : str
+##################################################################################################################   
 
-
-
-    
 @router.post("/remove_img")   
 def remove_img(ImageToRemove : RemoveImgDto): 
 
@@ -126,28 +92,12 @@ def remove_img(ImageToRemove : RemoveImgDto):
 
     file_name = "".join(file_name)
 
-
-    print("----FILENAME---- : " , file_name)
-
-    
-
-    
-
-    
-
-
-        
-
-
     resp = supabase_client.supabase.storage.from_("listing_images").remove(file_name)  ## first remove from bucket by img_url
-    result = supabase_client.supabase.table("Animals").delete().eq("id", id).select("stripe_ID").execute()  ## then remove from db itself
+    result = supabase_client.supabase.table("Animals").delete().eq("id", id).select("stripe_ID").execute()  ## then remove from db itself and retrun the stripe id to be used to archive the prodcuit
   
     return(result.data[0]) ## <-- result here only contains stripeId as well need that to archive assosiated stripe prodct
 
-class StripeIdDto(BaseModel):
-    stripe_ID: str
-    stripe_price_ID: str
-    id: int
+######################################################################################################################################
     
 
 
@@ -163,39 +113,32 @@ def add_stripe_ID_db_entry(StripeIdUpdate : StripeIdDto):
         return("item id doesnt exist in db!")
 
 
-
+############################################################################################################################################
 
 @router.post("/add_secondary_image")
 async def add_secondary_image(secondary_image: UploadFile = File(...), id: int = Form(...)):
 
 
     bytes = await secondary_image.read()
-     
-     
     img_file_name = await make_file_name(secondary_image)
+    bucket_url  = f"https://supabase.co/storage/v1/object/public/listing_images/{img_file_name}"
+
 
     bucket_result = supabase_client.supabase.storage.from_("listing_images").upload(img_file_name , bytes, {"content-type": secondary_image.content_type})
-
-    bucket_url  = f"https://supabase.co/storage/v1/object/public/listing_images/{img_file_name}"
-    
-     
-    ## going to need img url, and some comparitor like name
     result = supabase_client.supabase.table("Animals").select("secondary_images").eq("id" ,id).execute()
 
     secondary_images = result.data[0]["secondary_images"]
-
-    print(secondary_images)
     secondary_images.append(bucket_url)
-    print(secondary_images)
-
-
-
     result = supabase_client.supabase.table("Animals").update({"secondary_images" : secondary_images }).eq("id" ,id).execute()
-
     data = result.data[0]
 
-    print(data)
-      
     return(data)
 
+####################################################################################################################################
 
+
+async def make_file_name(file: UploadFile = File(...)):
+
+    unique_id = str(uuid.uuid4()) # 034242-5454353-fsdf3
+    file_name = f"{unique_id}.png" #034242-5454353-fsdf3_pikachu.png
+    return file_name
