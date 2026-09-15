@@ -50,8 +50,7 @@ function App() {
   
     
     { signingin && <SignInComp setIsAdmin={setIsAdmin} setSigningIn = {setSigningIn} setUser = {setUser} setIsSignedIn = {setIsSignedIn} cart = {cart} setCart={setCart} setCartQuantity = {setCartQuantity} setIsStripeApproved={setIsStripeApproved}/> }
-  
-   <SuccessPageComp/>
+ 
    
    
    </div> // end of placeholder container

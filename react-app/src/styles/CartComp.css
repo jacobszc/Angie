@@ -1,5 +1,6 @@
 .overlay {
     position: fixed;
+    position: relative;
     background-color: rgba(0 ,0 ,0 ,0.6);
     display: flex;
     flex-direction: column;
@@ -12,7 +13,7 @@
     height: 100vh;
 }
 
-
+ 
 
 .exit-thing {
     position: absolute;
@@ -113,14 +114,15 @@
     border-radius: 7px;
     transform: translateX(50%);
     background-color: rgb(33, 33, 209);
-    color:aliceblue;
+    color:black;
     font-family:Sofia;
     box-shadow: 2px 2px 2px 2px rgba(0 ,0 ,0 ,0.3)
 
   
 }
 .checkout-button:hover {
-  background-color: rgb(54, 54, 235);
+
+  transform: translateX(51%);
 
 }
 
@@ -209,10 +211,25 @@ align-items: center;
 }
 
 .checkout-conatiner {
-
-    width:75%;
-    height:80%;
+   position: absolute;
+   top: 10px;
+    width:35%;
+    height:90%;
+    background-color: aliceblue;
+    border-radius: 8px;
     
+}
+
+.avalible-payment-types {
+    display: flex;
+    flex-direction: column;
+    
+
+}
+
+.avalible-payment-types p {
+    flex-shrink: 1;
+    margin: 0 0 0 5px;
 }
 
 

@@ -46,7 +46,7 @@ def create_checkout_session(cart : Items):
     
     try:
         checkout_session = client.v1.checkout.sessions.create(params={
-            'ui_mode' : "elements", 
+            'ui_mode' : "form", 
             'line_items': items,
             'mode': 'payment',
             'return_url' : YOUR_DOMAIN
@@ -55,6 +55,10 @@ def create_checkout_session(cart : Items):
         return str(e)
 
     print("secret ----->" ,checkout_session.client_secret)
+    print("SESSION ID:", checkout_session.id)
+    print("STATUS:", checkout_session.status)
+    print("PAYMENT STATUS:", checkout_session.payment_status)
+    print("SECRET:", checkout_session.client_secret)
     return ({"client_secret" : checkout_session.client_secret}) # client secret needed on front end for react to render comp
     
     

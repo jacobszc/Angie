@@ -1,0 +1,23 @@
+.payment-failed-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 100vh;
+  text-align: center;
+}
+
+.payment-failed-container h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.payment-failed-container p {
+  margin-bottom: 20px;
+}
+
+.payment-failed-container button {
+  padding: 10px 20px;
+  cursor: pointer;
+}
