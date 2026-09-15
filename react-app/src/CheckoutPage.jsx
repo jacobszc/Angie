@@ -17,7 +17,9 @@ function CheckoutPage({setIsInCheckoutSession ,stripePromise, clientSecret}) {
 
   const onConfirm = (event) => {
     if (checkoutState.type === 'success') {
+         setPaymentSuccessful(true)
        checkoutState.checkout.confirm({formConfirmEvent: event});
+      
     }
   };
 
@@ -28,12 +30,14 @@ function CheckoutPage({setIsInCheckoutSession ,stripePromise, clientSecret}) {
     return (
       <div className = "overlay">
 
-        <div className ="checkout-conatiner">
+        {paymentSuccessful ? <SuccessPageComp/>
+
+         : <div className ="checkout-conatiner">
                
                         <CheckoutForm onConfirm = {onConfirm}/>
               
     
-    </div>
+    </div> }
 
     </div>
 
