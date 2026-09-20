@@ -3,7 +3,7 @@ import "./styles/Signin_Register_Selection_Comp.css"
 import CartComp from './CartComp'
 import SignUpComp from './RegisterComp'
 
-function Signin_Register_Selection_Comp({setSigningIn, cart, setCart, cartQuantity, setCartQuantity, user, setUser, setIsSignedIn, isSignedIn, setIsAdmin, setIsStripeApproved}) {
+function Signin_Register_Selection_Comp({setSigningIn, cart, setCart, cartQuantity, setCartQuantity, user, setUser, setIsSignedIn, isSignedIn, setIsAdmin, setIsStripeApproved, setIsPaymentComplete, setSessionIdForPayConfirm}) {
 
     const [isInCart, setIsInCart] = useState(false)
     const [isRegistering, setIsRegistering] = useState(false)
@@ -64,7 +64,7 @@ function Signin_Register_Selection_Comp({setSigningIn, cart, setCart, cartQuanti
             </div>
              }
 
-            {isInCart && <CartComp setIsInCart = {setIsInCart} cart = {cart} setCart ={setCart} setCartQuantity = {setCartQuantity} cartQuantity = {cartQuantity}/> }
+            {isInCart && <CartComp setIsInCart = {setIsInCart} cart = {cart} setCart ={setCart} setCartQuantity = {setCartQuantity} cartQuantity = {cartQuantity} setIsPaymentComplete = {setIsPaymentComplete} setSessionIdForPayConfirm = {setSessionIdForPayConfirm} /> }
         </div>
 
         

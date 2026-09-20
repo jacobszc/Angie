@@ -1,10 +1,23 @@
-
+import { useEffect } from "react"
 import "./styles/SuccessPageComp.css"
 
-function SuccessPageComp() {
+function SuccessPageComp({setRenderPaymentSuccessComp, TIME}) {
 
 
+      
 
+    // useEffect(() => {
+
+    //      setTimeout(() => {
+         
+    //         setRenderPaymentSuccessComp(false)
+
+    //     }, TIME);
+
+    // }, []);
+    
+    
+    
     return (
         <div className ="success-page-container">
             <div className= "success-text-container">

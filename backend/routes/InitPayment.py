@@ -46,20 +46,23 @@ def create_checkout_session(cart : Items):
     
     try:
         checkout_session = client.v1.checkout.sessions.create(params={
-            'ui_mode' : "form", 
+            'ui_mode' : "embedded_page", 
             'line_items': items,
             'mode': 'payment',
-            'return_url' : YOUR_DOMAIN
+             "redirect_on_completion": "never",
         })
+        
     except Exception as e:
         return str(e)
 
-    print("secret ----->" ,checkout_session.client_secret)
-    print("SESSION ID:", checkout_session.id)
-    print("STATUS:", checkout_session.status)
-    print("PAYMENT STATUS:", checkout_session.payment_status)
-    print("SECRET:", checkout_session.client_secret)
-    return ({"client_secret" : checkout_session.client_secret}) # client secret needed on front end for react to render comp
+    
+    
+    # print("secret ----->" ,checkout_session.client_secret)
+    # print("SESSION ID:", checkout_session.id)
+    # print("STATUS:", checkout_session.status)
+    # print("PAYMENT STATUS:", checkout_session.payment_status)
+    # print("SECRET:", checkout_session.client_secret)
+    return ({"client_secret" : checkout_session.client_secret , "session_id" :checkout_session.id }) # client secret needed on front end for react to render comp
     
     
 #############################################################################################
@@ -97,6 +100,33 @@ def archive_stripe_product(stripeID: StripeId):
      archived_product = client.v1.products.update(stripeID.stripe_ID, {"active" : False })
 
      return("product archived succesfully")
+
+
+@router.get("/checkout-status/{session_id}")
+def checkout_status(session_id: str):
+
+    session = client.v1.checkout.sessions.retrieve(session_id)
+
+    return {
+        "payment_status": session.payment_status
+    }
+
+
+@router.get("/confirm_stripe_payment_status/{session_id}")
+def confirm_stripe_payment_status(session_id: str):
+
+    session = client.v1.checkout.sessions.retrieve(session_id)
+
+
+    paymentStatus = session.payment_status
+
+    print("PAYMENT STATUS: ", paymentStatus)
+
+    if(paymentStatus):
+        return{"payment_status" : paymentStatus }
+
+    return("error collecting pamentStatus")
+
 
 
     

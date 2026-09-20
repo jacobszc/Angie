@@ -1,19 +1,20 @@
 import { useState, useEffect,  } from "react"
 import "./styles/CartComp.css"
-
+import {EmbeddedCheckoutProvider} from '@stripe/react-stripe-js';
 import CheckoutPage from "./CheckoutPage";
-import {CheckoutFormProvider, CheckoutForm, useCheckoutForm} from '@stripe/react-stripe-js/checkout';
+import EmbeddedCheckoutComp from "./EmbeddedCheckoutComp";
 import {loadStripe} from '@stripe/stripe-js';
 
 
 const stripePromise = loadStripe("pk_test_51Tq0KLIzoQjAE2P1MjdVZGTQeIAmreDfONebl1B8GIEHeWnv3ZjUXOFsVl9LykZqWf4RxBMrsem92jFmYSD6m7lD00qe70z0yV") 
 
 
-function CartComp({setIsInCart, setCart, cart, setCartQuantity, cartQuantity}) {
+function CartComp({setIsInCart, setCart, cart, setCartQuantity, cartQuantity, setIsPaymentComplete, setSessionIdForPayConfirm}) {
 
     const [isInCheckoutSession, setIsInCheckoutSession] = useState(false)
     const [clientSecret, setClientSecret] = useState("")
     const [subTotal, setSubtotal] = useState(0)
+    const [sessionId, setSessionId] = useState("")
     
     function handleCheckout() {
 
@@ -38,6 +39,7 @@ function CartComp({setIsInCart, setCart, cart, setCartQuantity, cartQuantity}) {
              console.log("stripe returned data --->" , data)
             data.client_secret
             setClientSecret(data.client_secret)
+            setSessionId(data.session_id)
             setIsInCheckoutSession(true)
 
             
@@ -54,6 +56,9 @@ function CartComp({setIsInCart, setCart, cart, setCartQuantity, cartQuantity}) {
         setCartQuantity(finish)
         setCart(newCart)
 }
+
+
+   
     
     useEffect(() => {
          const initval = 0
@@ -123,15 +128,15 @@ return (
 
           {isInCheckoutSession && 
           
-          <CheckoutFormProvider 
+          <EmbeddedCheckoutProvider 
                 stripe = {stripePromise}
                 options = {{clientSecret}}
                 >
          
          
-            <CheckoutPage />
+            <EmbeddedCheckoutComp setIsInCheckoutSession = {setIsInCheckoutSession} setCart = {setCart} setIsInCart = {setIsInCart} setIsPaymentComplete = {setIsPaymentComplete} setSessionIdForPayConfirm = {setSessionIdForPayConfirm} sessionId = {sessionId}/>
           
-          </CheckoutFormProvider>
+          </EmbeddedCheckoutProvider>
           
           
           }

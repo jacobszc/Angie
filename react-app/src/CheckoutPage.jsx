@@ -1,53 +1,54 @@
 import { CheckoutForm, CheckoutFormProvider, useCheckoutForm } from "@stripe/react-stripe-js/checkout"
+
 import { useState } from "react";
 import SuccessPageComp from './SuccessPageComp';
 import PaymentFailedComp from './PaymentFailedComp'
 
-function CheckoutPage({setIsInCheckoutSession ,stripePromise, clientSecret}) {
+function CheckoutPage({setIsInCheckoutSession , stripePromise, clientSecret, setCart, setIsInCart, setIsPaymentComplete, setSessionIdForPayConfirm}) {
     
-    const [paymentSuccessful, setPaymentSuccessful] = useState(false)
+  
+  const [ ErrorMessage ,setErrorMessage] = useState('')
+  const [isProcessing, setIsProcessing] = useState(false)
+   const[renderPaymentSuccessComp, setRenderPaymentSuccessComp] = useState(false)
+  const TIME = 3000;
+
+  const checkoutState = useCheckoutForm();
+
+  async function onConfirm(event)  {
+
+    setIsPaymentComplete(true)
+    setSessionIdForPayConfirm(checkoutState.checkout.id)
+      
+   checkoutState.checkout.confirm({formConfirmEvent : event})
 
 
-    const checkoutState = useCheckoutForm();
-
-    if (checkoutState.type === 'error') {
-    return <div>Error: {checkoutState.error.message}</div>;
   }
 
+  
+  
+  if (checkoutState.type === "loading") {
+    return <p>loading checout....</p>
+  }
 
-  const onConfirm = (event) => {
-    if (checkoutState.type === 'success') {
-         setPaymentSuccessful(true)
-       checkoutState.checkout.confirm({formConfirmEvent: event});
-      
-    }
-  };
+  if (checkoutState.type === "error") {
+   return<p>error loadibng checkout...</p>
+  }
 
-    
-    
-
-
-    return (
+  
+  return (
       <div className = "overlay">
-
-        {paymentSuccessful ? <SuccessPageComp/>
-
-         : <div className ="checkout-conatiner">
-               
-                        <CheckoutForm onConfirm = {onConfirm}/>
-              
-    
-    </div> }
-
-    </div>
+        <div className ="checkout-conatiner">
+            <CheckoutForm onConfirm = { (event) => { onConfirm(event)}}/>
+        </div> 
+      </div>
 
 
-    )
+      )
 
 
 
 
 
-}
+  }
 
 export default CheckoutPage

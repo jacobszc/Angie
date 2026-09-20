@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import TitleComp from './TitleComp';
 import SignInComp from './SignInComp';
 import MenuComp from './MenuComp';
@@ -28,7 +28,46 @@ function App() {
   const [cartQuantity, setCartQuantity] = useState(0);
   const [isSignedIn, setIsSignedIn] = useState(false)
   const [isStripeApproved, setIsStripeApproved] = useState(false)
+  const [isPaymentComplete,  setIsPaymentComplete] = useState(false)
+  const [sessionIdForPayConfirm, setSessionIdForPayConfirm] = useState("")
+  const [ renderPaymentSuccessComp,  setRenderPaymentSuccessComp] = useState(false)
+ 
+  const firstRun = useRef(true)
+  
 
+  async function checkPaymentStatus(sessionId) {
+    const response = await fetch(
+        `http://127.0.0.1:8000/checkout-status/${sessionId}`
+    );
+
+    const data = await response.json();
+
+    if (data.payment_status === "paid") {
+        
+        console.log("payment successful, success page sohuld rnder here!")
+        setRenderPaymentSuccessComp(true);
+        
+    }
+}
+
+  useEffect(()=> {
+
+    if(firstRun.current === true) {
+      firstRun.current = false;
+      return
+    }
+     
+    console.log("made it inside of useEfect")
+    
+    
+
+    if(sessionIdForPayConfirm) {
+      checkPaymentStatus(sessionIdForPayConfirm);
+    }
+
+
+
+  },[sessionIdForPayConfirm])
 
   
   
@@ -43,7 +82,7 @@ function App() {
    <div id ="place-holder-container" className = "place-holder-container">
     
     
-    <Signin_Register_Selection_Comp setSigningIn={setSigningIn} cart = {cart} setCart = {setCart} cartQuantity={cartQuantity} setCartQuantity={setCartQuantity} user ={user} setUser = {setUser}  setIsSignedIn = {setIsSignedIn} isSignedIn={isSignedIn} setIsAdmin = {setIsAdmin} setIsStripeApproved = {setIsStripeApproved}/>
+    <Signin_Register_Selection_Comp setSigningIn={setSigningIn} cart = {cart} setCart = {setCart} cartQuantity={cartQuantity} setCartQuantity={setCartQuantity} user ={user} setUser = {setUser}  setIsSignedIn = {setIsSignedIn} isSignedIn={isSignedIn} setIsAdmin = {setIsAdmin} setIsStripeApproved = {setIsStripeApproved} setIsPaymentComplete = {setIsPaymentComplete} setSessionIdForPayConfirm = {setSessionIdForPayConfirm} />
     <TitleComp setSigningIn = {setSigningIn}/>
     <MenuComp/>
     <HomeComp isadmin={isadmin} setCart = {setCart} cart ={cart} setCartQuantity = {setCartQuantity} cartQuantity ={cartQuantity} isSignedIn={isSignedIn} user ={user} isStripeApproved ={isStripeApproved}  />
@@ -51,7 +90,7 @@ function App() {
     
     { signingin && <SignInComp setIsAdmin={setIsAdmin} setSigningIn = {setSigningIn} setUser = {setUser} setIsSignedIn = {setIsSignedIn} cart = {cart} setCart={setCart} setCartQuantity = {setCartQuantity} setIsStripeApproved={setIsStripeApproved}/> }
  
-   
+   { renderPaymentSuccessComp && <SuccessPageComp setRenderPaymentSuccessComp = {setRenderPaymentSuccessComp} TIME = {TIME}/>}
    
    </div> // end of placeholder container
 
