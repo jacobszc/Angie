@@ -4,7 +4,7 @@ function EmbeddedCheckoutComp({sessionId}) {
 
 
 
- const [status, setStatus] = useState("")
+ const [status, setStatus] = useState("empty")
     // soon as page is rendered well fetch status and conditionaly check for complete
 
     async function checkPaymentStatus(sessionId) {
@@ -27,7 +27,7 @@ function EmbeddedCheckoutComp({sessionId}) {
     
        checkPaymentStatus(sessionId);
        
-       
+       console.log("PAYMENT STATUS: ", status)
 
        
      
