@@ -104,9 +104,12 @@ function RegisterComp({setIsRegistering}) {
         if(!resp.ok) {
             throw new Error(resp.status)
         }
-        return resp.text()
+        return resp.json()
      }).then(data => {
-        console.log(data)
+        console.log(data.success_status)
+        if(data.success_status) {
+            setIsRegistering(false)
+        }
      }).catch(err => {
         console.log(err)
        

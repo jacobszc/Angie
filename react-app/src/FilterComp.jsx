@@ -65,26 +65,37 @@ function FilterComp({setIsFiltering, setFilter, DEFAULT_FILTER}) {
           <h2 className ="filter-title">Filter By Type...</h2>
           
             <form onSubmit={filterListings}>
+             <div className = "row-container">
                 <div className = "checkbox-row-1">
                   <label htmlFor ="checkbox-1">cat</label>
+                  <div className = "input-wrapper">
                   <input className ="checkbox-1" type = "checkbox"></input>
+                   </div>
                 </div>
                 <div className = "checkbox-row-2">
                   <label htmlFor ="checkbox-2">dog</label>
+                  <div className = "input-wrapper">
                   <input className ="checkbox-2" type = "checkbox"></input>
+                  </div>
                 </div>
                 <div className = "checkbox-row-3">
                   <label htmlFor ="checkbox-3">bird</label>
+                  <div className = "input-wrapper">
                   <input className ="checkbox-3" type = "checkbox"></input>
+                  </div>
                 </div>
                 <div className = "checkbox-row-4">
                   <label htmlFor ="checkbox-4">reptile</label>
+                  <div className = "input-wrapper">
                   <input className ="checkbox-4" type = "checkbox"></input>
+                </div>
                 </div>
                 <div className = "checkbox-row-5">
                   <label htmlFor ="checkbox-5">fish</label>
+                  <div className = "input-wrapper">
                   <input className ="checkbox-5" type = "checkbox"></input>
-                  
+                  </div>
+                </div>
                 </div>
                 <div className = "filter-button-container">
                 <button className = "submit-filters-button "type="submit">apply</button>

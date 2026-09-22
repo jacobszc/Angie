@@ -1,13 +1,24 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException, Form
 from argon2 import PasswordHasher
 from clients.SupaBaseClient import SupaBaseClient
+from dataclasses import dataclass
 
 router = APIRouter()
 supabase_client = SupaBaseClient()
 
+@dataclass
+class RegistrationModel:
+    username : str = ""
+    success_status: bool = False
+    success_status_reason: str = ""
+
+
+
 
 @router.post("/Register")
 def Register(password: str = Form(...), username : str = Form(...)):
+
+    Registration = RegistrationModel()
     
     
 
@@ -16,7 +27,10 @@ def Register(password: str = Form(...), username : str = Form(...)):
     
     if result.data != []:
         print(result)
-        return("username : ", username, " already exists")
+        Registration.username = username
+        Registration.success_status = False # redunant but jsut to make sure
+        Registration.success_status_reason = "username exists"
+        return(Registration) # fail if user already exists
     
     hashedpass = passhash(password)
     print("hashedpass:" , hashedpass)
@@ -31,8 +45,10 @@ def Register(password: str = Form(...), username : str = Form(...)):
 
   
    
-   
-    return(username, " registered succesfully")
+    Registration.success_status = True
+    Registration.username = username
+    
+    return(Registration)
 
 
 def passhash(password: str):

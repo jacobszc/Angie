@@ -7,27 +7,38 @@
     flex-wrap: block;
     margin-bottom: 10px;
      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+   background-image: linear-gradient(to right top, #e6e8ec, #dae6ec, #cee5e4, #cbe2d5, #d4dcc2); ;
     
 }
 
 .menu-option {
     justify-content: center;
-    width:25%;
+    width:24.5%;
     height: 100%;
-    border-style: solid;
+    margin: auto;
+   
     border-width: 0px 1px 0px 0px;
-    background-color: white;
-    border-radius: 0px 0px 5px 0px;
+    
+    border-radius: 5px 5px 5px 5px;
     display:grid;
     grid-template-rows: auto auto auto;
-     background-color: hsl(129, 52%, 88%)
+     background-color: hsl(151, 30%, 94%);
 
     
+}
+.menu-option h6 {
+     background: -webkit-linear-gradient(#2132cf, #9e91e0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .menu-option:hover {
     
   box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+   background-color: hsl(133, 72%, 90%);
   cursor: pointer;
 
 

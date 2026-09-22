@@ -1,29 +1,47 @@
 .title-container {
 
-    width: 100%;
+    width: 98%;
     height: 200px;
-    border-radius: 10px 10px 10px 0px;
+    border-radius: 10px 10px 10px 10px;
     display: flex;
     margin-bottom: 20px ;
+    margin-left: 10px;
     background-color: hsl(151, 30%, 94%);
+    border-radius: 12px 12px 12px 12px;
+    box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.2);
    
 }
 
 
 .title-img {
-    border-radius: 10px 10px 10px 0px;
+    border-radius: 10px 10px 10px 10px;
     opacity: 0.86;
-    width: 40%;
+    width: 50%;
     
     height: 100%;
 }
 
 .title-words {
-     
+     width:auto;
+     display: flex;
     flex:1;
     background-image: url(../assets/wheat.png);
     background-color: hsl(151, 30%, 94%);
     align-content: center;
+    justify-content:center;
+     border-radius: 12px 12px 12px 12px;
+}
+
+.title-words h2 {
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    
+
+    background: -webkit-linear-gradient(#dd2c2c, #189c5f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
 }
 
 .sign-in {

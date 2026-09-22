@@ -30,7 +30,7 @@ function App() {
   const [isStripeApproved, setIsStripeApproved] = useState(false)
   const [isPaymentComplete,  setIsPaymentComplete] = useState(false)
   const [sessionIdForPayConfirm, setSessionIdForPayConfirm] = useState("")
-  const [ renderPaymentSuccessComp,  setRenderPaymentSuccessComp] = useState(false)
+  const [renderPaymentSuccessComp,  setRenderPaymentSuccessComp] = useState(false)
  
   const firstRun = useRef(true)
   

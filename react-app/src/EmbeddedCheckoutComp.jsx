@@ -25,7 +25,7 @@ function EmbeddedCheckoutComp({sessionId}) {
     
     useEffect(() => {
     
-       checkPaymentStatus(sessionId);
+      checkPaymentStatus(sessionId);
        
        console.log("PAYMENT STATUS: ", status)
 

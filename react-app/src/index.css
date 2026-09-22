@@ -52,7 +52,14 @@
 
 body {
   margin: 0;
-  
+  background-image: linear-gradient(to right top, #ddb44257, #cae3d8, #d7ead9, #f0dcf0, #f3f6e0);
+}
+.place-holder-container {
+    
+    
+    box-shadow: 5px 15px 15px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 8px 8px 8px 8px;
+    
 }
 
 #root {
