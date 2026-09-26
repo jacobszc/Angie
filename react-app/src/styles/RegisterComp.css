@@ -1,221 +1,227 @@
 .overlay {
-    position: fixed;;
-    background-color: rgba(0 ,0 ,0 ,0.6);
-    display: flex;
-    justify-content: center;
-    align-items:center;
-    z-index: 1000;
+    position: fixed;
+
     top: 0;
-    left:0;
+    left: 0;
+
     width: 100vw;
     height: 100vh;
+
+    background-color: rgba(0, 0, 0, 0.6);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 1000;
 }
+
+
+/* -------------------- */
+/* Main container       */
+/* -------------------- */
 
 .sign-up-container {
-    background-image: linear-gradient(to right bottom, #dde2eb, #d3e2e8, #cde1e0, #ceded5, #d5daca);
-    width:20%;
-    height:50%;
-    background-color: rgb(250, 250, 249);
     position: relative;
-    display: grid;
-    grid-template-rows: auto auto auto auto auto auto auto;
+
+    width: 380px;
+    min-height: 450px;
+
+    padding: 35px 40px;
+
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 22px;
+
+    background-image: linear-gradient(
+        to right top,
+        #f6f8f6,
+        #f4f7f3,
+        #f2f5f0,
+        #f1f4ec,
+        #f0f2e9
+    );
+
     border-radius: 8px;
-     box-shadow: 4px 4px 2px 2px rgba(0 ,0 ,0 ,0.2);
-     font-family: 'Times New Roman', Times, serif
-    
+
+    box-shadow: 4px 4px 2px 2px rgba(0, 0, 0, 0.2);
+
+    font-family: "Times New Roman", Times, serif;
 }
+
+
+/* -------------------- */
+/* Title                */
+/* -------------------- */
 
 .title {
-    align-self: center;
-    justify-self: center;
-    text-decoration: underline;
-    
+    text-align: center;
+
+    margin: 5px 0 10px 0;
+
+    font-size: 24px;
 }
 
 
+/* -------------------- */
+/* Input rows           */
+/* -------------------- */
 
+.row1,
+.row2,
+.row3
+.row4 {
+    width: 100%;
 
-.row1 {
-    grid-row: 3;
-    width:100%;
-    height:100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+
+    gap: 7px;
 }
+
+
+/* All labels */
+
+.input-label {
+    margin: 0;
+
+    font-size: 15px;
+}
+
+
+/* -------------------- */
+/* All inputs           */
+/* -------------------- */
 
 .sign-up-container input {
-    height: 40%;
-    width: 60%;
-    
+    width: 100%;
+    height: 40px;
 
+    box-sizing: border-box;
+
+    padding: 0 12px;
+
+    border: 1px solid black;
+    border-radius: 8px;
+
+    background-color: rgb(245, 241, 241);
+
+    box-shadow: 2px 2px 1px 1px rgba(0, 0, 0, 0.1);
+
+    font-size: 14px;
 }
+
 
 .sign-up-container input:focus {
-    height: 40%;
-    width: 60%;
+    outline: none;
+
     box-shadow: 4px 4px 2px 2px rgba(115, 155, 228, 0.8);
+
     transform: translate(1px, -1px);
-
-}
-
-.username-label {
-    
-    height: 20%;
-   
-    
-    
-    
-}
-    
-
-.username-input{
-    
-    
-    border: solid;
-    border-radius: 8px;
-    border-width: 1px;
-  
-    background-color: rgb(245, 241, 241);
-    justify-self: center;
-    box-shadow: 2px 2px 1px 1px rgba(0 ,0 ,0 ,0.1);
-    
-
-}
-
-.username-input-invalid{
-    
-    
-    border: solid;
-    border-radius: 8px;
-    border-width: 1px;
-  
-    background-color: rgb(245, 241, 241);
-    justify-self: center;
-    box-shadow: 2px 2px 1px 1px rgba(0 ,0 ,0 ,0.1);
-    
-
-}
-
-.username-input-invalid::placeholder {
-    
-    
-   color: rgba(192, 23, 52,0.5);
-
 }
 
 
+/* -------------------- */
+/* Invalid inputs       */
+/* -------------------- */
 
-.row2 {
-
-    grid-row: 4 ;
-    width:100%;
-    height:100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-}
-
-.password-input{
-    
-  
-    border: solid;
-    border-radius: 8px;
-    border-width: 1px;
-  
-    background-color: rgb(245, 241, 241);
-    
-    box-shadow: 2px 2px 1px 1px rgba(0 ,0 ,0 ,0.1);
-
-}
-
-.password-input-invalid{
-    
-  
-    border: solid;
-    border-radius: 8px;
-    border-width: 1px;
-  
-    background-color: rgb(245, 241, 241);
-    
-    box-shadow: 2px 2px 1px 1px rgba(0 ,0 ,0 ,0.1);
-
-}
-
+.username-input-invalid::placeholder,
 .password-input-invalid::placeholder {
-
-     color: rgba(192, 23, 52,0.5);
+    color: rgba(192, 23, 52, 0.6);
 }
 
 
-.password-label {
-   
-    height: 20%;
-    
-    
+/* -------------------- */
+/* Password + eye       */
+/* -------------------- */
+
+.password-input-wrapper {
+    position: relative;
+
+    width: 100%;
 }
 
 
-.row3 {
+.password-input-wrapper .password-input {
+    width: 100%;
 
-    grid-row:5;
-    width:100%;
-    height:100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.confirm-password-input{
-    
-   
-    border: solid;
-    border-radius: 8px;
-    border-width: 1px;
-   
-    background-color: rgb(245, 241, 241);
-  
-    box-shadow: 2px 2px 1px 1px rgba(0 ,0 ,0 ,0.1);
-
+    /* Leave room inside the input for the eye */
+    padding-right: 45px;
 }
 
-.confirm-password-label {
-  
-    height: 20%;
-   
-    
-    
+
+.eye-ball-img {
+    position: absolute;
+
+    right: 12px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 22px;
+    height: 22px;
+
+    object-fit: contain;
+
+    cursor: pointer;
 }
+
+
+/* -------------------- */
+/* Submit button        */
+/* -------------------- */
+
 .sign-up-button {
+    width: 45%;
+    height: 40px;
+
+    align-self: center;
+
+    margin-top: 10px;
+
     display: flex;
-    grid-row:7;
-    width:40%;
-    height: 50%;
-    justify-self:center;
     align-items: center;
     justify-content: center;
-    border-radius:  7px;
-    transition: transform 0.1s ease;
+
+    border-radius: 7px;
+
     background-color: rgba(0, 90, 255, 0.8);
 
-    
+    cursor: pointer;
+
+    transition:
+        transform 0.1s ease,
+        background-color 0.1s ease;
 }
 
-.sign-up-button:hover{
-    
-    transform:translate(0.5px, -0.5px);
-    background-color: rgba(0, 0, 255, 0.2);
-    
+
+.sign-up-button:hover {
+    transform: translate(0.5px, -0.5px);
+
+    background-color: rgba(0, 90, 255, 0.6);
 }
+
+
+/* -------------------- */
+/* Exit button          */
+/* -------------------- */
 
 .exit-button {
     position: absolute;
-    right:5px;
-    top:5px;
+
+    right: 10px;
+    top: 10px;
+
+    border: none;
+    background: transparent;
+
     font-weight: 500;
+    font-size: 16px;
+
     cursor: pointer;
-    font-family:'Times New Roman', Times, serif
+
+    font-family: "Times New Roman", Times, serif;
 }

@@ -1,5 +1,6 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException, Form
 from argon2 import PasswordHasher
+from argon2.exceptions import VerifyMismatchError
 from clients.SupaBaseClient import SupaBaseClient
 from dataclasses import dataclass
 

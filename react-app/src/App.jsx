@@ -3,6 +3,7 @@ import TitleComp from './TitleComp';
 import SignInComp from './SignInComp';
 import MenuComp from './MenuComp';
 import HomeComp from './HomeComp';
+
 import SearchComp from './SearchComp';
 import EnterCaptionComp from './EnterCaptionComp';
 import CartComp from './CartComp';
