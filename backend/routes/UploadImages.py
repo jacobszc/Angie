@@ -68,7 +68,7 @@ async def upload(file : UploadFile = File(...), newListing : str = Form(...)): #
 def load_images():
 
     result = supabase_client.supabase.table("Animals").select("img_url, caption, id, price, name, type, breed, stripe_ID, stripe_price_ID, secondary_images").execute()
-    print("---- results.data----" , result.data)
+    
 
     return result.data
 

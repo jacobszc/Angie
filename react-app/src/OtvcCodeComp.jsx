@@ -1,7 +1,7 @@
 import "./styles/OtvcCodeComp.css"
 import { useState, useRef } from "react";
 
-function OtvcCodeComp({otvc}) {
+function OtvcCodeComp({otvc,  setOtvcVerfied}) {
     const [digit, setDigit] = useState('');
      const input1 = useRef(null);
      const input2 = useRef(null);
@@ -44,7 +44,12 @@ function OtvcCodeComp({otvc}) {
             }
             return resp.json()
         }).then(data => {
-            console.log(data)
+            if(data.verified === true) {
+
+                console.log("treterte",data)
+                 setOtvcVerfied(true)
+                
+            }
             
 
         }).catch(err =>{

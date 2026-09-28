@@ -54,10 +54,17 @@ def SignIn(username: str = Form(...), password: str = Form(...) ):
      
 @router.get("/send_verification_code/{email}")
 def send_verification_code(email: str):
+
+     print("WERE IN")
      SCALER = 1000000
+
+     email = json.loads(email)
+
+     print("email: " , email)
 
      OTVC = math.trunc((random.random() * SCALER))
 
+     
      
      resend.api_key = os.getenv("RESEND_API_KEY")
      
@@ -72,6 +79,8 @@ def send_verification_code(email: str):
           }
           
      })
+
+     print("response = " , response)
 
      if(response["id"]): 
          return {"sent_success" : True, "otvc" : OTVC}
@@ -100,6 +109,6 @@ def check_verification_code(OTVCPair):
     print("genreated code : ", otvcpair.gen_otvc, '\n' , "user submitted code: ", otvcpair.userSubmittedOTVC)
 
     if otvcpair.userSubmittedOTVC == otvcpair.gen_otvc:
-        return({"verified": True})
+        return({"verified": True, "otvc" : otvcpair.gen_otvc })
 
-    return {"verified" : False}
+    return {"verified" : False , "otvc" : otvcpair.userSubmittedOTVC }
