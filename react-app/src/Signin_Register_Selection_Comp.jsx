@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import "./styles/Signin_Register_Selection_Comp.css"
 import CartComp from './CartComp'
-import SignUpComp from './RegisterComp'
+import RegisterComp from './RegisterComp'
 
 function Signin_Register_Selection_Comp({setSigningIn, cart, setCart, cartQuantity, setCartQuantity, user, setUser, setIsSignedIn, isSignedIn, setIsAdmin, setIsStripeApproved, setIsPaymentComplete, setSessionIdForPayConfirm}) {
 
@@ -50,7 +50,7 @@ function Signin_Register_Selection_Comp({setSigningIn, cart, setCart, cartQuanti
             <div className ="button-wrapper-1">
             <button className ="selection-button-1" onClick = {() => setIsRegistering(true)}>Register</button>
 
-            {isRegistering &&<SignUpComp setIsRegistering = {setIsRegistering}/>}
+            {isRegistering &&<RegisterComp setIsRegistering = {setIsRegistering} setUser = {setUser} setIsSignedIn = {setIsSignedIn}/>}
             </div>
             
             <div className ="button-wrapper-2">

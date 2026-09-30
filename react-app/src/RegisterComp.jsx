@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { supabase } from "./supabaseClient";
 import OtvcCodeComp from './OtvcCodeComp';
 
-function RegisterComp({setIsRegistering}) {
+function RegisterComp({setIsRegistering, setUser, setIsSignedIn}) {
 
     const [isValidUserName, setIsValidUserName] = useState(true)
     const [isvalidPass, setIsValidPass] = useState(true)
@@ -12,7 +12,7 @@ function RegisterComp({setIsRegistering}) {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [isValidEmail, setIsValidEmail] = useState(true)
     const[isEnteringVerificationCode ,setIsEnteringVerificationCode] = useState(false)
-    const [otvcIsVerified, setOtvcIsVerified] = useState(false)
+    
     const [otvcVerfied, setOtvcVerfied] = useState(false) 
     const newUserData = useRef([])
     const otvc = useRef(0)
@@ -25,7 +25,8 @@ function RegisterComp({setIsRegistering}) {
        formData.append("username", newUserData.current[0])
        formData.append("email", newUserData.current[1])
        formData.append("password", newUserData.current[2])
-
+       
+       console.log(newUserData.current[0])
     
      fetch('http://127.0.0.1:8000/Register', {
         method: "POST",
@@ -118,7 +119,7 @@ async function CheckIfUserAndEmailAvalible(email, username) {
     
 
     function validateUserName(username)  {
-           let isvalid = true
+           
             
            if(username.length < 8) {
             console.log("username is: ",  username.length , " characters which is not valid!")
@@ -128,7 +129,7 @@ async function CheckIfUserAndEmailAvalible(email, username) {
 
 
            console.log("username is: ",  username.length , " characters which is valid!")
-           return isvalid
+           return true
          
         } 
 
@@ -185,7 +186,7 @@ async function CheckIfUserAndEmailAvalible(email, username) {
 
        
 
-        setIsValidEmail(true)
+       
 
         return true
 
@@ -248,21 +249,97 @@ async function CheckIfUserAndEmailAvalible(email, username) {
             return
         }
         
-        console.log(`about to register new user ${newUserData[0]} with password ${newUserData[1]} and email  ${newUserData[2]}` )
+        console.log(`about to register new user ${newUserData.current[0]} with password ${newUserData.current[1]} and email  ${newUserData.current[2]}` )
+        
+        const register = async() => {
+
+             await RegisterNewUser()
+
+             console.log("done awaiting register and username is: ",newUserData.current[0])
+
+        }
+
+        
+        console.log("new user registered")
+///////////////////////////////// sign in after register awaited/////
+        const signin = async() => {
+
+             const formData = new FormData()
+        formData.append("username", newUserData.current[0])
+        formData.append("password", newUserData.current[2])
+
+        await fetch( "http://127.0.0.1:8000/SignIn", {
+            method: "POST",
+            body: formData
+            
+        }).then(resp => {
+            if(!resp.ok) {
+                throw new Error(resp.status)
+            }
+
+            return resp.json()
+        }).then(data => {
+            console.log(data)
+           /////////////////////////////// should not need admin check as new user will never be admin right after regsiter
+           // admin has to be set manualy by me
+
+        //    if(data.role === "admin") {
+            
+        //     setUser(username)
+        //     console.log("succesful log in! username set to: ", username)
+        //     setIsAdmin(true)
+        //     setIsSignedIn(true)
+        //     setSigningIn(false)
+            
+           
+        //   }
+
+        
+            console.log("setting state username to: " , newUserData.current[0])
+            setUser(newUserData.current[0])
+            setIsSignedIn(true)
+            //setCart(data.cart) //////////////////////////// <------ new user shouldnt have cart
+            
+            //setIsStripeApproved(data.stripe_approved)
+            //setCartQuantity(data.cart.length)
+            console.log("succesful log in! username set to: ", newUserData.current[0] )
+           // setSigningIn(false)
+            
+        
 
 
-        RegisterNewUser()
+
+            // set some state vars
+        }).catch(err => {
+            console.log(err)
+        })
+
+
+        }
+       
+       
+       register()
+       signin()
+       console.log("new user signed in", newUserData.current[0])
+
+       setIsEnteringVerificationCode(false)
+       setIsRegistering(false)
+
+        
 
     },[otvcVerfied])
 
     if(otvcVerfied) {
         console.log("code verified!")
+        /// all good and registered so we can jsut sign in right away
+        
+       
 
        
 
 
 
-        return <p>CODE CONFIRMED</p>
+       
         
     }
 
@@ -290,29 +367,20 @@ async function CheckIfUserAndEmailAvalible(email, username) {
                 X
             </button>
 
-            <h3 className="title">Sign Up</h3>
+            <h3 className="title">Register</h3>
 
             <div className="row1">
                 <p className="input-label">UserName</p>
 
-                {isValidUserName ? (
-                    <input
-                        type="text"
-                        name="username"
-                        value ="jake2300543"
-                        className="username-input"
-                        placeholder="username...."
-                         readOnly ={true}
+                 <input
+                    autoComplete="off"
+                    type="text"
+                    name="username"
+                    className="username-input"
+                    placeholder= {isValidUserName ? "username...." : "invalid username..."}
+                         
                     />
-                ) : (
-                    <input
-                        type="text"
-                        name="username"
-                        className="username-input-invalid"
-                        placeholder="must be at least 8 characters..."
-                         readOnly ={true}
-                    />
-                )}
+                
             </div>
 
 
@@ -325,10 +393,10 @@ async function CheckIfUserAndEmailAvalible(email, username) {
                         <input
                             type = {showPassword ? "text" : "password"}
                             name="password"
-                            value = "Volgin2300!"
+                            
                             className="password-input"
                             placeholder="password...."
-                             readOnly ={true}
+                             
                         />
 
                         <img
@@ -345,7 +413,7 @@ async function CheckIfUserAndEmailAvalible(email, username) {
                         name="password"
                         className="password-input-invalid"
                         placeholder="passwords don't match"
-                         readOnly ={true}
+                        
                     />
                 )}
             </div>
@@ -358,10 +426,10 @@ async function CheckIfUserAndEmailAvalible(email, username) {
                 <input
                      type = {showConfirmPassword ? "text" : "password"}
                     name="confirmpassword"
-                    value = "Volgin2300!"
+                    
                     className="confirm-password-input"
                     placeholder="confirm password"
-                    readOnly ={true}
+                   
                 />
                   <img
             className="eye-ball-img"
@@ -381,7 +449,7 @@ async function CheckIfUserAndEmailAvalible(email, username) {
             value = "jacobms23@hotmail.com"
             className="email-input"
             placeholder= {isValidEmail ?"enter email" : "invalid email format. try again.."} 
-             readOnly ={true}
+            readOnly = {true}
             >
 
             </input> 

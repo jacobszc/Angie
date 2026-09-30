@@ -40,7 +40,8 @@ def Register(password: str = Form(...), username : str = Form(...), email : str 
         "username" : username,
         "password" : hashedpass,
         "email" : email,
-        "user_id" : supabase_client.SUPABASE_ADMIN_UUID
+        "user_id" : supabase_client.SUPABASE_ADMIN_UUID,
+        "user_cart" : [] ## this is a new user so can init an empty cart
         
 
     }).execute()
