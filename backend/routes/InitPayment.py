@@ -49,7 +49,7 @@ def create_checkout_session(cart : Items):
             'ui_mode' : "embedded_page", 
             'line_items': items,
             'mode': 'payment',
-             "redirect_on_completion": "never",
+             'return_url': YOUR_DOMAIN + '?session_id={CHECKOUT_SESSION_ID}',
         })
         
     except Exception as e:

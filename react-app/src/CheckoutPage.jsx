@@ -9,17 +9,24 @@ function CheckoutPage({setIsInCheckoutSession , stripePromise, clientSecret, set
   
   const [ ErrorMessage ,setErrorMessage] = useState('')
   const [isProcessing, setIsProcessing] = useState(false)
-   const[renderPaymentSuccessComp, setRenderPaymentSuccessComp] = useState(false)
+  const[renderPaymentSuccessComp, setRenderPaymentSuccessComp] = useState(false)
   const TIME = 3000;
 
   const checkoutState = useCheckoutForm();
 
   async function onConfirm(event)  {
+   
+console.log("ON CONFIRM FIRED");
+    // somewhere here well updat the cart and clear the cart state
+    
 
-    setIsPaymentComplete(true)
-    setSessionIdForPayConfirm(checkoutState.checkout.id)
+    
       
-   checkoutState.checkout.confirm({formConfirmEvent : event})
+   await checkoutState.checkout.confirm({formConfirmEvent : event})
+
+   setSessionIdForPayConfirm(checkoutState.checkout.id)
+    console.log("setSessionIdForPayConfirm() called and set to ", checkoutState.checkout.id )
+    setIsPaymentComplete(true)
 
 
   }
@@ -38,7 +45,7 @@ function CheckoutPage({setIsInCheckoutSession , stripePromise, clientSecret, set
   return (
       <div className = "overlay">
         <div className ="checkout-conatiner">
-            <CheckoutForm onConfirm = { (event) => { onConfirm(event)}}/>
+            <CheckoutForm onConfirm = { onConfirm}/>
         </div> 
       </div>
 

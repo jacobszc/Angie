@@ -28,6 +28,8 @@ router = APIRouter()
 @router.post("/UpdateCart")
 def UpdateCart(updateRequest : UpdateCartRequest):
 
+    print("cart looks like: ", updateRequest)
+
     cart_data = [item.model_dump() for item in updateRequest.cart]
    
     # print(updateRequest.username)

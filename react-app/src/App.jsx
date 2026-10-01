@@ -14,12 +14,12 @@ import Signin_Register_Selection_Comp from './Signin_Register_Selection_Comp';
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import PaymentFailedComp from './PaymentFailedComp';
+
 
 
 
 function App() {
-
-
 
 
   const [user, setUser] = useState(null)
@@ -31,10 +31,9 @@ function App() {
   const [isStripeApproved, setIsStripeApproved] = useState(false)
   const [isPaymentComplete,  setIsPaymentComplete] = useState(false)
   const [sessionIdForPayConfirm, setSessionIdForPayConfirm] = useState("")
-  const [renderPaymentSuccessComp,  setRenderPaymentSuccessComp] = useState(false)
- 
+  const [renderPaymentSuccessComp,  setRenderPaymentSuccessComp] = useState(true)
+  const[timeToCheckIfPaymentSuccesful,setTimeToCheckIfPaymentSuccesful] = useState(true)
   const firstRun = useRef(true)
-  
 
   async function checkPaymentStatus(sessionId) {
     const response = await fetch(
@@ -44,41 +43,35 @@ function App() {
     const data = await response.json();
 
     if (data.payment_status === "paid") {
+
+      // payment was succesful so its time to clear out the cart. whenever cart is updted, update cart is called automaticly
         
-        console.log("payment successful, success page sohuld rnder here!")
-        setRenderPaymentSuccessComp(true);
+        return true
         
-    }
+        }
+
+    return false
 }
 
-  useEffect(()=> {
-
-    if(firstRun.current === true) {
-      firstRun.current = false;
-      return
-    }
+  
+   const queryString = window.location.search;
+   const urlParams = new URLSearchParams(queryString);
+   const sessionId = urlParams.get('session_id');
+   window.history.replaceState({}, "", "http://localhost:5173/");
      
-    console.log("made it inside of useEfect")
     
-    
+   if(sessionId) {
 
-    if(sessionIdForPayConfirm) {
-      checkPaymentStatus(sessionIdForPayConfirm);
-    }
+    return(<div style={{"width" : "1000px" , "height" : "1000px"}}>
 
+      {renderPaymentSuccessComp && <SuccessPageComp setRenderPaymentSuccessComp = {setRenderPaymentSuccessComp}/>}
 
-
-  },[sessionIdForPayConfirm])
-
+   </div>)
+   }
   
-  
-
-  return (
-   
-
-
-
  
+  
+  return (
    
    <div id ="place-holder-container" className = "place-holder-container">
     
@@ -91,7 +84,7 @@ function App() {
     
     { signingin && <SignInComp setIsAdmin={setIsAdmin} setSigningIn = {setSigningIn} setUser = {setUser} setIsSignedIn = {setIsSignedIn} cart = {cart} setCart={setCart} setCartQuantity = {setCartQuantity} setIsStripeApproved={setIsStripeApproved}/> }
  
-   { renderPaymentSuccessComp && <SuccessPageComp setRenderPaymentSuccessComp = {setRenderPaymentSuccessComp} TIME = {TIME}/>}
+    
    
    </div> // end of placeholder container
 
@@ -99,5 +92,7 @@ function App() {
   
   )
 }
+
+
 
 export default App

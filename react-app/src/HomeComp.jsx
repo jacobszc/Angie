@@ -369,7 +369,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
        return;
 
   } 
-    
+     
   
         const body = {
           cart: cart,

@@ -1,6 +1,6 @@
 import { useState, useEffect,  } from "react"
 import "./styles/CartComp.css"
-import {EmbeddedCheckoutProvider} from '@stripe/react-stripe-js';
+import {EmbeddedCheckoutProvider, EmbeddedCheckout} from '@stripe/react-stripe-js';
 import CheckoutPage from "./CheckoutPage";
 import EmbeddedCheckoutComp from "./EmbeddedCheckoutComp";
 import {loadStripe} from '@stripe/stripe-js';
@@ -134,7 +134,7 @@ return (
                 >
          
          
-            <EmbeddedCheckoutComp setIsInCheckoutSession = {setIsInCheckoutSession} setCart = {setCart} setIsInCart = {setIsInCart} setIsPaymentComplete = {setIsPaymentComplete} setSessionIdForPayConfirm = {setSessionIdForPayConfirm} sessionId = {sessionId}/>
+            <EmbeddedCheckout/>
           
           </EmbeddedCheckoutProvider>
           
