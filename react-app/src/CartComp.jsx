@@ -9,7 +9,7 @@ import {loadStripe} from '@stripe/stripe-js';
 const stripePromise = loadStripe("pk_test_51Tq0KLIzoQjAE2P1MjdVZGTQeIAmreDfONebl1B8GIEHeWnv3ZjUXOFsVl9LykZqWf4RxBMrsem92jFmYSD6m7lD00qe70z0yV") 
 
 
-function CartComp({setIsInCart, setCart, cart, setCartQuantity, cartQuantity, setIsPaymentComplete, setSessionIdForPayConfirm}) {
+function CartComp({setIsInCart, setCart, cart, setCartQuantity, cartQuantity}) {
 
     const [isInCheckoutSession, setIsInCheckoutSession] = useState(false)
     const [clientSecret, setClientSecret] = useState("")
@@ -47,6 +47,32 @@ function CartComp({setIsInCart, setCart, cart, setCartQuantity, cartQuantity, se
             console.log(err)
         })
     }
+
+
+     async function handleCheckoutComplete() {
+         const response = await fetch(
+        `http://127.0.0.1:8000/checkout-status/${sessionId}`
+    );
+
+    const data = await response.json();
+
+    if (data.payment_status === "paid") {
+
+      // payment was succesful so its time to clear out the cart. whenever cart is updted, update cart is called automaticly
+        
+      setCart([])
+      setIsInCheckoutSession(false)
+      setIsInCart(false)
+
+        
+        }
+
+    return false
+     
+       
+
+
+    }
     
    
     const handleRemoveItem = (itemToDelete) => {
@@ -75,79 +101,106 @@ function CartComp({setIsInCart, setCart, cart, setCartQuantity, cartQuantity, se
 
 
 return (
-    <div className ="overlay">
+    <div className="overlay">
 
-    <div className = "cart-container">
-            <h1 className = "cart-title">Shopping Cart</h1>
-            
-            
-            <div className ="checkout-summary-container">
-                <div className = "checkout-summary-text-container">
-                    <h1 className ="summary-title">Summary</h1>
-                    <h5>Subtotal ${subTotal}.00</h5>
-                    <h5>Items ({cart.length})</h5>
-                    
-                    <h4 className = "balance">Balance  ${subTotal}.00 </h4>
-                </div>
-                <button className = "checkout-button" type ="submit" onClick={handleCheckout}>checkout</button>
-            </div> {/* end summary container */}
-            
-            
-            <button className ="exit-thing" onClick={()=> setIsInCart(false)}>X</button>
-        
+        <div className="cart-container">
 
-            {cart.map((item , index) => (
-            
-             <div className ="item" key = {index}> 
-               
-                <div className ="thumbnail-container">
-                     <img src = {item.img_url} className = "thumbnail" alt ="img not found"></img>
-                </div>
+            {isInCheckoutSession ? (
 
-                
-                < div className = "item-description-container">
-                     <div className = "price"><p>Price: ${item.price}</p></div>
-                     <div className = "avalible-payment-types">
-                     <p>Venmo</p>
-                     <p>Cash</p>
-                     <p>Stripe(Card Only)</p>
-                     </div>
-                    
-                    <div className = "name"><p>Name:  {item.name}</p></div>
-                    <div className = "x" onClick = {() => handleRemoveItem(item)}><img className = "remove-image" src = "src/assets/garbage-can.png" alt = "X"></img></div>
-                </div>
-                
-             </div> 
-
-            
-
-    ))}
-
-
-
-
-          {isInCheckoutSession && 
-          
-          <EmbeddedCheckoutProvider 
-                stripe = {stripePromise}
-                options = {{clientSecret}}
+                <EmbeddedCheckoutProvider
+                    stripe={stripePromise}
+                    options={{ clientSecret,
+                        onComplete: handleCheckoutComplete
+                     }}
                 >
-         
-         
-            <EmbeddedCheckout/>
-          
-          </EmbeddedCheckoutProvider>
-          
-          
-          }
+                    <EmbeddedCheckout />
+                </EmbeddedCheckoutProvider>
 
-        </div> 
+            ) : (
 
-     
+                <>
+                    <h1 className="cart-title">Shopping Cart</h1>
 
-        </div>
-       
-    )
+                    <div className="checkout-summary-container">
+                        <div className="checkout-summary-text-container">
+                            <h1 className="summary-title">Summary</h1>
+                            <h5>Subtotal ${subTotal}.00</h5>
+                            <h5>Items ({cart.length})</h5>
+
+                            <h4 className="balance">
+                                Balance ${subTotal}.00
+                            </h4>
+                        </div>
+
+                        <button
+                            className="checkout-button"
+                            type="submit"
+                            onClick={handleCheckout}
+                        >
+                            checkout
+                        </button>
+                    </div>
+
+                    <button
+                        className="exit-thing"
+                        onClick={() => setIsInCart(false)}
+                    >
+                        X
+                    </button>
+
+                    {cart.map((item, index) => (
+
+                        <div className="item" key={index}>
+
+                            <div className="thumbnail-container">
+                                <img
+                                    src={item.img_url}
+                                    className="thumbnail"
+                                    alt="img not found"
+                                />
+                            </div>
+
+                            <div className="item-description-container">
+
+                                <div className="price">
+                                    <p>Price: ${item.price}</p>
+                                </div>
+
+                                <div className="avalible-payment-types">
+                                    <p>Venmo</p>
+                                    <p>Cash</p>
+                                    <p>Stripe(Card Only)</p>
+                                </div>
+
+                                <div className="name">
+                                    <p>Name: {item.name}</p>
+                                </div>
+
+                                <div
+                                    className="x"
+                                    onClick={() => handleRemoveItem(item)}
+                                >
+                                    <img
+                                        className="remove-image"
+                                        src="src/assets/garbage-can.png"
+                                        alt="X"
+                                    />
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    ))}
+                </>
+
+            )}
+
+        </div> {/* cart-container end */}
+
+    </div> // overlay end
+);
+   
 
 
 

@@ -1,16 +1,18 @@
 import { useEffect } from "react"
 import "./styles/SuccessPageComp.css"
 
-function SuccessPageComp({setRenderPaymentSuccessComp}) {
-      
+function SuccessPageComp({setRenderPaymentSuccessComp, setCart, cart}) {
       
 
     
-      setTimeout(()=> {
-         setRenderPaymentSuccessComp(false)
-      },3000)
+        
 
+    
+      
 
+        
+        
+      
 
     
     

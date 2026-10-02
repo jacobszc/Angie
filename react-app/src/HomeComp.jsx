@@ -364,12 +364,12 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
 
    useEffect(() => {
 
-  if(firstRenderForUpdateCart.current) {
-       firstRenderForUpdateCart.current = false;
-       return;
+    console.log("we made it in and user == ", user )
 
-  } 
-     
+       if(user) {
+   console.log(user)
+       
+     console.log("cart should be empty here -->" , cart)
   
         const body = {
           cart: cart,
@@ -401,7 +401,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
       console.log(err)
     })
 
-
+       }
 
    },[cart])
     
