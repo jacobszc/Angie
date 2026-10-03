@@ -29,7 +29,12 @@ function SignInComp({setIsAdmin, setSigningIn, setUser, setIsSignedIn, cart,  se
             throw new Error("error caught: ",resp.stauts)
           }
 
+          
+
+          
+
           if(data.role === "admin") {
+            
             
             setUser(username)
             console.log("succesful log in! username set to: ", username)

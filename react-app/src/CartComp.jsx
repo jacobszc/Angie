@@ -66,12 +66,9 @@ function CartComp({setIsInCart, setCart, cart, setCartQuantity, cartQuantity}) {
 
         
         }
-
-    return false
+ ///// need to add some logic for if its not succesful
+    
      
-       
-
-
     }
     
    

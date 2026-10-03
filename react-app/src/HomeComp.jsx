@@ -10,7 +10,7 @@ import ContactUsComp from "./ContactUsComp";
 import SecondaryImagesComp from "./SecondaryImagesComp";
 
 
-function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSignedIn, user, isStripeApproved }){
+function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSignedIn, user, setUser, isStripeApproved }){
     
     
     const [NewListing, setNewListing] = useState({})
@@ -158,14 +158,16 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
 
  
 
-
       
      
      
       
-    }
+    } // end handle cart
 
-    useEffect(() => {
+
+   
+
+useEffect(() => {
 
      if(firstRenderForRequestAnim.current || isRequesting)  {
 
