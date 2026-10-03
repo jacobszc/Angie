@@ -64,7 +64,7 @@ function Signin_Register_Selection_Comp({setSigningIn, cart, setCart, cartQuanti
             </div>
              }
 
-            {isInCart && <CartComp setIsInCart = {setIsInCart} cart = {cart} setCart ={setCart} setCartQuantity = {setCartQuantity} cartQuantity = {cartQuantity} setIsPaymentComplete = {setIsPaymentComplete} setSessionIdForPayConfirm = {setSessionIdForPayConfirm} /> }
+            {isInCart && <CartComp setIsInCart = {setIsInCart} cart = {cart} setCart ={setCart} setCartQuantity = {setCartQuantity} cartQuantity = {cartQuantity}   /> }
         </div>
 
         

@@ -10,7 +10,7 @@ import ContactUsComp from "./ContactUsComp";
 import SecondaryImagesComp from "./SecondaryImagesComp";
 
 
-function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSignedIn, user, setUser, isStripeApproved }){
+function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, setIsSignedIn, isSignedIn, user, setUser, setIsStripeApproved, isStripeApproved }){
     
     
     const [NewListing, setNewListing] = useState({})
@@ -154,6 +154,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
 // anim.style.left = `${rect.left}px`;
 // anim.style.top = `${rect.top}px`;
 
+ 
 
 
  
@@ -163,6 +164,59 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
      
       
     } // end handle cart
+
+    useEffect(() => {
+
+      console.log(document.cookie)
+
+   const cookies = document.cookie.split("; ")
+   console.log(cookies)
+   let username = ""
+   let cart = []
+   let stripe_approved = false
+
+   cookies.forEach(cookie => {
+
+    if(cookie.startsWith("username=")) {
+      username = cookie.substring(9)
+    }
+
+    if(cookie.startsWith("cart=")) {
+      cart = JSON.parse(cookie.substring(5))
+    }
+
+    if(cookie.startsWith("stripe_approved=")){
+       
+      if(cookie.substring(16) === "true")
+      stripe_approved = true
+      }
+    
+   });
+
+   if(username === "" || cart == []) {
+    return
+   }
+   
+   
+   
+  setUser(username)
+  setCart(cart)
+  setCartQuantity(cart.length)
+  console.log("about to srt is stripe arroved to : " , stripe_approved )
+  setIsSignedIn(true)
+  setIsStripeApproved(stripe_approved)
+
+   if(username) {
+    console.log("username " , username , " found in cookies and will be set to state here")
+     return   
+  
+  }
+
+   console.log("no username found in cookies!")
+
+   
+
+},[])
 
 
    
