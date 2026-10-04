@@ -2,9 +2,7 @@ import {useState, useEffect, useRef} from "react";
 import { supabase } from "./supabaseClient";
 import EnterCaptionComp from "./EnterCaptionComp";
 import FilterComp from "./FilterComp";
-
-
-
+import anims  from "./utils/animations.js"
 import "./styles/HomeComp.css"
 import ContactUsComp from "./ContactUsComp";
 import SecondaryImagesComp from "./SecondaryImagesComp";
@@ -19,20 +17,12 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, setIsS
     const [newStripeListing, setNewStripeListing] = useState({})
     const[currentSecondariesListing, setCurrentSecondariesListing] = useState({})
     const[currentId , setCurrentId] = useState(null)
-     
-
-
     const buttonRef = useRef(null);
-    
     const hasRun = useRef(false)
     const firstRenderForUploadImages = useRef(true);
-    const firstRenderForUpdateCart = useRef(true);
     const firstRenderForCreateStripeProduct = useRef(true);
     const firstRenderForRequestAnim = useRef(true);
     const [hasDroppedImg, setHasDroppedImg] = useState(false)
-   
-    
-    
     const DEFAULT_FILTER = ["cat", "dog", "bird", "reptile", "fish"]
     const [filter, setFilter] = useState(DEFAULT_FILTER)
     const [isFiltering, setIsFiltering] = useState(false)
@@ -42,318 +32,247 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, setIsS
     
     function handleClickShowSecondary(listing) {
 
-      event.preventDefault();
-
-      
-      // console.log(listing)
-      // console.log(listing.secondary_images)
-      // console.log(listing.id)
-
       setCurrentSecondariesListing(listing)
       setCurrentId(listing.id)
-      
-
-      
-      
-
-
-      
-     
-      
-      
-
     
-
     }
 
-    // function handleHoverExit(event) {
-
-    //   event.preventDefault();
-      
-    //   setIsHoveringImage(true)
-      
-      
-    //   const currentListing = event.currentTarget
-    // console.log("current listing --->" , currentListing )
-    //   currentListing.appendChild(secondary)
-
-    // }
-    
-    
-    
+   
     function handleAddCart(event ,listing) {
-       
       event.preventDefault()
-
-      const button = event.currentTarget
-      button.disabled = true
-
-
-
-      
-      console.log("this is what a listing shape looks like: " , listing)
-
       setCart(prev => [...prev, listing])
-
-      //update cookes
-
-      
       setCartQuantity(cartQuantity +1)
+      anims.drawThumbsUpOnAddtoCart()
 
 
-      /// run added to cart animation
-       
-        const rect = event.currentTarget.getBoundingClientRect();
-        console.log("event: " ,event.currentTarget)
-        console.log(rect.left, rect.top)
-        let anim = document.createElement("div");
-        let text = document.createElement("text")
-          const body = document.body
+  } 
 
+    function dragOverHandler (event) {
+      event.preventDefault();
+    }
 
-        text.textContent = "hello"
-        text.style.display = "flex"
-        text.style.alignContent = "center"
-        text.style.justifyContent = "center"
+    function dropHandler(event){
+      event.preventDefault();
 
+      if(!isadmin) { /// only admin can drop imgs
+        return
+      }
+    
+      const imgfile = event.dataTransfer.files[0];
+      setNewImgFile(imgfile)
+      setHasDroppedImg(true);
+    
+    } 
 
-        let img = document.createElement("img")
+    function dropHandlerSecondaryImage(event, listing){
+      event.preventDefault();
 
-        img.src = "src/assets/thumbs-up.png"
-        img.style.width = "100%"
-        img.style.height = "100%"
+      if(!isadmin) {
+        return
+      }
+      const imgfile = event.dataTransfer.files[0];
+      const id = listing.id
+      const formData = new FormData()
 
-      
-       
-      
-         anim.style.position = "fixed";
-         anim.style.width = "50px";
-         anim.style.height = "50px";
-         anim.style.left = `${(rect.right) - 40}px`;
-         anim.style.top = `${(rect.top) - 40}px`;
+      formData.append("secondary_image", imgfile )
+      formData.append("id", id)
 
-         
-         anim.style.zIndex = "99999";
-           body.appendChild(anim)
-         anim.appendChild(img)
+      fetch('http://127.0.0.1:8000/add_secondary_image', {
+        method: "POST",
+        body: formData
 
-         img.style.animation = "rotate 0.5s"
-        
-
-         setTimeout(() => {
-          anim.remove()
-         }, 500)
-
-         setTimeout(() => {
-          button.disabled = false
-         }, 2000)
- 
-
-        
-
-
-// anim.classList.add("cart-animation");
-
-// anim.style.position = "fixed";
-// anim.style.left = `${rect.left}px`;
-// anim.style.top = `${rect.top}px`;
-
- 
-
-
- 
-
-      
+      }).then(resp => {
+      if(!resp.ok) {
+        throw new Error(resp.status)
+      }
+        return resp.json()
+      }).then(data => {
      
-     
+         const updatedListings = listings.map((listing) => {
+
+         if(listing.id == data.id) {return data}
+
+      })
+
+         setListings(updatedListings)
+
+      }).catch(err =>  {
+      console.log(err)
+      })
+
+      } 
+
+    function removeListing(listing) {
+
+      console.log("this is the lsiting" , listing)
       
-    } // end handle cart
+      const RemoveImgDto = {
+        id: listing.id,
+        img_url : listing.img_url
+      }
+      
+      
+      fetch('http://127.0.0.1:8000/remove_img' , {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(RemoveImgDto)
+      }).then(resp => {
+      if(!resp.ok) {
+         throw new Error(resp.status)
+      }
+
+      return resp.json()
+      }).then(data => {
+     
+      fetch('http://127.0.0.1:8000/archive-stripe-product', {
+      method: "POST",
+      headers: {
+        "content-type" : "application/json"
+      },
+      body : JSON.stringify(data)
+
+      }).then(resp => {
+        if(!resp.ok) {
+          throw new Error(resp.status)
+        }
+
+        return resp.text()
+
+    }).then(data => {
+      console.log(data)
+    }).catch(err => {
+      console.log(err)
+    })
+
+    console.log("here it is!" , data)
+    }).catch(err => {
+
+        console.log(err)
+    })
+
+    setListings(prev =>
+    prev.filter((item) => item.id !== listing.id)
+    );
+  
+    }
+
+//////////////////////////////////////////////////////// useEffects //////////////////////////////////////////////////////////
 
     useEffect(() => {
 
       console.log(document.cookie)
+      const cookies = document.cookie.split("; ")
+      console.log(cookies)
+      let username = ""
+      let cart = []
+      let stripe_approved = false
 
-   const cookies = document.cookie.split("; ")
-   console.log(cookies)
-   let username = ""
-   let cart = []
-   let stripe_approved = false
+      cookies.forEach(cookie => {
 
-   cookies.forEach(cookie => {
-
-    if(cookie.startsWith("username=")) {
+      if(cookie.startsWith("username=")) {
       username = cookie.substring(9)
-    }
+      }
 
-    if(cookie.startsWith("cart=")) {
+      if(cookie.startsWith("cart=")) {
       cart = JSON.parse(cookie.substring(5))
-    }
+      }
 
-    if(cookie.startsWith("stripe_approved=")){
+      if(cookie.startsWith("stripe_approved=")){
        
       if(cookie.substring(16) === "true")
       stripe_approved = true
       }
     
-   });
+      });
 
-   if(username === "" || cart == []) {
-    return
-   }
+      if(username === "" || cart == []) {
+        return
+      }
    
-   
-   
-  setUser(username)
-  setCart(cart)
-  setCartQuantity(cart.length)
-  console.log("about to srt is stripe arroved to : " , stripe_approved )
-  setIsSignedIn(true)
-  setIsStripeApproved(stripe_approved)
+      setUser(username)
+      setCart(cart)
+      setCartQuantity(cart.length)
+      setIsSignedIn(true)
+      setIsStripeApproved(stripe_approved)
 
-   if(username) {
-    console.log("username " , username , " found in cookies and will be set to state here")
-     return   
-  
-  }
-
-   console.log("no username found in cookies!")
-
-   
-
-},[])
+    },[])
 
 
    
 
-useEffect(() => {
+    useEffect(() => {
 
-     if(firstRenderForRequestAnim.current || isRequesting)  {
+      if(firstRenderForRequestAnim.current || isRequesting)  {
 
       firstRenderForRequestAnim.current = false
       return;
 
      }
 
+      anims.drawMailboxOnConfirm()
        
-       
-       
-       
-       let anim = document.createElement("div");
-       let envelope = document.createElement("img")
-
-       envelope.src = "src/assets/mail_box_open.png"
-       envelope.style.width = "100%"
-       envelope.style.height = "100%"
-
-       
-
-       anim.style.width = "50px";
-       anim.style.height = "50px"
-       anim.style.position = "fixed";
-       anim.style.left = "50%"
-       anim.style.top ="50%"
-        
-       anim.style.zIndex = "99999";
-       document.body.appendChild(anim)
-       anim.appendChild(envelope)
-
-       setTimeout(()=> {
-        envelope.src = "src/assets/mail_box_closed.png"
-       },1000)
-
-       setTimeout(()=> {
-        anim.remove()
-       },2000)
-
     },[isRequesting])
     
     
-    
-    /// load images wil be first use effect run ///
-
-     useEffect(()=> {
+    useEffect(()=> {
       
          if(hasRun.current) return;
           hasRun.current = true
 
-         
-          
-         
          const fetchImages = async () => {
             try {
               const response = await fetch("http://127.0.0.1:8000/load_images", { method: "GET"});
               const data = await response.json();
 
                console.log("load images return = " , data.img_url )
-              setListings(data) // <---- going to grab objects from backend now rather than string
+               setListings(data) // <---- going to grab objects from backend now rather than string
              
             }
             catch (error) {
               console.log(error)
+            }
 
-           }
+            } 
 
-         } 
+          fetchImages()
 
-         
-
-        fetchImages()
-
-         
-
-        },[]) // end use effect, ohnly runs on init render
+    },[]) // end use effect, ohnly runs on init render
           
         
         
-        
-     ////////// 2nd useEffect which shuld only run when a new image is dropped and caption is complete
-
-     useEffect(() => {
+    useEffect(() => {
          
-          
-          if(firstRenderForUploadImages.current) {
+        if(firstRenderForUploadImages.current) {
             firstRenderForUploadImages.current = false
             return
-          }
+        }
 
-           
-           
-          const formData = new FormData();
-          
-          formData.append("file", newImgFile)
-          formData.append("newListing", JSON.stringify(NewListing))
+        const formData = new FormData();
+        formData.append("file", newImgFile)
+        formData.append("newListing", JSON.stringify(NewListing))
 
-          console.log("new Listing :" , NewListing)
-          console.log("stringified new Listing :" , JSON.stringify(NewListing))
-
-          
-            fetch('http://127.0.0.1:8000/uploadlisting', {
+        fetch('http://127.0.0.1:8000/uploadlisting', {
             method: "POST",
             body: formData
-            }).then(resp => {
-              
-              if(!resp.ok) {
+        }).then(resp => {
+            if(!resp.ok) {
               throw new Error(resp.status)
              }
             return resp.json()
             
-           }).then(data => {
+        }).then(data => {
 
-               
-               setListings(prev => ([...prev , data]))
-               setNewStripeListing(data) //<--- prep a listing with db created id to be sent to stripe
-             
-             // need to extract id from data and send it along with stripe entry as meta data
-           }).catch(err => {
+             setListings(prev => ([...prev , data]))
+              setNewStripeListing(data) 
+        
+        }).catch(err => {
            console.log(err)
          })
 
-          }, [NewListing])
+    }, [NewListing])
       
- /////////////////////////////// end 2nd use effect /////////////////////////////////
-       
 
-        useEffect(() =>{
+      useEffect(() =>{
 
           if(firstRenderForCreateStripeProduct.current) {
             firstRenderForCreateStripeProduct.current = false
@@ -401,357 +320,119 @@ useEffect(() => {
             console.log(err)
           })
 
-          ///////////////////////////////////////////////
+      },[newStripeListing])
 
 
+      useEffect(() => {
 
-          
-
-
-
-
-
-         
-
-
-
-        },[newStripeListing])
-
-
-
-
-
-
-   useEffect(() => {
-
-
-       if(user) {
-   console.log("update cart is about to be called")
+        if(user) {
        
-    
-  
-        const body = {
+        const body = {   // id like to refactor this and just send json
           cart: cart,
           username: user
+         }
+
+       
+        fetch('http://127.0.0.1:8000/UpdateCart', {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(body)
+
+        }).then(resp => {
+           if(!resp.ok) {
+             throw new Error( resp.status)
+           }
+
+           return resp.json()
+        }).then(data => {
+      
+              document.cookie = `cart=${data.cart_data}`
+
+        }).catch(err => {
+
+            console.log(err)
+        })
+
         }
 
-        console.log("body: ", body)
-
+    },[cart])
     
 
-    fetch('http://127.0.0.1:8000/UpdateCart', {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify(body)
+  //////////////////////////////////////////////////////////// return /////////////////////////////////////////////////////
+   return (
 
-    }
-  
-  ).then(resp => {
-      
-       if(!resp.ok) {
-          throw new Error( resp.status)
-       }
-
-       return resp.json()
-    }).then(data => {
-      console.log("cart data retuned after up[date cart",data.cart_data) // here well retrun a json list and setCart = that list
-      
-      // update cookie cart= with data.cart_data
-
-      document.cookie = `cart=${data.cart_data}`
-
-      // now the cookie cart matchs what cart currently is so that on refesh it will be coorect
-      
-      // document.cookie = `cart=${data.cart_data}`
-    }).catch(err => {
-
-      console.log(err)
-    })
-
-       }
-
-   },[cart])
-    
-
-  
-    ///////////////////////////////////////////////////////
-    
-   function dragOverHandler () {
-      event.preventDefault();
-    }
-
-    
-///////////////////////////////////////////////////////////
-
-
-
-
-
-    function dropHandler(event){
-      event.preventDefault();
-
-      if(!isadmin) {
-        return
-      }
-    const imgfile = event.dataTransfer.files[0];
-    
-    setNewImgFile(imgfile)
-   
-    setHasDroppedImg(true);
-
-
-    
-   } 
-
-   function dropHandlerSecondaryImage(event, listing){
-      event.preventDefault();
-
-      if(!isadmin) {
-        return
-      }
-    const imgfile = event.dataTransfer.files[0];
-    const id = listing.id
-
-    console.log(imgfile, "\n",  id)
-
-    const formData = new FormData()
-
-    formData.append("secondary_image", imgfile )
-    formData.append("id", id)
-
-
-    
-    fetch('http://127.0.0.1:8000/add_secondary_image', {
-      method: "POST",
-      body: formData
-
-    }).then(resp => {
-      if(!resp.ok) {
-        throw new Error(resp.status)
-      }
-
-      return resp.json()
-    }).then(data => {
-      console.log(data)
-       
-        const updatedListings = listings.map((listing) => {
-
-        if(listing.id == data.id) {return data}
-
-       })
-
-        setListings(updatedListings)
-
-    }).catch(err =>  {
-      console.log(err)
-    })
-
-
-    
-   } 
-
-   function removeListing(listing) {
-
-      console.log("this is the lsiting" , listing)
-      
-      const RemoveImgDto = {
-        id: listing.id,
-        img_url : listing.img_url
-      }
-      
-      
-      
-       
-    fetch('http://127.0.0.1:8000/remove_img' , {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(RemoveImgDto)
-    }).then(resp => {
-      if(!resp.ok) {
-         
-        throw new Error(resp.status)
-      }
-
-      return resp.json()
-    }).then(data => {
-     
-      fetch('http://127.0.0.1:8000/archive-stripe-product', {
-      method: "POST",
-      headers: {
-        "content-type" : "application/json"
-      },
-      body : JSON.stringify(data)
-
-    }).then(resp => {
-        if(!resp.ok) {
-          throw new Error(resp.status)
-        }
-
-        return resp.text()
-
-    }).then(data => {
-      console.log(data)
-    }).catch(err => {
-      console.log(err)
-    })
-
-    console.log("here it is!" , data)
-    }).catch(err => {
-
-        console.log(err)
-    })
-
-
-    
-
-
-
-    
-    //remove image based on id from state array
-  setListings(prev =>
-    prev.filter((item) => item.id !== listing.id)
-  );
-  
-
-    
-
-
-
-
-   }
-
-    /////////////////////////////////////////////////////
-
-   
-        ////////////////////////////////////////////////
-
-
-        
-      
-       //console.log(listings)
-
-   
-
-    return (
-
-      
-      
-     <div  id ="comp-container" className = "comp-container" onDrop = {dropHandler} onDragOver={dragOverHandler}>
+      <div  id ="comp-container" className = "comp-container" onDrop = {dropHandler} onDragOver={dragOverHandler}>
+           
            <div className="scroll-container">
-            
+                <div className = "group">
+                    {listings.length > 0 && listings.map((listing, index) => (
+                    <div className = "img-container" key = {index}>
+                        <img
+                        src = {listing.img_url}
+                        key = {index}
+                        alt ="no image"
+                        className = "scrolling-img"
+                      ></img>
+                    </div>
 
+                    ))}
+                </div>
+            </div> {/* end scroll container */}
 
-            <div className = "group">
-             
-            {listings.length > 0 && listings.map((listing, index) => (
-             
-             
-             
-             <div className = "img-container" key = {index}>
-              <img
-              src = {listing.img_url}
-              key = {index}
-              alt ="no image"
-              className = "scrolling-img"
-              ></img>
-
-             </div>
-
-))}
-
-            </div>
-            
+{/*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/}         
           
-            
-          </div> {/* end scroll container */}
-          
-          
-          <div className = "listings-banner" >
+        
+        <div className = "listings-banner" >
             < link rel = "style-sheet" href ="https://googleapis.com/css2?family=Alfa+Slab+One"></link>
-            <link rel ="style-sheet" href = "https://googleapis.com/css2?family=Fira+Sans"></link>
-            <h1 className ="banner-text">Avalible Pets!</h1>
-             <h2></h2>
-             
-             
-            
-         
-          </div>
+             <link rel ="style-sheet" href = "https://googleapis.com/css2?family=Fira+Sans"></link>
+             <h1 className ="banner-text">Avalible Pets!</h1>
+        </div>
 
-          
+{/*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/}         
 
            
-          <div className = "listing-container">
+        <div className = "listing-container">
 
-            
-            
-            
             <button className ="filter-button" onClick = {() => setIsFiltering(true)}>filter -|-</button>
-            
-            
-            
-         {(listings.length > 0) ? listings.map((listing) => (
-            
-           
-            (filter.includes(listing.type)) &&
+            {(listings.length > 0) ? listings.map((listing) => (
+                (filter.includes(listing.type)) &&
 
-            
-            <div className = "listing" key = {listing.id}  >
+            <div className = "listing" key = {listing.id}>
+                <div className ="price-tag-img-wrapper">
+                  <img className ="price-tag-img" src ="src/assets/price-tag.png"></img>
+                  <p className ="price-tag-display">${listing.price}</p>
+                  </div>
               
-              
-              <div className ="price-tag-img-wrapper">
-                <img className ="price-tag-img" src ="src/assets/price-tag.png"></img>
-                <p className ="price-tag-display">${listing.price}</p>
-              </div>
-              
-              {<SecondaryImagesComp currentlyDisplayedSecondaries = {currentSecondariesListing.secondary_images} currentId = {currentId} listingId = {listing.id}/>}
+                  {<SecondaryImagesComp currentlyDisplayedSecondaries = {currentSecondariesListing.secondary_images} currentId = {currentId} listingId = {listing.id}/>}
+                  <div  ref ={ListingDivRef} className ="listing-img-container" onClick={() => handleClickShowSecondary(listing) } onDrop = {() => dropHandlerSecondaryImage(event, listing)} onDragOver={() => dragOverHandler} > 
                
-               
-               <div  ref ={ListingDivRef} className ="listing-img-container" onClick={() => handleClickShowSecondary(listing) } onDrop = {() => dropHandlerSecondaryImage(event, listing)} onDragOver={() => dragOverHandler} > 
-               
-               <img
-               src = {listing.img_url} // <-- need to now gran imurl from obj that contains imgurl and caption string
-               key = {listing.id}
-               alt="image not found"
-               className="listing-img"
-               
-               
-            />
-            </div>
+                    <img
+                    src = {listing.img_url} // <-- need to now gran imurl from obj that contains imgurl and caption string
+                    key = {listing.id}
+                    alt="image not found"
+                    className="listing-img"
+                    />
+          </div>
             
-            
-            
-            <div id = "caption-wrapper" className = "caption-wrapper">
+          <div id = "caption-wrapper" className = "caption-wrapper">
             
             <textarea name = "caption" className = "listing-caption" value ={listing.caption}> </textarea>
-          
             {(isSignedIn && !isadmin && isStripeApproved) && <button id ="add-to-cart-button" className ="add-to-cart-button" onClick={(event)=> handleAddCart(event,listing)}>Add to Cart <i className="fa-solid fa-cart-shopping cart-icon"></i></button> }
-            
             {(isSignedIn && !isadmin && !isStripeApproved) && <button ref ={buttonRef} className ="request-button" onClick={() => setIsRequesting(true)}>Request <i className="fa-regular fa-envelope"></i></button>}
-
-           { isadmin && <button className ="listing-remove-button" onClick= {() => removeListing(listing)}>remove</button>}
+            { isadmin && <button className ="listing-remove-button" onClick= {() => removeListing(listing)}>remove</button>}
          </div>
-           
-         
-            
-             </div>
+         </div>
            )) : <p>drag and drop new posting here...</p>}  
 
            {(isadmin &&hasDroppedImg) && <EnterCaptionComp setHasDroppedImg = {setHasDroppedImg} setNewListing = {setNewListing}/>}
-       </div>
+         </div>
+      
+            {isFiltering && <FilterComp setIsFiltering = {setIsFiltering} setFilter = {setFilter} DEFAULT_FILTER = {DEFAULT_FILTER}/>}
+            { isRequesting &&<ContactUsComp setIsRequesting = {setIsRequesting}/>}
+    </div>
 
-
-        {isFiltering && <FilterComp setIsFiltering = {setIsFiltering} setFilter = {setFilter} DEFAULT_FILTER = {DEFAULT_FILTER}/>}
-
-        
-
-
-          { isRequesting &&<ContactUsComp setIsRequesting = {setIsRequesting}/>}
-       </div>
-
-       ///// above returns each image that exists in state Array, which on load will be all
-       
-        
-    )
+      
+       )
 }
 
 export default HomeComp
