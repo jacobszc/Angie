@@ -114,3 +114,27 @@ def check_verification_code(OTVCPair):
         return({"verified": True, "otvc" : otvcpair.gen_otvc })
 
     return {"verified" : False , "otvc" : otvcpair.userSubmittedOTVC }
+
+@router.get("/sendPasswordReset/{forgotPassDto}")
+def sendPasswordReset(forgotPassDto: str):
+
+    if not forgotPassDto:
+        return {"sucess_status" : False , "success_status_reason" : "no username or email sent"}
+       
+
+    data = json.loads(forgotPassDto)
+
+    if not data["username"] or not data["email"]:
+         return {"sucess_status" : False , "success_status_reason" : "no username or email sent"}
+
+
+
+    print(data["username"])
+    print(data["email"])
+
+    #send email with link to reset pass
+    
+    
+
+
+    return {"success_status" : True}

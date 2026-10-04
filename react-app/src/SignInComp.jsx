@@ -1,7 +1,17 @@
 import "./styles/SignInComp.css"
+import { useState } from "react";
+import ForgotPasswordComp from "./ForgotPasswordComp";
+
 
 function SignInComp({setIsAdmin, setSigningIn, setUser, setIsSignedIn, cart,  setCart, setCartQuantity, setIsStripeApproved}) {
+      
+     const [forgotPassword, setForgotPassword] = useState(false)
 
+     function handleForgotpassword() {
+      
+        setForgotPassword(true)
+
+     }
 
      function handleSubmit(event) {
 
@@ -87,6 +97,9 @@ function SignInComp({setIsAdmin, setSigningIn, setUser, setIsSignedIn, cart,  se
          
 
         <div className="overlay"> {/* container for sign in box */}
+                {forgotPassword ? <ForgotPasswordComp/> :
+                
+                
                 <div
                 className="bg-white p-4 rounded shadow"
                 style={{ width: "70%", maxWidth: "400px" }}> 
@@ -136,7 +149,7 @@ function SignInComp({setIsAdmin, setSigningIn, setUser, setIsSignedIn, cart,  se
                     <div className="text-center">
 
                     <div className="mb-2">
-                        <a href="#">
+                        <a href="#" onClick={handleForgotpassword}>
                             Forgot Password?
                         </a>
                     </div>
@@ -158,7 +171,7 @@ function SignInComp({setIsAdmin, setSigningIn, setUser, setIsSignedIn, cart,  se
             </div> 
             
            
-        
+                }
        
    </div>
 

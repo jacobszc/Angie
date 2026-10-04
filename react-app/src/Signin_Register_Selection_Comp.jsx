@@ -48,9 +48,9 @@ function Signin_Register_Selection_Comp({setSigningIn, cart, setCart, cartQuanti
             
             
             <div className ="button-wrapper-1">
-            <button className ="selection-button-1" onClick = {() => setIsRegistering(true)}>Register</button>
+            <button className ="selection-button-1" onClick = {() => {if(!isSignedIn){setIsRegistering(true)}}}>Register</button>
 
-            {isRegistering &&<RegisterComp setIsRegistering = {setIsRegistering} setUser = {setUser} setIsSignedIn = {setIsSignedIn}/>}
+            {(isRegistering) &&<RegisterComp setIsRegistering = {setIsRegistering} setUser = {setUser} setIsSignedIn = {setIsSignedIn}/>}
             </div>
             
             <div className ="button-wrapper-2">

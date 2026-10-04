@@ -393,7 +393,7 @@ async function CheckIfUserAndEmailAvalible(email, username) {
                         <input
                             type = {showPassword ? "text" : "password"}
                             name="password"
-                            
+                             autoComplete="off"
                             className="password-input"
                             placeholder="password...."
                              
@@ -446,10 +446,10 @@ async function CheckIfUserAndEmailAvalible(email, username) {
             <input
             type = "text"
             name = "email"
-            value = "jacobms23@hotmail.com"
+           
             className="email-input"
             placeholder= {isValidEmail ?"enter email" : "invalid email format. try again.."} 
-            readOnly = {true}
+            
             >
 
             </input> 

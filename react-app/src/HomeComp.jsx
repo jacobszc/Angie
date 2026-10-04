@@ -324,7 +324,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, setIsS
 
 
       useEffect(() => {
-
+        
         if(user) {
        
         const body = {   // id like to refactor this and just send json
