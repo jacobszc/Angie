@@ -94,6 +94,10 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, setIsS
       console.log("this is what a listing shape looks like: " , listing)
 
       setCart(prev => [...prev, listing])
+
+      //update cookes
+
+      
       setCartQuantity(cartQuantity +1)
 
 
@@ -420,12 +424,11 @@ useEffect(() => {
 
    useEffect(() => {
 
-    console.log("we made it in and user == ", user )
 
        if(user) {
-   console.log(user)
+   console.log("update cart is about to be called")
        
-     console.log("cart should be empty here -->" , cart)
+    
   
         const body = {
           cart: cart,
@@ -449,9 +452,17 @@ useEffect(() => {
           throw new Error( resp.status)
        }
 
-       return resp.text()
+       return resp.json()
     }).then(data => {
-      console.log(data) // here well retrun a json list and setCart = that list
+      console.log("cart data retuned after up[date cart",data.cart_data) // here well retrun a json list and setCart = that list
+      
+      // update cookie cart= with data.cart_data
+
+      document.cookie = `cart=${data.cart_data}`
+
+      // now the cookie cart matchs what cart currently is so that on refesh it will be coorect
+      
+      // document.cookie = `cart=${data.cart_data}`
     }).catch(err => {
 
       console.log(err)
