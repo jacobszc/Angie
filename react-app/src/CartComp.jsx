@@ -61,6 +61,7 @@ function CartComp({setIsInCart, setCart, cart, setCartQuantity, cartQuantity}) {
       // payment was succesful so its time to clear out the cart. whenever cart is updted, update cart is called automaticly
         
       setCart([])
+      setCartQuantity(0)
       setIsInCheckoutSession(false)
       setIsInCart(false)
 

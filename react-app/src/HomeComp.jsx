@@ -10,7 +10,7 @@ import ContactUsComp from "./ContactUsComp";
 import SecondaryImagesComp from "./SecondaryImagesComp";
 
 
-function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSignedIn, user, setUser, isStripeApproved }){
+function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, setIsSignedIn, isSignedIn, user, setUser, setIsStripeApproved, isStripeApproved }){
     
     
     const [NewListing, setNewListing] = useState({})
@@ -94,6 +94,10 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
       console.log("this is what a listing shape looks like: " , listing)
 
       setCart(prev => [...prev, listing])
+
+      //update cookes
+
+      
       setCartQuantity(cartQuantity +1)
 
 
@@ -154,6 +158,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
 // anim.style.left = `${rect.left}px`;
 // anim.style.top = `${rect.top}px`;
 
+ 
 
 
  
@@ -163,6 +168,59 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, isSign
      
       
     } // end handle cart
+
+    useEffect(() => {
+
+      console.log(document.cookie)
+
+   const cookies = document.cookie.split("; ")
+   console.log(cookies)
+   let username = ""
+   let cart = []
+   let stripe_approved = false
+
+   cookies.forEach(cookie => {
+
+    if(cookie.startsWith("username=")) {
+      username = cookie.substring(9)
+    }
+
+    if(cookie.startsWith("cart=")) {
+      cart = JSON.parse(cookie.substring(5))
+    }
+
+    if(cookie.startsWith("stripe_approved=")){
+       
+      if(cookie.substring(16) === "true")
+      stripe_approved = true
+      }
+    
+   });
+
+   if(username === "" || cart == []) {
+    return
+   }
+   
+   
+   
+  setUser(username)
+  setCart(cart)
+  setCartQuantity(cart.length)
+  console.log("about to srt is stripe arroved to : " , stripe_approved )
+  setIsSignedIn(true)
+  setIsStripeApproved(stripe_approved)
+
+   if(username) {
+    console.log("username " , username , " found in cookies and will be set to state here")
+     return   
+  
+  }
+
+   console.log("no username found in cookies!")
+
+   
+
+},[])
 
 
    
@@ -366,12 +424,11 @@ useEffect(() => {
 
    useEffect(() => {
 
-    console.log("we made it in and user == ", user )
 
        if(user) {
-   console.log(user)
+   console.log("update cart is about to be called")
        
-     console.log("cart should be empty here -->" , cart)
+    
   
         const body = {
           cart: cart,
@@ -395,9 +452,17 @@ useEffect(() => {
           throw new Error( resp.status)
        }
 
-       return resp.text()
+       return resp.json()
     }).then(data => {
-      console.log(data) // here well retrun a json list and setCart = that list
+      console.log("cart data retuned after up[date cart",data.cart_data) // here well retrun a json list and setCart = that list
+      
+      // update cookie cart= with data.cart_data
+
+      document.cookie = `cart=${data.cart_data}`
+
+      // now the cookie cart matchs what cart currently is so that on refesh it will be coorect
+      
+      // document.cookie = `cart=${data.cart_data}`
     }).catch(err => {
 
       console.log(err)

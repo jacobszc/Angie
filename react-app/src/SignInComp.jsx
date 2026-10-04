@@ -23,11 +23,16 @@ function SignInComp({setIsAdmin, setSigningIn, setUser, setIsSignedIn, cart,  se
           })
 
           const data = await resp.json()
-        
-
+           
+          document.cookie = `username=${data.username}`
+          document.cookie = `cart=${data.cart_string}`
+          document.cookie = `stripe_approved=${data.stripe_approved}`
+ 
           if(!resp.ok) {
             throw new Error("error caught: ",resp.stauts)
           }
+
+
 
           
 
@@ -56,7 +61,7 @@ function SignInComp({setIsAdmin, setSigningIn, setUser, setIsSignedIn, cart,  se
             
         }
            
-          console.log(data)
+          console.log("cookies = ", document.cookie)
         }
 
         catch(err) {

@@ -19,6 +19,8 @@ supabase_client = SupaBaseClient()
 
 @router.post("/SignIn")
 def SignIn(username: str = Form(...), password: str = Form(...) ):
+
+     
      
      print(username)
      print(password)
@@ -45,7 +47,7 @@ def SignIn(username: str = Form(...), password: str = Form(...) ):
        isverified =  verifier.verify(stored_hash, submitted_pass)
        if(isverified): 
           print("pass verified")
-          return ({"role" : role , "cart" : cart, "stripe_approved": stripe_approved })
+          return ({"role" : role , "cart" : cart, "stripe_approved": stripe_approved, "username" : username, "cart_string" : json.dumps(cart) })# store as cookeis on front end for state persist
      except VerifyMismatchError:
          return("username or pass invalid")
          
