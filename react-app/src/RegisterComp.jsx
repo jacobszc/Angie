@@ -2,7 +2,7 @@ import "./styles/RegisterComp.css"
 import { useState, useRef, useEffect } from "react";
 import { supabase } from "./supabaseClient";
 import OtvcCodeComp from './OtvcCodeComp';
-
+import sendEmailVerificationCode  from './utils/otvc.js'
 function RegisterComp({setIsRegistering, setUser, setIsSignedIn}) {
 
     const [isValidUserName, setIsValidUserName] = useState(true)
@@ -11,7 +11,7 @@ function RegisterComp({setIsRegistering, setUser, setIsSignedIn}) {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [isValidEmail, setIsValidEmail] = useState(true)
-    const[isEnteringVerificationCode ,setIsEnteringVerificationCode] = useState(false)
+    const [isEnteringVerificationCode ,setIsEnteringVerificationCode] = useState(false)
     
     const [otvcVerfied, setOtvcVerfied] = useState(false) 
     const newUserData = useRef([])
@@ -51,26 +51,26 @@ function RegisterComp({setIsRegistering, setUser, setIsSignedIn}) {
 
 
 
-async function CheckIfUserAndEmailAvalible(email, username) {
+ function CheckIfUserAndEmailAvalible(email, username) {
           const userEmailJsonObj = {
             "email" : email,
             "username" : username
           }
 
-        let x = false
+       
 
         try {
 
-        const resp = await fetch(`http://127.0.0.1:8000/check_if_username_email_avalible/${JSON.stringify(userEmailJsonObj)}`)
+        const resp = fetch(`http://127.0.0.1:8000/check_if_username_email_avalible/${JSON.stringify(userEmailJsonObj)}`)
          
         if(!resp.ok) {
             throw new Error(resp.status)
         }
-        const data = await resp.json()
+        const data = resp.json()
 
         if(data.success_status === true) {
             
-             x = true
+             return true
         }
     }
         
@@ -80,39 +80,14 @@ async function CheckIfUserAndEmailAvalible(email, username) {
 
         }
 
-        return x
+        console.log( "success_status = false")
+
+        return false
     } /// end CheckIfUserAndEmailAvalible
  
     ///////////////////////////////////////////////////////////////////////////////////////
     
-    async function sendEmailVerificationCode(email) {
-
-        console.log(email)
-      
-    try {
-
-        const resp = await fetch(`http://127.0.0.1:8000/send_verification_code/${JSON.stringify(email)}`)
-        
-        const data = await resp.json()
-        
-        if(data.sent_success === true && data.otvc) {
-
-            setIsEnteringVerificationCode(true)
-            otvc.current = data.otvc
-          
-        }
-     
-    }
-
-    catch(error) {
-           console.log(error)
-           return
-        
-    }
-       
     
-       
-};
     
     
  ////////////////////////////////////////////////////////////////////////////////////////////   
@@ -222,11 +197,16 @@ async function CheckIfUserAndEmailAvalible(email, username) {
         return
     }
      //2.) if all vlaid format, well fetch the db and see if the username and emial are both avalible
-    if(!CheckIfUserAndEmailAvalible(email, username)) {
-         console.log("failed email and uername avali checks")
+      
+    
+    
+     if(!CheckIfUserAndEmailAvalible(email, username)) {
+        console.log("failed username and email check!")
         return
+     }
+     
 
-    }
+    
 
     /// here well premtivly store the new user info in some global satate so later we can submit it after scope is left and empty it later for safety
  
@@ -236,10 +216,44 @@ async function CheckIfUserAndEmailAvalible(email, username) {
         
     ////send otvc to emial after is proven valid string
     console.log(`sending emial verification code now.... to${email} `)
-    sendEmailVerificationCode(email) 
     
-     
+    try {
+    const resp = sendEmailVerificationCode(email) 
+    
+    const data = await resp
+
+    console.log("data ----->", data)
+
+    if(data.sent_success === true) {
+        
+        setIsEnteringVerificationCode(true)
+        otvc.current = data.otvc
+        
     }
+
+    else {
+        throw new Error(data.sent_success)
+
+        console.log("some error sending verification code1")
+    }
+    
+
+   
+     
+}
+   
+  catch(error) {
+
+     console.log(error)
+     return
+  }
+
+
+
+
+
+//////////////////////////////////////
+}// end handle submit
 
 
     useEffect(() => {
@@ -247,6 +261,11 @@ async function CheckIfUserAndEmailAvalible(email, username) {
         if(firstRender.current) {
              firstRender.current = false
             return
+        }
+
+        if(!otvcVerfied) {
+            return
+            console.log("user entered otvc code and state was updated however the code was not verfied")
         }
         
         console.log(`about to register new user ${newUserData.current[0]} with password ${newUserData.current[1]} and email  ${newUserData.current[2]}` )
@@ -321,8 +340,6 @@ async function CheckIfUserAndEmailAvalible(email, username) {
        register()
        signin()
        console.log("new user signed in", newUserData.current[0])
-
-       setIsEnteringVerificationCode(false)
        setIsRegistering(false)
 
         
@@ -351,7 +368,7 @@ async function CheckIfUserAndEmailAvalible(email, username) {
         
        
     <div className="overlay">
-     {isEnteringVerificationCode && <OtvcCodeComp otvc = {otvc}  setOtvcVerfied = {setOtvcVerfied}/>}
+     {isEnteringVerificationCode && <OtvcCodeComp otvc = {otvc}  setOtvcVerfied = {setOtvcVerfied} setIsEnteringVerificationCode = {setIsEnteringVerificationCode}/>}
      
      <form onSubmit={handleSubmit}>
         

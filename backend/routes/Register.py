@@ -62,7 +62,9 @@ def check_if_username_email_avalible(userEmailJsonObj):
 
     userNameandEmailobj = userEmailJsonObjdto(**data)
 
-    print(userNameandEmailobj.username)
+    print( "THIS IS THE USER NAME WERE GUNNA CHECK --->", userNameandEmailobj.username)
+    print( "THIS IS THE EMAIL NAME WERE GUNNA CHECK --->", userNameandEmailobj.email)
+    
 
     userNameResult =  supabase_client.supabase.table("Users").select("username").eq("username",  userNameandEmailobj.username).execute()
 

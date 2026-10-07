@@ -4,6 +4,11 @@ function ForgotPasswordComp() {
 
   function handleSendPasswordReset(event) {
 
+    //1.) verify username and exist in db together
+    //2.) send otvc to email
+    //3.) if verifed present reset password comp
+    //3.) update pass in db with new pass
+
     event.preventDefault()
 
    console.log(event.target)
@@ -15,6 +20,24 @@ function ForgotPasswordComp() {
    }
 
 
+   fetch(`http://127.0.0.1:8000/verify_user/${JSON.stringify(forgotPassDto)}`)
+   .then(resp => {
+    if(!resp.ok) {
+        throw new Error(resp.status)
+    }
+      return resp.json()
+   }).then(data => {
+    console.log(data)
+    if(!data.success_status) {
+      return
+    }
+    console.log("made it into retrun from verfiy user and now well fetch send pass reset")
+   }).catch(err => {
+    console.log(err)
+    return  /// leave function as to not allow password reset
+   })
+
+//////////////////////////////////////////////////////////////////////
    fetch(`http://127.0.0.1:8000/sendPasswordReset/${JSON.stringify(forgotPassDto)}`)
    .then(resp => {
     if(!resp.ok) {
@@ -22,6 +45,7 @@ function ForgotPasswordComp() {
     }
       return resp.json()
    }).then(data => {
+    console.log("made it into retrun from send pass reset")
     console.log(data)
    }).catch(err => {
     console.log(err)

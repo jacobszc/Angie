@@ -115,6 +115,20 @@ def check_verification_code(OTVCPair):
 
     return {"verified" : False , "otvc" : otvcpair.userSubmittedOTVC }
 
+
+
+@router.get("/verify_user/{forgotPassDto}")
+def sendPasswordReset(forgotPassDto: str):
+    data = json.loads(forgotPassDto)
+    
+    result =  supabase_client.supabase.table("Users").select().eq("username" , data["username"] ).eq("email" , data["email"]).execute()
+
+    print("result ---->" , result)
+    if result.data == []:
+          return {"sucess_status" : False , "success_status_reason" : "username/email dont match or dont exist"}
+
+    return {"sucess_status" : True, "success_status_reason" : "username email match"}
+
 @router.get("/sendPasswordReset/{forgotPassDto}")
 def sendPasswordReset(forgotPassDto: str):
 
