@@ -37,6 +37,7 @@ function SignInComp({setIsAdmin, setSigningIn, setUser, setIsSignedIn, cart,  se
           document.cookie = `username=${data.username}`
           document.cookie = `cart=${data.cart_string}`
           document.cookie = `stripe_approved=${data.stripe_approved}`
+          document.cookie = `role=${data.role}`
  
           if(!resp.ok) {
             throw new Error("error caught: ",resp.stauts)

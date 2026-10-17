@@ -8,7 +8,7 @@ import ContactUsComp from "./ContactUsComp";
 import SecondaryImagesComp from "./SecondaryImagesComp";
 
 
-function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, setIsSignedIn, isSignedIn, user, setUser, setIsStripeApproved, isStripeApproved }){
+function HomeComp({setIsAdmin, isadmin, setCart, cart, setCartQuantity, cartQuantity, setIsSignedIn, isSignedIn, user, setUser, setIsStripeApproved, isStripeApproved }){
     
     
     const [NewListing, setNewListing] = useState({})
@@ -170,8 +170,15 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, setIsS
       let username = ""
       let cart = []
       let stripe_approved = false
+      let role = ""
 
       cookies.forEach(cookie => {
+
+        if(cookie.startsWith("role=")) {
+           
+          role = cookie.substring(5)
+
+        }
 
       if(cookie.startsWith("username=")) {
       username = cookie.substring(9)
@@ -195,9 +202,13 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, setIsS
    
       setUser(username)
       setCart(cart)
+      setIsStripeApproved(stripe_approved)
+      if(role === "admin") {
+        setIsAdmin(true)
+      }
       setCartQuantity(cart.length)
       setIsSignedIn(true)
-      setIsStripeApproved(stripe_approved)
+    
 
     },[])
 
