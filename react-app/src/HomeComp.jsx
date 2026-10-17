@@ -42,7 +42,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, setIsS
       event.preventDefault()
       setCart(prev => [...prev, listing])
       setCartQuantity(cartQuantity +1)
-      anims.drawThumbsUpOnAddtoCart()
+     // anims.drawThumbsUpOnAddtoCart()
 
 
   } 
@@ -209,7 +209,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, setIsS
 
      }
 
-      anims.drawMailboxOnConfirm()
+      // anims.drawMailboxOnConfirm()
        
     },[isRequesting])
     

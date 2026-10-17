@@ -419,8 +419,9 @@ function RegisterComp({setIsRegistering, setUser, setIsSignedIn}) {
                  <input
                     autoComplete="off"
                     type="text"
+                    maxLength="10"
                     name="username"
-                    value = "newtestname678"
+                    value = "newtestnam"
                     className="username-input"
                     placeholder= {isValidUserName ? "username...." : "invalid username..."}
                          

@@ -49,6 +49,7 @@ def create_checkout_session(cart : Items):
             'ui_mode' : "embedded_page", 
             'line_items': items,
             'mode': 'payment',
+            "invoice_creation": {"enabled": True},
              'redirect_on_completion': 'never',
         })
         
