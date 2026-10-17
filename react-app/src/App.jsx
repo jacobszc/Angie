@@ -4,6 +4,7 @@ import SignInComp from './SignInComp';
 import MenuComp from './MenuComp';
 import HomeComp from './HomeComp';
 import Signin_Register_Selection_Comp from './Signin_Register_Selection_Comp';
+import OtvcCodeComp from './OtvcCodeComp';
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -30,7 +31,7 @@ function App() {
       <MenuComp/>
       <HomeComp isadmin={isadmin} setCart = {setCart} cart ={cart} setCartQuantity = {setCartQuantity} cartQuantity ={cartQuantity} setIsSignedIn={setIsSignedIn} isSignedIn={isSignedIn} user ={user} setUser = {setUser} setIsStripeApproved ={setIsStripeApproved} isStripeApproved ={isStripeApproved}  />
       { signingin && <SignInComp setIsAdmin={setIsAdmin} setSigningIn = {setSigningIn} setUser = {setUser} setIsSignedIn = {setIsSignedIn} cart = {cart} setCart={setCart} setCartQuantity = {setCartQuantity} setIsStripeApproved={setIsStripeApproved}/> }
- 
+       {/* <OtvcCodeComp/> */}
    </div> // end of placeholder container
 
    

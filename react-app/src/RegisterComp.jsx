@@ -12,11 +12,15 @@ function RegisterComp({setIsRegistering, setUser, setIsSignedIn}) {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [isValidEmail, setIsValidEmail] = useState(true)
     const [isEnteringVerificationCode ,setIsEnteringVerificationCode] = useState(false)
-    
+    const [sendNewOtvc, setSendNewOtvc] = useState(false)
     const [otvcVerfied, setOtvcVerfied] = useState(false) 
     const newUserData = useRef([])
-    const otvc = useRef(0)
+    //const otvc = useRef(0)
+    const [otvc, setOtvc] = useState(0)
+    const currentEmail = useRef("")
     const firstRender = useRef(true)
+    const RegisterNewUserNameInvalid = useRef(false)
+    const RegisterNewEmailInvalid = useRef(false)
 /////////////////////////////////////////////////////////////////////////////////////////
 
     async function RegisterNewUser() {
@@ -40,6 +44,7 @@ function RegisterComp({setIsRegistering, setUser, setIsSignedIn}) {
         console.log(data)
      }).catch(err => {
         console.log(err)
+        return false
        
      })
 
@@ -51,39 +56,71 @@ function RegisterComp({setIsRegistering, setUser, setIsSignedIn}) {
 
 
 
- function CheckIfUserAndEmailAvalible(email, username) {
-          const userEmailJsonObj = {
-            "email" : email,
-            "username" : username
-          }
-
-       
-
-        try {
-
-        const resp = fetch(`http://127.0.0.1:8000/check_if_username_email_avalible/${JSON.stringify(userEmailJsonObj)}`)
+ async function CheckIfUserNameAvalible(username) {
          
-        if(!resp.ok) {
-            throw new Error(resp.status)
-        }
-        const data = resp.json()
+    
 
-        if(data.success_status === true) {
-            
-             return true
-        }
-    }
+        return fetch(`http://127.0.0.1:8000/check_if_username_avalible/${username}`)
+        .then(resp => {
+             if(!resp.ok) {
+             throw new Error(resp.status)
+             }
+            return resp.json()
+        })
+        .then(data => {
+
+             console.log("username success status: ",data.success_status)
+
+         return data.success_status
+
         
-        catch(err) {
 
-            console.log("EEERRRPP EEERRRPPP ERRRORRR!!! " ,err)
+        }).catch(err => {
 
-        }
+            console.log(err)
+           
+         })
 
-        console.log( "success_status = false")
+         
 
-        return false
-    } /// end CheckIfUserAndEmailAvalible
+        
+
+         
+        
+         } /// end CheckIfUserAndEmailAvalible
+
+         async function CheckIfEmailAvalible(email) {
+         
+
+        return fetch(`http://127.0.0.1:8000/check_if_email_avalible/${email}`)
+        .then(resp => {
+             if(!resp.ok) {
+             throw new Error(resp.status)
+             }
+            return resp.json()
+        })
+        .then(data => {
+
+             console.log("email success status : ", data.success_status)
+            
+              return data.success_status
+        
+
+        }).catch(err => {
+
+            console.log(err)
+            return false
+           
+         })
+
+         
+
+
+        
+
+         
+        
+         } /// end CheckIfUserAndEmailAvalible
  
     ///////////////////////////////////////////////////////////////////////////////////////
     
@@ -179,10 +216,12 @@ function RegisterComp({setIsRegistering, setUser, setIsSignedIn}) {
         
         
         event.preventDefault();
+        
         const username = event.target.username.value
         const password = event.target.password.value
         const confirmpassword = event.target.confirmpassword.value
         const email = event.target.email.value
+        currentEmail.current = email
         event.target.username.value = ""
         event.target.password.value = ""
         event.target.confirmpassword.value = ""
@@ -198,13 +237,18 @@ function RegisterComp({setIsRegistering, setUser, setIsSignedIn}) {
     }
      //2.) if all vlaid format, well fetch the db and see if the username and emial are both avalible
       
-    
-    
-     if(!CheckIfUserAndEmailAvalible(email, username)) {
-        console.log("failed username and email check!")
+
+     if(await CheckIfEmailAvalible(email) === false) {
+        console.log("email not aval")
         return
-     }
+    }
+    
+    if(await CheckIfUserNameAvalible(username)=== false) {
+       
+        return
+    }
      
+    
 
     
 
@@ -215,41 +259,28 @@ function RegisterComp({setIsRegistering, setUser, setIsSignedIn}) {
     
         
     ////send otvc to emial after is proven valid string
-    console.log(`sending emial verification code now.... to${email} `)
+    console.log(`sending emial verification code now to ${email} `)
     
-    try {
-    const resp = sendEmailVerificationCode(email) 
-    
-    const data = await resp
+     const data =  await sendEmailVerificationCode(email) // this is an async function  
 
-    console.log("data ----->", data)
 
-    if(data.sent_success === true) {
+     if(data.sent_success === false) {
         
+        console.log("error sending otvc, try again")
+        return
+    
+     }
+
+     if(data.sent_success === true) {
         setIsEnteringVerificationCode(true)
-        otvc.current = data.otvc
-        
-    }
-
-    else {
-        throw new Error(data.sent_success)
-
-        console.log("some error sending verification code1")
-    }
+        setOtvc(data.otvc)
     
-
+     }
    
-     
-}
-   
-  catch(error) {
-
-     console.log(error)
-     return
-  }
+  
 
 
-
+  return
 
 
 //////////////////////////////////////
@@ -264,9 +295,11 @@ function RegisterComp({setIsRegistering, setUser, setIsSignedIn}) {
         }
 
         if(!otvcVerfied) {
-            return
-            console.log("user entered otvc code and state was updated however the code was not verfied")
-        }
+             console.log("user entered otvc code and state was updated however the code was not verfied")
+              return
+            }
+           
+           
         
         console.log(`about to register new user ${newUserData.current[0]} with password ${newUserData.current[1]} and email  ${newUserData.current[2]}` )
         
@@ -350,15 +383,9 @@ function RegisterComp({setIsRegistering, setUser, setIsSignedIn}) {
         console.log("code verified!")
         /// all good and registered so we can jsut sign in right away
         
-       
-
-       
+}
 
 
-
-       
-        
-    }
 
       
     
@@ -368,7 +395,7 @@ function RegisterComp({setIsRegistering, setUser, setIsSignedIn}) {
         
        
     <div className="overlay">
-     {isEnteringVerificationCode && <OtvcCodeComp otvc = {otvc}  setOtvcVerfied = {setOtvcVerfied} setIsEnteringVerificationCode = {setIsEnteringVerificationCode}/>}
+     {isEnteringVerificationCode && <OtvcCodeComp setSendNewOtvc = {setSendNewOtvc} otvc = {otvc} setOtvc = {setOtvc}  setOtvcVerfied = {setOtvcVerfied} setIsEnteringVerificationCode = {setIsEnteringVerificationCode} currentEmail = {currentEmail} />}
      
      <form onSubmit={handleSubmit}>
         
@@ -393,6 +420,7 @@ function RegisterComp({setIsRegistering, setUser, setIsSignedIn}) {
                     autoComplete="off"
                     type="text"
                     name="username"
+                    value = "newtestname678"
                     className="username-input"
                     placeholder= {isValidUserName ? "username...." : "invalid username..."}
                          
@@ -410,6 +438,7 @@ function RegisterComp({setIsRegistering, setUser, setIsSignedIn}) {
                         <input
                             type = {showPassword ? "text" : "password"}
                             name="password"
+                            value = "Volgin2300!"
                              autoComplete="off"
                             className="password-input"
                             placeholder="password...."
@@ -443,7 +472,7 @@ function RegisterComp({setIsRegistering, setUser, setIsSignedIn}) {
                 <input
                      type = {showConfirmPassword ? "text" : "password"}
                     name="confirmpassword"
-                    
+                    value = "Volgin2300!"
                     className="confirm-password-input"
                     placeholder="confirm password"
                    
@@ -463,9 +492,9 @@ function RegisterComp({setIsRegistering, setUser, setIsSignedIn}) {
             <input
             type = "text"
             name = "email"
-           
+            value = "jacobms23@outlook.com"
             className="email-input"
-            placeholder= {isValidEmail ?"enter email" : "invalid email format. try again.."} 
+            placeholder= {isValidEmail ?"enter email" : "invalid email..."} 
             
             >
 

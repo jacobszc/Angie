@@ -4,6 +4,7 @@ from argon2.exceptions import VerifyMismatchError
 from clients.SupaBaseClient import SupaBaseClient
 from dataclasses import dataclass, field
 import json
+from enum import Enum
 
 router = APIRouter()
 supabase_client = SupaBaseClient()
@@ -16,11 +17,13 @@ class userEmailJsonObjdto:
 
 @dataclass
 class RegistrationModel:
+    
     username : str = ""
     email : str = ""
     success_status: bool = False
-    success_status_reasons: list[str] = field(default_factory=list)
-
+    #success_status_reasons: list[str] = field(default_factory=list)
+    Failure_Reason: str = ""
+         
 
 
 
@@ -53,47 +56,54 @@ def Register(password: str = Form(...), username : str = Form(...), email : str 
     
     return(Registration)
 
-@router.get("/check_if_username_email_avalible/{userEmailJsonObj}")
-def check_if_username_email_avalible(userEmailJsonObj):
+@router.get("/check_if_username_avalible/{username}")
+def check_if_username_avalible(username : str):
 
     Registration = RegistrationModel()
 
-    data = json.loads(userEmailJsonObj)
-
-    userNameandEmailobj = userEmailJsonObjdto(**data)
-
-    print( "THIS IS THE USER NAME WERE GUNNA CHECK --->", userNameandEmailobj.username)
-    print( "THIS IS THE EMAIL NAME WERE GUNNA CHECK --->", userNameandEmailobj.email)
+    print("--------------------" , username )
     
+    userNameResult =  supabase_client.supabase.table("Users").select("username").eq("username", username).execute()
 
-    userNameResult =  supabase_client.supabase.table("Users").select("username").eq("username",  userNameandEmailobj.username).execute()
-
-    emailResult =   supabase_client.supabase.table("Users").select("email").eq("email",  userNameandEmailobj.email).execute()
-    
-    print( userNameResult,emailResult )
-    # print(userNameResult.data ,  emailResult.data)  
-        
-    if  userNameResult.data == [] and emailResult.data == []: # username and emial are both new so were good to retrun
-
+    if  userNameResult.data == []:
+       
         Registration.success_status = True
-        Registration.success_status_reasons.append(f"username {userNameandEmailobj.username} and email {userNameandEmailobj.email} are both avalible")
+        Registration.username = username
         return Registration
+       
 
-        
-    if userNameResult.data:
-           activeUsername = userNameResult.data[0]["username"]
-           Registration. success_status_reasons.append(f"username {activeUsername} is unavalible")
-           Registration.success_status = False
     
-    if emailResult.data:
-
-            activeEmail = emailResult.data[0]["email"]
-            Registration.success_status_reasons.append(f"email {activeEmail} is already in use")
-            Registration.success_status = False
-                
-
+    print("---------" , userNameResult.data[0])   
+    activeUsername = userNameResult.data[0]["username"]
+    Registration.username = activeUsername
+    Registration.success_status = False
+    Registration.Failure_Reason = "USERNAME"
+    
+        
+        
     return Registration
 
+
+
+@router.get("/check_if_email_avalible/{email}")
+def check_if_email_avalible(email : str):
+
+     Registration = RegistrationModel()
+
+     emailResult =   supabase_client.supabase.table("Users").select("email").eq("email", email).execute()
+
+     if emailResult.data == []:
+
+         Registration.success_status = True
+         Registration.email = email
+         return Registration
+
+     activeEmail = emailResult.data[0]["email"]
+     Registration.success_status = False
+     Registration.email = activeEmail
+     Registration.Failure_Reason = "EMAIL"
+
+     return Registration
 
 
 

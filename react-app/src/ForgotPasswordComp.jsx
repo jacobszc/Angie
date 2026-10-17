@@ -4,7 +4,7 @@ function ForgotPasswordComp() {
 
   function handleSendPasswordReset(event) {
 
-    //1.) verify username and exist in db together
+    //1.) verify username and exist in db together *done*
     //2.) send otvc to email
     //3.) if verifed present reset password comp
     //3.) update pass in db with new pass
