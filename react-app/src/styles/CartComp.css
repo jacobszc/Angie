@@ -15,12 +15,7 @@
 
  
 
-.exit-thing {
-    position: absolute;
-    top:5px;
-    right: 5px;
 
-}
 
 .cart-container {
     min-height: 500px;
@@ -68,7 +63,7 @@
     margin-top: 10px;
     background-color: rgb(237, 241, 241);
     border-radius: 8px;
-    font-family: Sofia;
+    
      box-shadow: 2px 2px 2px 2px rgba(0 ,0 ,0 ,0.3)
 
 }
@@ -147,6 +142,14 @@
     border-radius: 6px;
 }
 
+.item {
+
+     background-color: rgb(246, 246, 247);
+    border-radius: 6px ;
+    width: 55%;
+
+}
+
 
 .item-description-container {
     display: grid;
@@ -155,10 +158,9 @@
     width: 70%;
     height: auto;
     
-    /* background-color: rgb(171, 171, 175); */
-    
-    font-family: Sofia;
-    box-shadow: 0 1px ;
+   
+   
+  
 }
 
 .name {
@@ -231,7 +233,6 @@ align-items: center;
     flex-shrink: 1;
     margin: 0 0 0 5px;
 }
-
 
 
 

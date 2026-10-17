@@ -1,6 +1,6 @@
 async function sendEmailVerificationCode(email) {
 
-        console.log(email)
+        
       
     try {
 

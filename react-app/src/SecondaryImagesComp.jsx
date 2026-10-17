@@ -1,16 +1,16 @@
 import "./styles/SecondaryImagesComp.css"
-import {useRef} from "react"
-function SecondaryImagesComp({currentlyDisplayedSecondaries, currentId, listingId}) {
+
+function SecondaryImagesComp({setDisplayingSecondaries, currentlyDisplayedSecondaries, currentId, listingId}) {
 
 
 
    function handleMouseOver(event) {
 
-      event.target.style.position = "absolute";
+      
       event.target.style.inset = 0
       event.target.style.width = "100%";
       event.target.style.height = "100%";
-      event.target.style.zIndex = "9999"
+      event.target.style.zIndex = "4"
       
 
    }
@@ -22,7 +22,7 @@ function SecondaryImagesComp({currentlyDisplayedSecondaries, currentId, listingI
       event.target.style.height = "20%";
       event.target.style.position = "";
        event.target.style.zIndex = "";
-       event.target.style.inset = "";
+       event.target.style.inset = 0;
 
       console.log(event.target)
 
@@ -51,7 +51,7 @@ function SecondaryImagesComp({currentlyDisplayedSecondaries, currentId, listingI
 
 
 
-        <div className ="secondary-images-wrapper">
+        <div className ="secondary-images-wrapper" onClick = {() => setDisplayingSecondaries(false)}>
 
           {currentlyDisplayedSecondaries.map((image, index) => (
              
@@ -61,12 +61,12 @@ function SecondaryImagesComp({currentlyDisplayedSecondaries, currentId, listingI
            <img className =
            "secondary-image" 
            key ={index} 
-           onMouseOver={() => handleMouseOver(event) } 
-           onMouseLeave={()=> handleMouseLeave(event)}
+           onMouseOver={ handleMouseOver } 
+           onMouseLeave={ handleMouseLeave}
             alt = "no image found"
             src = {image}
-            key ={index}
-            className ="secondary-image" 
+           
+            
             ></img>
             
 

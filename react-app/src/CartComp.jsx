@@ -140,7 +140,7 @@ return (
                     </div>
 
                     <button
-                        className="exit-thing"
+                        className="exit-button"
                         onClick={() => setIsInCart(false)}
                     >
                         X
@@ -161,7 +161,7 @@ return (
                             <div className="item-description-container">
 
                                 <div className="price">
-                                    <p>Price: ${item.price}</p>
+                                    <p><b>${item.price}.00</b></p>
                                 </div>
 
                                 <div className="avalible-payment-types">
@@ -171,13 +171,14 @@ return (
                                 </div>
 
                                 <div className="name">
-                                    <p>Name: {item.name}</p>
+                                    <p><b>Name:</b> {item.name}</p>
                                 </div>
 
                                 <div
                                     className="x"
+                                    
                                     onClick={() => handleRemoveItem(item)}
-                                >
+                                > 
                                     <img
                                         className="remove-image"
                                         src="src/assets/garbage-can.png"

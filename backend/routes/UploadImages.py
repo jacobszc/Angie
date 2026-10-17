@@ -36,7 +36,7 @@ async def upload(file : UploadFile = File(...), newListing : str = Form(...)): #
    upload =  supabase_client.supabase.storage.from_("listing_images").upload(img_file_name , bytes , {"content-type": file.content_type}) #insert into bucket
    bucket_url = supabase_client.supabase.storage.from_("listing_images").get_public_url(upload.path)
 
-  
+   print("this is that bucket url is returning", bucket_url)
 
    result = supabase_client.supabase.table("Animals").insert({
         "img_url": bucket_url, ## this should now be url to bucket and work exactly the same
@@ -118,13 +118,11 @@ def add_stripe_ID_db_entry(StripeIdUpdate : StripeIdDto):
 @router.post("/add_secondary_image")
 async def add_secondary_image(secondary_image: UploadFile = File(...), id: int = Form(...)):
 
-
-    bytes = await secondary_image.read()
     img_file_name = await make_file_name(secondary_image)
-    bucket_url  = f"https://supabase.co/storage/v1/object/public/listing_images/{img_file_name}"
+    bytes = await secondary_image.read()
+    upload =  supabase_client.supabase.storage.from_("listing_images").upload(img_file_name , bytes , {"content-type": secondary_image.content_type}) #insert into bucket
+    bucket_url = supabase_client.supabase.storage.from_("listing_images").get_public_url(upload.path)
 
-
-    bucket_result = supabase_client.supabase.storage.from_("listing_images").upload(img_file_name , bytes, {"content-type": secondary_image.content_type})
     result = supabase_client.supabase.table("Animals").select("secondary_images").eq("id" ,id).execute()
 
     secondary_images = result.data[0]["secondary_images"]

@@ -28,12 +28,16 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, setIsS
     const [isFiltering, setIsFiltering] = useState(false)
     const[isRequesting,setIsRequesting] = useState(false)
     const ListingDivRef = useRef(null);
+    const [displayingSecondaries, setDisplayingSecondaries] = useState(false)
+
     
     
     function handleClickShowSecondary(listing) {
-
+       console.log("clickerooni")
+       setDisplayingSecondaries(true)
       setCurrentSecondariesListing(listing)
       setCurrentId(listing.id)
+     
     
     }
 
@@ -403,7 +407,7 @@ function HomeComp({isadmin, setCart, cart, setCartQuantity, cartQuantity, setIsS
                   <p className ="price-tag-display">${listing.price}</p>
                   </div>
               
-                  {<SecondaryImagesComp currentlyDisplayedSecondaries = {currentSecondariesListing.secondary_images} currentId = {currentId} listingId = {listing.id}/>}
+                  {displayingSecondaries && <SecondaryImagesComp setDisplayingSecondaries = {setDisplayingSecondaries} currentlyDisplayedSecondaries = {currentSecondariesListing.secondary_images} currentId = {currentId} listingId = {listing.id}/>}
                   <div  ref ={ListingDivRef} className ="listing-img-container" onClick={() => handleClickShowSecondary(listing) } onDrop = {() => dropHandlerSecondaryImage(event, listing)} onDragOver={() => dragOverHandler} > 
                
                     <img
