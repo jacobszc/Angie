@@ -24,6 +24,7 @@ function App() {
 
 
   return (
+    
    
    <div id ="place-holder-container" className = "place-holder-container">
       <Signin_Register_Selection_Comp setSigningIn={setSigningIn} cart = {cart} setCart = {setCart} cartQuantity={cartQuantity} setCartQuantity={setCartQuantity} user ={user} setUser = {setUser}  setIsSignedIn = {setIsSignedIn} isSignedIn={isSignedIn} setIsAdmin = {setIsAdmin} setIsStripeApproved = {setIsStripeApproved}  />
@@ -32,8 +33,9 @@ function App() {
       <HomeComp setIsAdmin = {setIsAdmin} isadmin={isadmin} setCart = {setCart} cart ={cart} setCartQuantity = {setCartQuantity} cartQuantity ={cartQuantity} setIsSignedIn={setIsSignedIn} isSignedIn={isSignedIn} user ={user} setUser = {setUser} setIsStripeApproved ={setIsStripeApproved} isStripeApproved ={isStripeApproved}  />
       { signingin && <SignInComp setIsAdmin={setIsAdmin} setSigningIn = {setSigningIn} setUser = {setUser} setIsSignedIn = {setIsSignedIn} cart = {cart} setCart={setCart} setCartQuantity = {setCartQuantity} setIsStripeApproved={setIsStripeApproved}/> }
        {/* <OtvcCodeComp/> */}
-   </div> // end of placeholder container
-
+   </div> 
+    
+    
    
   
   )

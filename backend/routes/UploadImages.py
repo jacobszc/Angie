@@ -129,7 +129,7 @@ async def add_secondary_image(secondary_image: UploadFile = File(...), id: int =
     secondary_images.append(bucket_url)
     result = supabase_client.supabase.table("Animals").update({"secondary_images" : secondary_images }).eq("id" ,id).execute()
     data = result.data[0]
-
+    print("THIS IS THE OBJ RETURNED TO FRONT END TO APPEND TO LSITINGS: " , data)
     return(data)
 
 ####################################################################################################################################

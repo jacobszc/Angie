@@ -29,7 +29,21 @@ function HomeComp({setIsAdmin, isadmin, setCart, cart, setCartQuantity, cartQuan
     const[isRequesting,setIsRequesting] = useState(false)
     const ListingDivRef = useRef(null);
     const [displayingSecondaries, setDisplayingSecondaries] = useState(false)
+    
+    const fetchImages = async () => {
+            try {
+              const response = await fetch("http://127.0.0.1:8000/load_images", { method: "GET"});
+              const data = await response.json();
 
+               console.log("load images return = " , data.img_url )
+               setListings(data) // <---- going to grab objects from backend now rather than string
+             
+            }
+            catch (error) {
+              console.log(error)
+            }
+
+            } 
     
     
     function handleClickShowSecondary(listing) {
@@ -51,8 +65,27 @@ function HomeComp({setIsAdmin, isadmin, setCart, cart, setCartQuantity, cartQuan
 
   } 
 
-    function dragOverHandler (event) {
+    function dragOverHandler(event) {
       event.preventDefault();
+
+      const comp = document.getElementById("drop-zone")
+
+      
+
+      comp.style.backgroundColor = "green"
+
+    }
+
+    function leaveDragHandler(event) {
+
+      event.preventDefault()
+      const comp = document.getElementById("drop-zone")
+
+      comp.style.backgroundColor = "grey"
+
+
+
+
     }
 
     function dropHandler(event){
@@ -70,6 +103,8 @@ function HomeComp({setIsAdmin, isadmin, setCart, cart, setCartQuantity, cartQuan
 
     function dropHandlerSecondaryImage(event, listing){
       event.preventDefault();
+
+      console.log("dopped!!!!")
 
       if(!isadmin) {
         return
@@ -91,18 +126,18 @@ function HomeComp({setIsAdmin, isadmin, setCart, cart, setCartQuantity, cartQuan
       }
         return resp.json()
       }).then(data => {
-     
-         const updatedListings = listings.map((listing) => {
 
-         if(listing.id == data.id) {return data}
+        console.log(data)
 
-      })
+        fetchImages() /// we updated the bicket and db so all we need to do is re fetch and well have all updates images loaded into state
 
-         setListings(updatedListings)
-
+       
       }).catch(err =>  {
       console.log(err)
       })
+
+      
+       
 
       } 
 
@@ -234,20 +269,7 @@ function HomeComp({setIsAdmin, isadmin, setCart, cart, setCartQuantity, cartQuan
          if(hasRun.current) return;
           hasRun.current = true
 
-         const fetchImages = async () => {
-            try {
-              const response = await fetch("http://127.0.0.1:8000/load_images", { method: "GET"});
-              const data = await response.json();
-
-               console.log("load images return = " , data.img_url )
-               setListings(data) // <---- going to grab objects from backend now rather than string
-             
-            }
-            catch (error) {
-              console.log(error)
-            }
-
-            } 
+         
 
           fetchImages()
 
@@ -376,7 +398,7 @@ function HomeComp({setIsAdmin, isadmin, setCart, cart, setCartQuantity, cartQuan
   //////////////////////////////////////////////////////////// return /////////////////////////////////////////////////////
    return (
 
-      <div  id ="comp-container" className = "comp-container" onDrop = {dropHandler} onDragOver={dragOverHandler}>
+      <div  id ="comp-container" className = "comp-container">
            
            <div className="scroll-container">
                 <div className = "group">
@@ -419,7 +441,7 @@ function HomeComp({setIsAdmin, isadmin, setCart, cart, setCartQuantity, cartQuan
                   </div>
               
                   {displayingSecondaries && <SecondaryImagesComp setDisplayingSecondaries = {setDisplayingSecondaries} currentlyDisplayedSecondaries = {currentSecondariesListing.secondary_images} currentId = {currentId} listingId = {listing.id}/>}
-                  <div  ref ={ListingDivRef} className ="listing-img-container" onClick={() => handleClickShowSecondary(listing) } onDrop = {() => dropHandlerSecondaryImage(event, listing)} onDragOver={() => dragOverHandler} > 
+                  <div  ref ={ListingDivRef} className ="listing-img-container" onClick={() => handleClickShowSecondary(listing) } onDrop = {() => dropHandlerSecondaryImage(event, listing)} onDragOver={dragOverHandler} > 
                
                     <img
                     src = {listing.img_url} // <-- need to now gran imurl from obj that contains imgurl and caption string
@@ -444,6 +466,8 @@ function HomeComp({setIsAdmin, isadmin, setCart, cart, setCartQuantity, cartQuan
       
             {isFiltering && <FilterComp setIsFiltering = {setIsFiltering} setFilter = {setFilter} DEFAULT_FILTER = {DEFAULT_FILTER}/>}
             { isRequesting &&<ContactUsComp setIsRequesting = {setIsRequesting}/>}
+
+            { isadmin &&<div id = "drop-zone" className = "drop-zone" onDrop = {dropHandler} onDragOver={dragOverHandler} onDragLeave={leaveDragHandler}>Drag and Drop Images here...</div>}
     </div>
 
       
