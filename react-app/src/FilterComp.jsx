@@ -1,8 +1,35 @@
 import "./styles/FilterComp.css"
+import { useState } from "react";
 
 function FilterComp({setIsFiltering, setFilter, DEFAULT_FILTER}) {
 
-    function filterListings(event) {
+  const [numberAppliedFilters, setnumberAppliedFilters] = useState(0) 
+
+  
+  function handleCountFilters(event) {
+
+
+    if(event.target.checked) {
+
+    setnumberAppliedFilters(numberAppliedFilters +1 )
+
+    }
+
+    else {
+
+      if(numberAppliedFilters >= 0) {
+      setnumberAppliedFilters(numberAppliedFilters -1)
+      }
+    }
+
+    
+  
+  
+  }  
+  
+  
+  
+  function filterListings(event) {
     
           event.preventDefault();
     
@@ -17,9 +44,11 @@ function FilterComp({setIsFiltering, setFilter, DEFAULT_FILTER}) {
           const newfilter = []
          
            
-          console.log(event.currentTarget.elements)
-    
+          
           const checkList = Array.from(event.currentTarget.elements)
+
+          console.log(checkList)
+    
     
           
           
@@ -37,6 +66,7 @@ function FilterComp({setIsFiltering, setFilter, DEFAULT_FILTER}) {
     
            
           if(newfilter.length > 0) {
+            
           setFilter(newfilter)
           }
           else {
@@ -59,47 +89,47 @@ function FilterComp({setIsFiltering, setFilter, DEFAULT_FILTER}) {
 
     return (
 
-       <div className = "filter-container">
+       
       <div className = "filter-custom-overlay">
         <div className ="check-box-container">
           <h2 className ="filter-title">Filter By Type...</h2>
           
-            <form onSubmit={filterListings}>
+            <form onSubmit={filterListings} className = "filter-form">
              <div className = "row-container">
                 <div className = "checkbox-row-1">
                   <label htmlFor ="checkbox-1">cat</label>
-                  <div className = "input-wrapper">
-                  <input className ="checkbox-1" type = "checkbox"></input>
-                   </div>
+                
+                  <input className ="checkbox-1" type = "checkbox" onClick={handleCountFilters}></input>
+                  
                 </div>
                 <div className = "checkbox-row-2">
                   <label htmlFor ="checkbox-2">dog</label>
-                  <div className = "input-wrapper">
-                  <input className ="checkbox-2" type = "checkbox"></input>
-                  </div>
+                 
+                  <input className ="checkbox-2" type = "checkbox" onClick={handleCountFilters}></input>
+                 
                 </div>
                 <div className = "checkbox-row-3">
                   <label htmlFor ="checkbox-3">bird</label>
-                  <div className = "input-wrapper">
-                  <input className ="checkbox-3" type = "checkbox"></input>
-                  </div>
+                 
+                  <input className ="checkbox-3" type = "checkbox" onClick={handleCountFilters}></input>
+                 
                 </div>
                 <div className = "checkbox-row-4">
                   <label htmlFor ="checkbox-4">reptile</label>
-                  <div className = "input-wrapper">
-                  <input className ="checkbox-4" type = "checkbox"></input>
-                </div>
+                 
+                  <input className ="checkbox-4" type = "checkbox" onClick={handleCountFilters}></input>
+                
                 </div>
                 <div className = "checkbox-row-5">
                   <label htmlFor ="checkbox-5">fish</label>
-                  <div className = "input-wrapper">
-                  <input className ="checkbox-5" type = "checkbox"></input>
-                  </div>
+                  
+                  <input className ="checkbox-5" type = "checkbox" onClick={handleCountFilters}></input>
+                  
                 </div>
                 </div>
                 <div className = "filter-button-container">
-                <button className = "submit-filters-button "type="submit">apply</button>
-                <button className = "submit-filters-button "type="button" onClick={() =>setIsFiltering(false)}>cancel</button>
+                <button className = "submit-filters-button "type="submit">Apply Filters ({numberAppliedFilters}) -|-</button>
+                {/* <button className = "submit-filters-button "type="button" onClick={() =>setIsFiltering(false)}>cancel</button> */}
                 </div>
                 </form>
 
@@ -108,7 +138,7 @@ function FilterComp({setIsFiltering, setFilter, DEFAULT_FILTER}) {
 
 
        </div>
-       </div>
+       
 
     )
 }

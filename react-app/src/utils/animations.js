@@ -67,7 +67,7 @@
          anim.style.width = "50px";
          anim.style.height = "50px";
          anim.style.left = `${(rect.right) - 40}px`;
-         anim.style.top = `${(rect.top) - 40}px`;
+         anim.style.top = `${(rect.right) - 40}px`;
 
          
          anim.style.zIndex = "99999";

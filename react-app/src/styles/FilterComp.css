@@ -3,9 +3,7 @@
 
     
     position: fixed;
-    
     display: flex;
-    
     z-index: 1000;
     top: 0;
     left:0;
@@ -13,40 +11,64 @@
     height: 100vh;
     justify-content: center;
     align-items: center;
+    
 
 }
 
 .check-box-container {
-   position: relative;
-    height:40%;
-    
+    position: relative;
+    height:50%;
+    color: white;
     display: flex;
-    flex-direction: column;
-    font-family: "Inter", sans-serif;
+    flex-direction: row;
     border-radius: 8px 4px 8px 8px;
     left:10px;
     top:10px;
-   background-image: linear-gradient(to right top, #ffffff, #fbffff, #f2ffff, #ecfffb, #f1ffee);
+   background-image: linear-gradient(to right bottom, #303158, #191338, #151031, #140e2c, #060311);
+    
    
+}
+
+.filter-form {
+
+    width:100%;
+    height: 100%;
    
+    
+
+
+
 }
 
 .row-container {
     display: flex ;
-    flex-direction: row;
-    margin-left: 20%;
-    margin-right: 20%;;
-}
-.check-box-container div {
+    flex-direction: column;
+    width:100%;
+    height: 100%;
+    gap:10px;
+    
   
+
+    
+}
+.filter-form div {
+    width: 100%;
     align-content: center;
+    justify-content: center;
     font-family: "Inter", sans-serif;
 }
-.input-wrapper {
-    display: flex;
-    width: auto;
 
-}
+.row-container div {
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+     background-image: linear-gradient(to right bottom, #241c34, #261d39, #281d3e, #2a1e43, #2c1e48);
+     width:90%;
+ font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+ border-radius: 3px;
+ box-shadow: 1px 1px 1px 1px rgba(236, 234, 234, 0.3)
+    }
+    
 
 
 
@@ -66,8 +88,10 @@
     
 }
 .filter-button-container button {
+    width:65%;
     gap:10px;
-    border-radius: 6px 6px 2px 6px;
+    border-radius: 8px 8px 8px 8px;
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
- 
+    color: white;
+    background-image: linear-gradient(to right bottom, #5b0df8, #5d11f7, #5f14f7, #6116f6, #6319f6);
 }

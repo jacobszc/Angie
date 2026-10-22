@@ -1,6 +1,6 @@
 import "./styles/SecondaryImagesComp.css"
 
-function SecondaryImagesComp({setDisplayingSecondaries, currentlyDisplayedSecondaries, currentId, listingId}) {
+function SecondaryImagesComp({listingForWhichTodisplaySecondaries, setDisplayingSecondaries}) {
 
 
 
@@ -21,7 +21,7 @@ function SecondaryImagesComp({setDisplayingSecondaries, currentlyDisplayedSecond
       event.target.style.width = "50%";
       event.target.style.height = "20%";
       event.target.style.position = "";
-       event.target.style.zIndex = "";
+       
        event.target.style.inset = 0;
 
       console.log(event.target)
@@ -33,17 +33,11 @@ function SecondaryImagesComp({setDisplayingSecondaries, currentlyDisplayedSecond
     
      
 
-     if(currentlyDisplayedSecondaries == null) {
+     if(listingForWhichTodisplaySecondaries.secondary_images == null) {
         return
      }
 
-     if(currentId == null) {
-        return
-     }
-
-     if(currentId != listingId) {
-        return
-     }
+     
 
     return (
 
@@ -52,25 +46,28 @@ function SecondaryImagesComp({setDisplayingSecondaries, currentlyDisplayedSecond
 
 
         <div className ="secondary-images-wrapper" onClick = {() => setDisplayingSecondaries(false)}>
-
-          {currentlyDisplayedSecondaries.map((image, index) => (
+              
+          {listingForWhichTodisplaySecondaries.secondary_images.map((image, index) => (
              
             
-            
+         <div className="secondary-image-frame">
+           
            
            <img className =
            "secondary-image" 
            key ={index} 
-           onMouseOver={ handleMouseOver } 
-           onMouseLeave={ handleMouseLeave}
+         //   onMouseOver={ handleMouseOver } 
+         //   onMouseLeave={ handleMouseLeave}
             alt = "no image found"
             src = {image}
            
             
             ></img>
+
+            
             
 
-
+                     </div>
            ))}
 
         

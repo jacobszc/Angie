@@ -1,30 +1,54 @@
-.secondary-images-wrapper {
 
-    
+.secondary-images-wrapper {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    position: absolute;
     width: 100%;
-    height:100%;
-    right: -200px;
-    top: -40px;
-    margin:0;
-    gap: 0;
-    z-index: 4;
-    background-color: azure;
-    border-radius: 8px;
-    cursor: pointer;   
-  
+    min-height: 100%;
+    background-color: hsl(129, 52%, 88%);
+    flex-direction: row;
+    position: relative;
+    gap :10px;
+    border-radius: 8px 12px 10px 8px;
+    margin-top: 10px;
+   
+}   
+
+.secondary-image-frame {
+  height: 200px;
+  width: 35%;
+  margin: auto;
+ 
+   
+   
+    
+}
+
+.secondary-image-frame:hover {
+
+    height: 300px;
+    width: 70%;
 }
 
 
 
 
-
 .secondary-image {
+    background-color: aqua;
 
-   width:50%;
-    height:20%;
+   width: 100%;
+    height: 100%;
     border-radius: 8px;
+     
+   
+    
+
+    
+    
+}
+
+.border-flower-img {
+
+    position: absolute;
+    top:-20px;
+    left: -35px;
+    border-radius: 19px;
 }

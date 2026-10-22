@@ -15,8 +15,7 @@ function HomeComp({setIsAdmin, isadmin, setCart, cart, setCartQuantity, cartQuan
     const [listings, setListings] = useState([])
     const [newImgFile, setNewImgFile] = useState("");
     const [newStripeListing, setNewStripeListing] = useState({})
-    const[currentSecondariesListing, setCurrentSecondariesListing] = useState({})
-    const[currentId , setCurrentId] = useState(null)
+    const [listingForWhichTodisplaySecondaries, setListingForWhichTodisplaySecondaries] = useState({})
     const buttonRef = useRef(null);
     const hasRun = useRef(false)
     const firstRenderForUploadImages = useRef(true);
@@ -48,9 +47,10 @@ function HomeComp({setIsAdmin, isadmin, setCart, cart, setCartQuantity, cartQuan
     
     function handleClickShowSecondary(listing) {
        console.log("clickerooni")
+      
+       console.log(listing)
+       setListingForWhichTodisplaySecondaries(listing)
        setDisplayingSecondaries(true)
-      setCurrentSecondariesListing(listing)
-      setCurrentId(listing.id)
      
     
     }
@@ -422,33 +422,42 @@ function HomeComp({setIsAdmin, isadmin, setCart, cart, setCartQuantity, cartQuan
         <div className = "listings-banner" >
             < link rel = "style-sheet" href ="https://googleapis.com/css2?family=Alfa+Slab+One"></link>
              <link rel ="style-sheet" href = "https://googleapis.com/css2?family=Fira+Sans"></link>
-             <h1 className ="banner-text">Avalible Pets!</h1>
+             
+             { displayingSecondaries ? <SecondaryImagesComp listingForWhichTodisplaySecondaries = {listingForWhichTodisplaySecondaries} setDisplayingSecondaries={setDisplayingSecondaries}/> : <h1 className ="banner-text" style={{ alignItems: "center", justifySelf: "center"}}>Avalible Pets!</h1>
+
+}
         </div>
 
 {/*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/}         
 
            
         <div className = "listing-container">
-
+          
             <button className ="filter-button" onClick = {() => setIsFiltering(true)}>filter -|-</button>
             {(listings.length > 0) ? listings.map((listing) => (
                 (filter.includes(listing.type)) &&
-
+              
+                
             <div className = "listing" key = {listing.id}>
+               
+
                 <div className ="price-tag-img-wrapper">
                   <img className ="price-tag-img" src ="src/assets/price-tag.png"></img>
                   <p className ="price-tag-display">${listing.price}</p>
                   </div>
               
-                  {displayingSecondaries && <SecondaryImagesComp setDisplayingSecondaries = {setDisplayingSecondaries} currentlyDisplayedSecondaries = {currentSecondariesListing.secondary_images} currentId = {currentId} listingId = {listing.id}/>}
-                  <div  ref ={ListingDivRef} className ="listing-img-container" onClick={() => handleClickShowSecondary(listing) } onDrop = {() => dropHandlerSecondaryImage(event, listing)} onDragOver={dragOverHandler} > 
-               
+                  
+                  <div  ref ={ListingDivRef} className ="listing-img-container" onClick={() => handleClickShowSecondary(listing)}  onDrop = {() => dropHandlerSecondaryImage(event, listing)} onDragOver={dragOverHandler}  > 
+                 
                     <img
+                    
+                    
                     src = {listing.img_url} // <-- need to now gran imurl from obj that contains imgurl and caption string
                     key = {listing.id}
                     alt="image not found"
                     className="listing-img"
                     />
+                
           </div>
             
           <div id = "caption-wrapper" className = "caption-wrapper">
@@ -459,17 +468,17 @@ function HomeComp({setIsAdmin, isadmin, setCart, cart, setCartQuantity, cartQuan
             { isadmin && <button className ="listing-remove-button" onClick= {() => removeListing(listing)}>remove</button>}
          </div>
          </div>
-           )) : <p>drag and drop new posting here...</p>}  
+           )) : <p>No current Listings...</p>}  
 
            {(isadmin &&hasDroppedImg) && <EnterCaptionComp setHasDroppedImg = {setHasDroppedImg} setNewListing = {setNewListing}/>}
          </div>
       
             {isFiltering && <FilterComp setIsFiltering = {setIsFiltering} setFilter = {setFilter} DEFAULT_FILTER = {DEFAULT_FILTER}/>}
             { isRequesting &&<ContactUsComp setIsRequesting = {setIsRequesting}/>}
-
+  
             { isadmin &&<div id = "drop-zone" className = "drop-zone" onDrop = {dropHandler} onDragOver={dragOverHandler} onDragLeave={leaveDragHandler}>Drag and Drop Images here...</div>}
     </div>
-
+ 
       
        )
 }
