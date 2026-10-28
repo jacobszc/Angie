@@ -25,7 +25,7 @@
     left:10px;
     top:10px;
    background-image: linear-gradient(to right bottom, #303158, #191338, #151031, #140e2c, #060311);
-    
+   
    
 }
 
@@ -81,17 +81,30 @@
 .filter-button-container {
    position:absolute;
     bottom: 10px;
+    height: 100px;
     width:100%;
     display: flex;
     gap:2px;
     justify-content: center;
+    align-items: center;
     
 }
 .filter-button-container button {
-    width:65%;
+    font-size: small;
+    width:40%;
+    height:40px;
     gap:10px;
     border-radius: 8px 8px 8px 8px;
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     color: white;
     background-image: linear-gradient(to right bottom, #5b0df8, #5d11f7, #5f14f7, #6116f6, #6319f6);
+}
+
+.exit-button {
+
+    position:absolute;
+    
+   
+    border-radius: 6px;
+    
 }

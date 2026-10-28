@@ -473,7 +473,7 @@ function HomeComp({setIsAdmin, isadmin, setCart, cart, setCartQuantity, cartQuan
            {(isadmin &&hasDroppedImg) && <EnterCaptionComp setHasDroppedImg = {setHasDroppedImg} setNewListing = {setNewListing}/>}
          </div>
       
-            {isFiltering && <FilterComp setIsFiltering = {setIsFiltering} setFilter = {setFilter} DEFAULT_FILTER = {DEFAULT_FILTER}/>}
+            {isFiltering && <FilterComp setIsFiltering = {setIsFiltering} setFilter = {setFilter} filter = {filter} DEFAULT_FILTER = {DEFAULT_FILTER}/>}
             { isRequesting &&<ContactUsComp setIsRequesting = {setIsRequesting}/>}
   
             { isadmin &&<div id = "drop-zone" className = "drop-zone" onDrop = {dropHandler} onDragOver={dragOverHandler} onDragLeave={leaveDragHandler}>Drag and Drop Images here...</div>}

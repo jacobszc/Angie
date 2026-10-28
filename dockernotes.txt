@@ -1,0 +1,33 @@
+ $$ docker pull docker/welcome-to-docker    
+ 
+ docker cleint communicates with docker daemon either on same system or via remote rest api calls. docker daemon does all the build work
+ 
+ ------------
+ docker build|
+ docker run  |   ---------> Docker daemon  ------> Images ====== > Containers
+ docker pull |
+ ------------|
+ 
+ client cmds ^^^^
+ 
+ Docker registries stores docer images. when u run pull <images-name> it looks here by defualt
+ 
+ 
+IMAGE = read only template with intstruction to create a container. to create own images, you create a Docker file with instructions to create image and run it. each instrcution creates
+a layer of the image.
+
+CONTAINER = A runnable instance of an image.
+
+
+Docker Compose = Docker Compose describes all the parts of an application in a compose.yaml file and manages them together. Compose is included with Docker Desktop.
+
+
+
+$$ docker compose up --build --detach --> The docker compose up command reads compose.yaml and starts its services. The --build option builds the frontend and API images from the project, 
+and --detach leaves the containers running in the background. Compose also pulls the images for the supporting services and connects the containers.
+
+$$ -- build    buulds images assosiated with project
+
+$$ -- compose up     reads compose.yaml and starts its services. each section unser servies in the .yaml is a description of an image for each micro service in your app. ie frontend, backend, db. etc
+
+$$ docker compose ps    <--- shows all containers for your appplications services
