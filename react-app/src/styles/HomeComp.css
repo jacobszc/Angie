@@ -17,11 +17,17 @@
     overflow-x:scroll;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
     border-radius: 8px;
-    background-color: hsl(103, 62%, 94%);
+   background-image: linear-gradient(to right bottom, #a762e9, #a88cc7, #743ed8, #dca3d3, #2d3492);
     gap: 10px;
+   
+   
+    
+    box-shadow: 4px 4px 10px 10px rgb(247, 246, 246);
 
      
 }
+
+
 
 .scroll-container::-webkit-scrollbar {
   display: none;
@@ -101,7 +107,7 @@
   border-radius: 8px 12px 10px 8px;
   box-shadow: 0 12px 28px rgba(67, 248, 233, 0.5);
   justify-content:center ;
-  align-ite: center;
+  align-items: center;
   
    
   

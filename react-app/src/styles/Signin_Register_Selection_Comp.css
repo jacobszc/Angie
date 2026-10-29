@@ -58,8 +58,11 @@ margin-right: 5px;
     box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.12);
     background-color: hsl(11, 37%, 95%) ;
     border-radius: 4px;
+    display: flex;
+    position: relative;
 }
 
+ 
 .selection-button-1:hover {
 
      background-color: hsl(100, 37%, 95%);

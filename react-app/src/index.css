@@ -60,14 +60,23 @@ body {
  
 }
 .place-holder-container {
-    
-    
+    isolation: isolate;
     box-shadow: 5px 15px 15px 15px rgba(0, 0, 0, 0.2);
     border-radius: 8px 8px 8px 8px;
-     background-image: linear-gradient(to right top, #ddb44257, #cae3d8, #d7ead9, #f0dcf0, #f3f6e0);
-    
+    position: relative;
+    background-image: linear-gradient(to bottom, #7ea1c6, #9b9dc8, #b898c0, #cf94b0, #db959a, #d48d8e, #cd8583, #c67d77, #b36776, #9a5575, #7c4774, #573c71);
 }
-
+ 
+.place-holder-container::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("/src/assets/noise.png");
+    background-repeat: repeat;
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: -1;
+}
 #root {
   width: 1126px;
   max-width: 100%;
@@ -177,8 +186,12 @@ code {
 }
 
 button {
+  
   background-image: linear-gradient(to bottom, #ffe88c, #ffed85, #fff37e, #fff978, #ffff71);
+  
 }
+
+
 button:hover {
 
   background-image: linear-gradient(to bottom, #f4d55c, #f1d955, #eedd4f, #eae148, #e5e542);

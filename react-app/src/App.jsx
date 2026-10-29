@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from 'react'
-import TitleComp from './TitleComp';
+ import TitleComp from './TitleComp';
 import SignInComp from './SignInComp';
 import MenuComp from './MenuComp';
 import HomeComp from './HomeComp';
@@ -27,8 +27,9 @@ function App() {
     
    
    <div id ="place-holder-container" className = "place-holder-container">
+    
       <Signin_Register_Selection_Comp setSigningIn={setSigningIn} cart = {cart} setCart = {setCart} cartQuantity={cartQuantity} setCartQuantity={setCartQuantity} user ={user} setUser = {setUser}  setIsSignedIn = {setIsSignedIn} isSignedIn={isSignedIn} setIsAdmin = {setIsAdmin} setIsStripeApproved = {setIsStripeApproved}  />
-      <TitleComp setSigningIn = {setSigningIn}/>
+      <TitleComp/>
       <MenuComp/>
       <HomeComp setIsAdmin = {setIsAdmin} isadmin={isadmin} setCart = {setCart} cart ={cart} setCartQuantity = {setCartQuantity} cartQuantity ={cartQuantity} setIsSignedIn={setIsSignedIn} isSignedIn={isSignedIn} user ={user} setUser = {setUser} setIsStripeApproved ={setIsStripeApproved} isStripeApproved ={isStripeApproved}  />
       { signingin && <SignInComp setIsAdmin={setIsAdmin} setSigningIn = {setSigningIn} setUser = {setUser} setIsSignedIn = {setIsSignedIn} cart = {cart} setCart={setCart} setCartQuantity = {setCartQuantity} setIsStripeApproved={setIsStripeApproved}/> }

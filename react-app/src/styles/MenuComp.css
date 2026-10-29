@@ -6,43 +6,143 @@
     display:flex;
     flex-wrap: block;
     margin-bottom: 10px;
-     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-   background-image: linear-gradient(to right top, #e6e8ec, #dae6ec, #cee5e4, #cbe2d5, #d4dcc2); ;
-    
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
 .menu-option {
+    position: relative;
     justify-content: center;
     width:24.5%;
     height: 100%;
     margin: auto;
-   
     border-width: 0px 1px 0px 0px;
-    
     border-radius: 5px 5px 5px 5px;
     display:grid;
+    display: flex;
     grid-template-rows: auto auto auto;
-     background-color: hsl(151, 30%, 94%);
+    background-color: initial;
+  background-image: linear-gradient(-180deg, #FF7E31, #E62C03);
+    cursor: pointer;
+   
+
+}
+
+
+
+.button-42:hover {
+  box-shadow: rgba(253, 76, 0, 0.5) 0 3px 8px;
+}
+
+.menu-option:hover::after {
+
+
+    content: '';
+     position: absolute;
+     
+     width:110%;
+     height: 125%;
+     background-color:rgb(238, 155, 122) ;
+     z-index: -1;
+     top:50%;
+     left:50%;
+     transform: translate(-50%, -50%);
+     filter: blur(14px);
+    animation-name: motion-blur-2;
+     animation-duration:6s;
+     animation-iteration-count: infinite ;
+
+}
+
+/* .menu-option::before {
+
+
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background-color: #7880c5;
+    border-radius: 5px;
+    display: none;
+  
+   
+} */
+
+
+
+
+@keyframes grow-right {
+
+    0% {
+      width: 5%;
+      opacity: 1;
+        
+    }
+
+    100% {
+
+        width: 100%;
+        opacity: 0;
+    }
+
 
     
 }
+
+@keyframes motion-blur-2 {
+
+    20% {
+        filter: blur(14px);
+         width:112%;
+         height: 128%;
+
+    }
+    40% {
+        filter: blur(16px);
+         width:114%;
+          height: 130%;
+        
+    }
+    60% {
+        filter: blur(18px);
+         width:116%;
+          height: 132%;
+        
+    }
+    80% {
+        filter: blur(16px);
+         width:114%;
+          height: 130%;
+        
+    }
+    100% {
+        filter: blur(12px);
+         width:110%;
+          height:  125%;
+        
+    }
+    
+}
+
+
+
+
+
 .menu-option h6 {
-     background: -webkit-linear-gradient(#2132cf, #9e91e0);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: antiquewhite;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.menu-option:hover {
+/* .menu-option:hover {
     
   box-shadow: 0 12px 28px rgba(0,0,0,0.15);
    background-color: hsl(133, 72%, 90%);
   cursor: pointer;
 
 
-}
+} */
 
 
 .menu-option h6 {
