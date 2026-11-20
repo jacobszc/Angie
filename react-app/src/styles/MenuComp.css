@@ -21,7 +21,7 @@
     display: flex;
     grid-template-rows: auto auto auto;
     background-color: initial;
-  background-image: linear-gradient(-180deg, #FF7E31, #E62C03);
+   background-image: linear-gradient(to right, #B5D2E6, #84bee6, #7bb2d6, #85c6f1, #6cbaee);
     cursor: pointer;
    
 
@@ -29,9 +29,7 @@
 
 
 
-.button-42:hover {
-  box-shadow: rgba(253, 76, 0, 0.5) 0 3px 8px;
-}
+
 
 .menu-option:hover::after {
 
@@ -41,7 +39,7 @@
      
      width:110%;
      height: 125%;
-     background-color:rgb(238, 155, 122) ;
+     background-color: #326080;
      z-index: -1;
      top:50%;
      left:50%;

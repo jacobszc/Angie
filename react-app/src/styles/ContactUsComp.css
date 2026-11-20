@@ -14,6 +14,7 @@
     box-shadow: 8px 8px 12px 12px rgb(0,0,0, 0.25);
     display: flex;
     overflow-x: hidden;
+    position: relative;
     
     
 }
@@ -66,7 +67,9 @@
     width: 6em;
     margin-left:1em;
     border-radius: 6px;
-background-color: rgb(223, 248, 0);}
+background-color: rgb(223, 248, 0);
+
+}
 
 .contact-us-button:hover {
 
@@ -78,4 +81,5 @@ background-color: rgb(223, 248, 0);}
     position: absolute;
     top: 20px;
     right: 20px;
+   
 }
