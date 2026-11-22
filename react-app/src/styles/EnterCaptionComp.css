@@ -23,16 +23,19 @@
     height:20% ;
     width:100%;
     display: flex;
-    flex:auto;
+    
     flex-wrap: wrap;
     margin-right: 2%;
 }
 
 .admin-input-container input {
 
-    width: 49%;
+    width: 50%;
     border-radius: 6px;
-    margin-right: 1px;
+    margin: 0;
+    padding: 0;
+    transform: none;
+    
 }
 
 

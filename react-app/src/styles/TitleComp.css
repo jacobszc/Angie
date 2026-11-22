@@ -22,11 +22,12 @@
    top:50%;
      left:50%;
      transform: translate(-50%, -50%);
-     width:120%;
-     height: 115%;
-     background-color: rgb(223, 231, 114);
+     width:100%;
+     height: 105%;
+     background-color: rgb(106, 187, 219);
      z-index: -1;
      opacity: .2;
+     border-radius: 5px 5px 5px 5px;
     
 
 
@@ -49,14 +50,26 @@
      display: flex;
      justify-content:  center  ;
      align-items: center;
-     font-size:xx-large;
+     font-weight: 900;
+     font-style: italic;
      isolation: isolate;
+     font-size: 50px;
      border-radius: 10px;
     position: absolute;
-    width: 50%;
-    height: 10%;
+    width: 70%;
+    height: 30%;
+   background-image: linear-gradient(to right, #000000, #000000, #f0f5ee, #fafcfa, #ffffff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    
     
    
+}
+
+.title-text:: {
+
+    background-image: linear-gradient(to right, #f8c097, #d4968d, #a47481, #6e576b, #3f3c4a, #363f53, #254459, #00495b, #007584, #00a394, #00d18a, #5ffb65);
 }
 
 

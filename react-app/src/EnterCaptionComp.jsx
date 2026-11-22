@@ -44,10 +44,10 @@ function EnterCaptionComp({setHasDroppedImg, setNewListing}) {
           
           <div  className ="admin-input-container">
           
-          <input name = "name" className ="name-input" type ="text" placeholder="enter name..."></input>
-          <input name = "price" type ="number" className="price" min ="0" max ="2000" placeholder="enter price..."></input>
+          <input name = "name" className ="name-input" type ="text" placeholder="Enter name..."></input>
+          <input name = "price" type ="number" className="price" min ="0" max ="2000" placeholder="Enter price..."></input>
            
-           <select name="type" id="pet-select" className ="type-dropdown">
+           <select name="type" id="pet-select" className ="type-dropdown" required>
               <option value="">--Choose Type--</option>
               <option value="cat">Cat</option>
               <option value="dog">Dog</option>
@@ -56,11 +56,11 @@ function EnterCaptionComp({setHasDroppedImg, setNewListing}) {
               <option value="fish">Fish</option>
               
 </select>
-           <input name = "breed" className ="breed-input" type ="text" placeholder="enter breed..."></input>
+           <input name = "breed" className ="breed-input" type ="text" placeholder="Enter breed..."></input>
            
            </div>
            
-           <textarea name ="caption" className= "decription-text-area" rows = "17" columns = "50" placeholder="describe posting..."></textarea>
+           <textarea name ="caption" className= "decription-text-area" rows = "17" columns = "50" placeholder="Describe all inforamtion you would want customer to know about animal. eg. personality, likes, dislikes, avalibility, etc..."></textarea>
               <button className ="caption-submit-button" type ="submit">submit</button>
               <button className ="caption-cancel-button" onClick={() => setHasDroppedImg(false)}>cancel</button>
         </form>
