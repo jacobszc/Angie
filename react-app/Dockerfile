@@ -3,14 +3,14 @@ FROM node:22-alpine
 
 WORKDIR /app
 
-COPY ./react-app/package*.json ./
+COPY package*.json ./
 
 RUN npm install
 
-COPY ./react-app ./
+COPY . .
 
 EXPOSE 5713
 
 
-CMD npm run dev
+CMD npm run dev 
 

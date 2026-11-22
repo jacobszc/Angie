@@ -1,16 +1,16 @@
 FROM python:3.14
 
 
-WORKDIR /backend
+WORKDIR /app
 
 
-COPY ./requirements.txt .
+COPY requirements.txt .
 
 
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
 
-COPY backend /backend
+COPY . .
 
 EXPOSE 8046
 

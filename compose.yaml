@@ -1,11 +1,26 @@
+
 services:
-  api:
+  web:
     build:
-      context: .
-      target: builder
-    container_name: fastapi-application
-    environment:
-      PORT: 8000
+      context: ./react-app
+    
     ports:
-      - '8000:8000'
-    restart: "no"
+      - 5173:5173
+    volumes:
+      - ./react-app:/app
+      - /app/node_modules
+
+  backend:
+    build: 
+      context: ./backend
+    
+
+    ports:
+      -  8000:8000
+    volumes:
+      - ./backend:/app
+
+
+
+  
+
