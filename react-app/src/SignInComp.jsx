@@ -6,6 +6,7 @@ import ForgotPasswordComp from "./ForgotPasswordComp";
 function SignInComp({setIsAdmin, setSigningIn, setUser, setIsSignedIn, cart,  setCart, setCartQuantity, setIsStripeApproved}) {
       
      const [forgotPassword, setForgotPassword] = useState(false)
+     const SITEKEY = "0x4AAAAAAGOFCFHG4txRAJDb";
 
      function handleForgotpassword() {
       
@@ -94,10 +95,18 @@ function SignInComp({setIsAdmin, setSigningIn, setUser, setIsSignedIn, cart,  se
 
 
     return (
+
+        
          
          
 
         <div className="overlay"> {/* container for sign in box */}
+
+          <script
+	        src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+	        async
+	        defer
+            ></script>
                 {forgotPassword ? <ForgotPasswordComp/> :
                 
                 
@@ -142,6 +151,8 @@ function SignInComp({setIsAdmin, setSigningIn, setUser, setIsSignedIn, cart,  se
                         >
                             Sign In
                         </button>
+
+                        <div className="cf-turnstile" data-sitekey="SITEKEY" data-action="subscribe"></div>
                         </div>
 
                     </form>
