@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: react-app
+    runtime: docker
+    dockerfilePath: ./react-app/Dockerfile
+    dockerContext: ./react-app
+    plan: free
+
+  - type: web
+    name: backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
