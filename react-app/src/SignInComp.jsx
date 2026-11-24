@@ -20,9 +20,14 @@ function SignInComp({setIsAdmin, setSigningIn, setUser, setIsSignedIn, cart,  se
         const form = event.target;
         const username = form.username.value;
         const password = form.password.value;
+        const token = form.elements.namedItem("cf-turnstile-response").value;
+        console.log(token);
+        const sitekey = SITEKEY;
         const formData = new FormData()
         formData.append("username", username)
         formData.append("password", password)
+        formData.append("sitekey", sitekey)
+        formData.append("token", token)
         console.log(username, " ", password)
 
         const SignIn = async () => {
@@ -34,6 +39,15 @@ function SignInComp({setIsAdmin, setSigningIn, setUser, setIsSignedIn, cart,  se
           })
 
           const data = await resp.json()
+
+          
+
+          if(data.status === 'error'){
+
+            throw new Error(`cloudflare ${data.message} ${data.errors}`)
+          }
+
+          
            
           document.cookie = `username=${data.username}`
           document.cookie = `cart=${data.cart_string}`
@@ -152,7 +166,7 @@ function SignInComp({setIsAdmin, setSigningIn, setUser, setIsSignedIn, cart,  se
                             Sign In
                         </button>
 
-                        <div className="cf-turnstile" data-sitekey="SITEKEY" data-action="subscribe"></div>
+                        <div name = "cfturnstile" className="cf-turnstile" data-sitekey= {SITEKEY} data-action="subscribe"></div>
                         </div>
 
                     </form>
