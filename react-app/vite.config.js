@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
 
   server: {
-       allowedHosts: ["https://react-app-8n4d.onrender.com"],
+       allowedHosts: ["react-app-8n4d.onrender.com"],
   },
   
 })
