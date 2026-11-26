@@ -12,7 +12,7 @@ app = FastAPI()
 
 origins = [
     "http://localhost:5173",
-    "http://martinsfeathersandfurs.com",
+    "https://martinsfeathersandfurs.com",
     "https://api.martinsfeathersandfurs.com",
     "https://react-app-8n4d.onrender.com/",
     "https://backend-i1pl.onrender.com/"
