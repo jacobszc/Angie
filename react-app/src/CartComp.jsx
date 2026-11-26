@@ -22,7 +22,7 @@ function CartComp({setIsInCart, setCart, cart, setCartQuantity, cartQuantity}) {
             cart: cart
          }
 
-        fetch("http://127.0.0.1:8000/create-checkout-session", {
+        fetch("https://api.martinsfeathersandfurs.com/create-checkout-session", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body:JSON.stringify(body)
@@ -51,7 +51,7 @@ function CartComp({setIsInCart, setCart, cart, setCartQuantity, cartQuantity}) {
 
      async function handleCheckoutComplete() {
          const response = await fetch(
-        `http://127.0.0.1:8000/checkout-status/${sessionId}`
+        `https://api.martinsfeathersandfurs.com/checkout-status/${sessionId}`
     );
 
     const data = await response.json();

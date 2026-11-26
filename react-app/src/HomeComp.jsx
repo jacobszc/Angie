@@ -31,7 +31,7 @@ function HomeComp({setIsAdmin, isadmin, setCart, cart, setCartQuantity, cartQuan
     
     const fetchImages = async () => {
             try {
-              const response = await fetch("https://https://backend-i1pl.onrender.com/load_images", { method: "GET"});
+              const response = await fetch("https://api.martinsfeathersandfurs.com/load_images", { method: "GET"});
               const data = await response.json();
 
                console.log("load images return = " , data.img_url )
