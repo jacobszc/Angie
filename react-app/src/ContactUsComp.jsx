@@ -25,7 +25,7 @@ function ContactUsComp({setIsSendingMessage}) {
         formData.append("message" , message)
 
 
-        fetch("http://127.0.0.1:8000/SubmitContact", {
+        fetch("https://api.martinsfeathersandfurs.com/SubmitContact", {
             method : "POST",
             body: formData
         }).then(resp => {

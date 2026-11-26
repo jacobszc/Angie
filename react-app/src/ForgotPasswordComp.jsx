@@ -20,7 +20,7 @@ function ForgotPasswordComp() {
    }
 
 
-   fetch(`http://127.0.0.1:8000/verify_user/${JSON.stringify(forgotPassDto)}`)
+   fetch(`https://api.martinsfeathersandfurs.com/verify_user/${JSON.stringify(forgotPassDto)}`)
    .then(resp => {
     if(!resp.ok) {
         throw new Error(resp.status)
@@ -38,7 +38,7 @@ function ForgotPasswordComp() {
    })
 
 //////////////////////////////////////////////////////////////////////
-   fetch(`http://127.0.0.1:8000/sendPasswordReset/${JSON.stringify(forgotPassDto)}`)
+   fetch(`https://api.martinsfeathersandfurs.com/${JSON.stringify(forgotPassDto)}`)
    .then(resp => {
     if(!resp.ok) {
         throw new Error(resp.status)

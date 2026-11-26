@@ -32,7 +32,7 @@ function RegisterComp({setIsRegistering, setUser, setIsSignedIn}) {
        
        console.log(newUserData.current[0])
     
-     fetch('http://127.0.0.1:8000/Register', {
+     fetch('https://api.martinsfeathersandfurs.com/Register', {
         method: "POST",
         body: formData
      }).then(resp => {
@@ -60,7 +60,7 @@ function RegisterComp({setIsRegistering, setUser, setIsSignedIn}) {
          
     
 
-        return fetch(`http://127.0.0.1:8000/check_if_username_avalible/${username}`)
+        return fetch(`https://api.martinsfeathersandfurs.com/check_if_username_avalible/${username}`)
         .then(resp => {
              if(!resp.ok) {
              throw new Error(resp.status)
@@ -92,7 +92,7 @@ function RegisterComp({setIsRegistering, setUser, setIsSignedIn}) {
          async function CheckIfEmailAvalible(email) {
          
 
-        return fetch(`http://127.0.0.1:8000/check_if_email_avalible/${email}`)
+        return fetch(`https://api.martinsfeathersandfurs.com/check_if_email_avalible/${email}`)
         .then(resp => {
              if(!resp.ok) {
              throw new Error(resp.status)
@@ -320,7 +320,7 @@ function RegisterComp({setIsRegistering, setUser, setIsSignedIn}) {
         formData.append("username", newUserData.current[0])
         formData.append("password", newUserData.current[2])
 
-        await fetch( "http://127.0.0.1:8000/SignIn", {
+        await fetch( "https://api.martinsfeathersandfurs.com/SignIn", {
             method: "POST",
             body: formData
             

@@ -116,7 +116,7 @@ function HomeComp({setIsAdmin, isadmin, setCart, cart, setCartQuantity, cartQuan
       formData.append("secondary_image", imgfile )
       formData.append("id", id)
 
-      fetch('http://127.0.0.1:8000/add_secondary_image', {
+      fetch('https://api.martinsfeathersandfurs.com/add_secondary_image', {
         method: "POST",
         body: formData
 
@@ -151,7 +151,7 @@ function HomeComp({setIsAdmin, isadmin, setCart, cart, setCartQuantity, cartQuan
       }
       
       
-      fetch('http://127.0.0.1:8000/remove_img' , {
+      fetch('https://api.martinsfeathersandfurs.com/remove_img' , {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(RemoveImgDto)
@@ -163,7 +163,7 @@ function HomeComp({setIsAdmin, isadmin, setCart, cart, setCartQuantity, cartQuan
       return resp.json()
       }).then(data => {
      
-      fetch('http://127.0.0.1:8000/archive-stripe-product', {
+      fetch('https://api.martinsfeathersandfurs.com/archive-stripe-product', {
       method: "POST",
       headers: {
         "content-type" : "application/json"
@@ -288,7 +288,7 @@ function HomeComp({setIsAdmin, isadmin, setCart, cart, setCartQuantity, cartQuan
         formData.append("file", newImgFile)
         formData.append("newListing", JSON.stringify(NewListing))
 
-        fetch('http://127.0.0.1:8000/uploadlisting', {
+        fetch('https://api.martinsfeathersandfurs.com/uploadlisting', {
             method: "POST",
             body: formData
         }).then(resp => {
@@ -317,7 +317,7 @@ function HomeComp({setIsAdmin, isadmin, setCart, cart, setCartQuantity, cartQuan
           }
 
 
-           fetch('http://127.0.0.1:8000/create-new-stripe-product', {
+           fetch('https://api.martinsfeathersandfurs.com/create-new-stripe-product', {
             method: "POST",
             headers: {
               "Content-Type": "application/json"
@@ -332,7 +332,7 @@ function HomeComp({setIsAdmin, isadmin, setCart, cart, setCartQuantity, cartQuan
           }).then(data => {
             console.log("stripe product created succesfully: " , JSON.stringify(data))
 
-            fetch('http://127.0.0.1:8000/add_stripeID_db_entry' , {
+            fetch('https://api.martinsfeathersandfurs.com/add_stripeID_db_entry' , {
               method: "POST",
               headers: {
               "Content-Type": "application/json"
@@ -370,7 +370,7 @@ function HomeComp({setIsAdmin, isadmin, setCart, cart, setCartQuantity, cartQuan
          }
 
        
-        fetch('http://127.0.0.1:8000/UpdateCart', {
+        fetch('https://api.martinsfeathersandfurs.com/UpdateCart', {
           method: "POST",
           headers: {"Content-Type": "application/json"},
           body: JSON.stringify(body)
